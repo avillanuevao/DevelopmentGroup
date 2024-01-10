@@ -1,5 +1,7 @@
 #include "MoneyDepositedSignal.hpp"
 
+// Try to push in the Ana Repository
+
 namespace model {
 
     MoneyDepositedSignal::MoneyDepositedSignal(int amount) : m_amount(amount)
