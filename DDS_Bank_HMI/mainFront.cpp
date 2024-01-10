@@ -20,8 +20,11 @@ int main(int argc, char *argv[])
     model::AllFunds allFunds;
     viewModel::DepositViewModel depositViewModel(allFunds);
     view::DepositMoneyView depositViewMoney(depositViewModel, allFunds, engine);
+    view::dds::FrontDDSView frontDDSView(0,2);
 
+    depositViewModel.addSubscriber(frontDDSView);
     allFunds.addSubscriber(depositViewMoney);
+
 
     engine.rootContext()->setContextProperty("depositViewMoney", &depositViewMoney);
 

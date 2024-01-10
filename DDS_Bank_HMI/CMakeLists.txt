@@ -96,6 +96,9 @@ set(PROJECT_SOURCES
     )
 
 set(PROJECT_SOURCES_BACKEND
+    ${UTILS}
+    /home/blindados/workspace/RepoAna/DevelopmentGroup/DDS_Bank_HMI/view/dds/BackDDSView.hpp
+    /home/blindados/workspace/RepoAna/DevelopmentGroup/DDS_Bank_HMI/view/dds/BackDDSView.cpp
     mainBack.cpp
     )
 
@@ -129,6 +132,10 @@ target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
+    PUBLIC RTIConnextDDS::cpp2_api
+    )
+
+target_link_libraries(BACKEND
     PUBLIC RTIConnextDDS::cpp2_api
     )
 
