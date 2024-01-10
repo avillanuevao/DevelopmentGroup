@@ -6,6 +6,7 @@
 #include <view/DepositMoneyView.hpp>
 #include <viewModel/DepositViewModel.hpp>
 #include <model/AllFunds.hpp>
+#include <view/dds/FrontDDSView.hpp>
 
 int main(int argc, char *argv[])
 {
