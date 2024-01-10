@@ -1,0 +1,48 @@
+const string DEPOSIT_TOPIC = "Deposit";
+const string WITHDRAW_TOPIC = "Withdraw";
+const string TRANSACTION_TOPIC = "Transaction";
+const string FUND_DATA_TOPIC = "FundData";
+
+//Funds types availables
+enum FundType 
+{
+    SAVINGS, 
+    HOUSING
+};
+
+//Topic 
+struct Deposit 
+{
+    @key
+    FundType fund_type;
+    int16 amount;
+};
+
+//Topic
+struct Withdraw 
+{
+    @key
+    FundType fund_type;
+    int16 amount;
+};
+
+//Topic 
+struct Transaction 
+{
+    @key
+    FundType fund_type_origin;
+    FundType fund_type_destination;
+    int16 amount;
+};
+
+//Topic
+struct FundData 
+{
+    @key
+    FundType fund_type;
+    int16 amount;
+};
+
+
+
+
