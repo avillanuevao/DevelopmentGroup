@@ -11,18 +11,23 @@
 
 #include <utils/dds/DDSDataWriter.hpp>
 
+#include <utils/SignalSubscriber.hpp>
+#include <viewModel/signal/DepositMoneySignal.hpp>
+
 namespace view
 {
     namespace dds
     {
-        class FrontDDSView
+        class FrontDDSView: public utils::SignalSubscriber<viewModel::signal::DepositMoneySignal>
         {
             public:
                 FrontDDSView(unsigned int domain_id, unsigned int sample_count);
 
-                const Deposit writeDeposit(const FundType& fund_type, int16_t amount);
+                void update(viewModel::signal::DepositMoneySignal signal);
 
             private:
+                const Deposit writeDeposit(const FundType& fund_type, int16_t amount);
+
                 unsigned int m_domain_id;
                 unsigned int m_sample_count;
 

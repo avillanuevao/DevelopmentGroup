@@ -1,7 +1,7 @@
 #ifndef FUND_HPP
 #define FUND_HPP
 
-#include <model/FundType.hpp>
+#include <idl/bank.hpp>
 
 namespace model {
 

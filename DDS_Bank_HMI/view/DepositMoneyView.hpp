@@ -6,11 +6,12 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 #include <iostream>
-#include <model/FundType.hpp>
 #include <viewModel/DepositViewModel.hpp>
 #include <model/AllFunds.hpp>
 #include <model/signal/MoneyDepositedSignal.hpp>
 #include <utils/SignalSubscriber.hpp>
+
+#include <idl/bank.hpp>
 
 namespace view
 {
@@ -25,7 +26,7 @@ namespace view
         public slots:
             int getAmountFromFund();
             void setAmountToDeposit(int amount);
-            model::FundType getFundType();
+            FundType getFundType();
             void setFundType(int fundType);
             void depositMoney();
 
@@ -37,7 +38,7 @@ namespace view
 
             int m_amountToDeposit = 0;
             int m_amountFromFund = 0;
-            model::FundType m_fundType;
+            FundType m_fundType;
     };
 }
 

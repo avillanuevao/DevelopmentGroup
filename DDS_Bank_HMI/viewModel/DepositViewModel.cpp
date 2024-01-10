@@ -5,7 +5,9 @@ viewModel::DepositViewModel::DepositViewModel(model::AllFunds& allFunds) : m_all
 
 }
 
-void viewModel::DepositViewModel::depositMoney(int amount, model::FundType fundType)
+void viewModel::DepositViewModel::depositMoney(int amount, FundType fundType)
 {
     m_allFunds.increaseAmount(fundType, amount);
+    signal::DepositMoneySignal depositMoneySignal(fundType, amount);
+    notifySubscribers(depositMoneySignal);
 }

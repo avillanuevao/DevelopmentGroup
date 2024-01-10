@@ -15,6 +15,11 @@ namespace view
 
         }
 
+        void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
+        {
+            writeDeposit(signal.getFundType(), signal.getAmount());
+        }
+
         const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amount)
         {
             Deposit sampleDeposit(fund_type, amount);

@@ -1,7 +1,7 @@
 #ifndef SIGNAL_HPP
 #define SIGNAL_HPP
 
-#include <model/FundType.hpp>
+#include <idl/bank.hpp>
 
 namespace model {
 

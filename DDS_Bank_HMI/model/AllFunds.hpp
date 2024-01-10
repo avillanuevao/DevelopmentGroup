@@ -3,9 +3,9 @@
 
 #include <map>
 #include <model/Fund.hpp>
-#include <model/FundType.hpp>
 #include <utils/SignalPublisher.hpp>
 #include <model/signal/MoneyDepositedSignal.hpp>
+#include <idl/bank.hpp>
 
 namespace model {
 
