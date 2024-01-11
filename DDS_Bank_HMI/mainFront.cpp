@@ -8,6 +8,8 @@
 #include <model/AllFunds.hpp>
 #include <view/dds/FrontDDSView.hpp>
 
+#include <memory>
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -17,10 +19,15 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
     model::AllFunds allFunds;
     viewModel::DepositViewModel depositViewModel(allFunds);
     view::DepositMoneyView depositViewMoney(depositViewModel, allFunds, engine);
+    view::dds::FrontDDSView frontDDSView(0,2);
 
+    depositViewModel.addSubscriber(frontDDSView);
+    depositViewModel.removeSubscriber(frontDDSView);
+    depositViewModel.notifySubscribers(viewModel::signal::DepositMoneySignal(FundType::HOUSING, 100));
     allFunds.addSubscriber(depositViewMoney);
 
     engine.rootContext()->setContextProperty("depositViewMoney", &depositViewMoney);

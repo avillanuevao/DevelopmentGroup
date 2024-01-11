@@ -91,8 +91,15 @@ set(PROJECT_SOURCES
     ${VIEW}
     ${MODEL}
     ${VIEWMODEL}
-    main.cpp
+    mainFront.cpp
     qml.qrc
+    )
+
+set(PROJECT_SOURCES_BACKEND
+    ${UTILS}
+    /home/blindados/workspace/RepoAna/DevelopmentGroup/DDS_Bank_HMI/view/dds/BackDDSView.hpp
+    /home/blindados/workspace/RepoAna/DevelopmentGroup/DDS_Bank_HMI/view/dds/BackDDSView.cpp
+    mainBack.cpp
     )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -112,28 +119,35 @@ else()
         # Define properties for Android with Qt 5 after find_package() calls as:
         #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(DDS_Bank_HMI
+        add_executable(FRONTEND
             ${PROJECT_SOURCES}
+            )
+        add_executable(BACKEND
+            ${PROJECT_SOURCES_BACKEND}
             )
     endif()
 endif()
 
-target_compile_definitions(DDS_Bank_HMI
+target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-target_link_libraries(DDS_Bank_HMI
+target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     PUBLIC RTIConnextDDS::cpp2_api
     )
 
-set_target_properties(DDS_Bank_HMI PROPERTIES
+target_link_libraries(BACKEND
+    PUBLIC RTIConnextDDS::cpp2_api
+    )
+
+set_target_properties(FRONTEND PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_import_qml_plugins(DDS_Bank_HMI)
-    qt_finalize_executable(DDS_Bank_HMI)
+    qt_import_qml_plugins(FRONTEND)
+    qt_finalize_executable(FRONTEND)
 endif()
 
 
