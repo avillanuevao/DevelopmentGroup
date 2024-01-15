@@ -27,8 +27,8 @@ class DepositMoneyView : public QObject,
 {
     Q_OBJECT
     public:
-        explicit DepositMoneyView(viewModel::ui::operations::DepositViewModel& depositViewModel,
-                                  const model::AllFunds& allFunds,
+        explicit DepositMoneyView(std::shared_ptr<viewModel::ui::operations::DepositViewModel> depositViewModel,
+                                  const std::shared_ptr<model::AllFunds> allFunds,
                                   QQmlApplicationEngine &engine,
                                   QObject *parent = nullptr);
 
@@ -42,8 +42,8 @@ class DepositMoneyView : public QObject,
         void depositMoney();
 
     private:
-        viewModel::ui::operations::DepositViewModel& m_depositViewModel;
-        const model::AllFunds& m_allFunds;
+        std::shared_ptr<viewModel::ui::operations::DepositViewModel> m_depositViewModel;
+        const std::shared_ptr<model::AllFunds> m_allFunds;
         QQmlApplicationEngine& m_engine;
         QObject* m_parent;
         int m_amountToDeposit;

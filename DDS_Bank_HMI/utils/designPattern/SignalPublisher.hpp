@@ -18,14 +18,14 @@ class SignalPublisher
     public:
         SignalPublisher() = default;
 
-        void addSubscriber(SignalSubscriber<TSignal>& subscriber)
+        void addSubscriber(std::shared_ptr<SignalSubscriber<TSignal>> subscriber)
         {
-            m_subscribers.push_back(&subscriber);
+            m_subscribers.push_back(subscriber);
         }
 
-        void removeSubscriber(SignalSubscriber<TSignal>& subscriber)
+        void removeSubscriber(std::shared_ptr<SignalSubscriber<TSignal>> subscriber)
         {
-            m_subscribers.erase(std::remove(m_subscribers.begin(), m_subscribers.end(), &subscriber),
+            m_subscribers.erase(std::remove(m_subscribers.begin(), m_subscribers.end(), *subscriber),
                                 m_subscribers.end());
         }
 
@@ -38,7 +38,7 @@ class SignalPublisher
         }
 
     private:
-        std::vector<SignalSubscriber<TSignal>*> m_subscribers;
+        std::vector<std::shared_ptr<SignalSubscriber<TSignal>>> m_subscribers;
 };
 
 }

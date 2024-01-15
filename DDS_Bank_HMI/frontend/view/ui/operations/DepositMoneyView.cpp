@@ -9,8 +9,8 @@ namespace ui
 namespace operations
 {
 
-DepositMoneyView::DepositMoneyView(viewModel::ui::operations::DepositViewModel &depositViewModel,
-                                   const model::AllFunds &allFunds,
+DepositMoneyView::DepositMoneyView(std::shared_ptr<viewModel::ui::operations::DepositViewModel> depositViewModel,
+                                   const std::shared_ptr<model::AllFunds> allFunds,
                                    QQmlApplicationEngine &engine,
                                    QObject *parent) :
     m_depositViewModel(depositViewModel),
@@ -76,7 +76,7 @@ void DepositMoneyView::setFundType(int fundType)
 
 void DepositMoneyView::depositMoney()
 {
-    m_depositViewModel.depositMoney(m_amountToDeposit, m_fundType);
+    m_depositViewModel->depositMoney(m_amountToDeposit, m_fundType);
 }
 
 }
