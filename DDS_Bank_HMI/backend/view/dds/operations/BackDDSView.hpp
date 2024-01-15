@@ -2,12 +2,15 @@
 #define BACKDDSVIEW_HPP
 
 #include <iostream>
+#include <functional>
+#include <thread>
 
-#include <dds/pub/ddspub.hpp>
+#include <dds/sub/ddssub.hpp>
 #include <rti/util/util.hpp>
 #include <rti/config/Logger.hpp>
 
 #include <idl/bank.hpp>
+#include <utils/dds/DDSDataReader.hpp>
 
 namespace backend
 {
@@ -21,14 +24,18 @@ namespace operations
 class BackDDSView
 {
     public:
-        BackDDSView(unsigned int domain_id, unsigned int sample_count);
+        BackDDSView(unsigned int domainId, unsigned int sampleCount);
+        ~BackDDSView();
 
     private:
-        unsigned int m_domain_id;
-        unsigned int m_sample_count;
+        void configureDeposit(Deposit deposit);
 
+        unsigned int m_domainId;
+        unsigned int m_sampleCount;
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
+        utils::dds::DDSDataReader<Deposit> m_readerDeposit;
+//        std::shared_ptr<std::thread> m_threadDeposit;
 };
 
 }
