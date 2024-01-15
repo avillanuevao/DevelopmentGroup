@@ -1,11 +1,29 @@
 #include "DepositMoneyView.hpp"
 
-view::DepositMoneyView::DepositMoneyView(viewModel::DepositViewModel &depositViewModel, const model::AllFunds &allFunds, QQmlApplicationEngine &engine, QObject *parent) :
-    m_depositViewModel(depositViewModel), m_allFunds(allFunds), m_engine(engine), QObject(parent)
+namespace frontend
 {
+namespace view
+{
+namespace ui
+{
+namespace operations
+{
+
+DepositMoneyView::DepositMoneyView(viewModel::ui::operations::DepositViewModel &depositViewModel,
+                                   const model::AllFunds &allFunds,
+                                   QQmlApplicationEngine &engine,
+                                   QObject *parent) :
+    m_depositViewModel(depositViewModel),
+    m_allFunds(allFunds),
+    m_engine(engine),
+    m_parent(parent)
+{
+    //TODO: al ser un valor por defecto debería cargarse del caso de uso de inicializar aplicación
+    m_amountToDeposit = 0;
+    m_amountFromFund = 0;
 }
 
-void view::DepositMoneyView::update(model::MoneyDepositedSignal signal)
+void DepositMoneyView::update(model::signal::MoneyDepositedSignal signal)
 {
     std::cout << "Signal recieved." << std::endl;
     m_amountFromFund = signal.getAmount();
@@ -36,28 +54,33 @@ void view::DepositMoneyView::update(model::MoneyDepositedSignal signal)
 
 }
 
-int view::DepositMoneyView::getAmountFromFund()
+int DepositMoneyView::getAmountFromFund()
 {
     return m_amountFromFund;
 }
 
-void view::DepositMoneyView::setAmountToDeposit(int amount)
+void DepositMoneyView::setAmountToDeposit(int amount)
 {
     m_amountToDeposit = amount;
 }
 
-FundType view::DepositMoneyView::getFundType()
+FundType DepositMoneyView::getFundType()
 {
     return m_fundType;
 }
 
-void view::DepositMoneyView::setFundType(int fundType)
+void DepositMoneyView::setFundType(int fundType)
 {
     m_fundType = static_cast<FundType>(fundType);
 }
 
-void view::DepositMoneyView::depositMoney()
+void DepositMoneyView::depositMoney()
 {
     m_depositViewModel.depositMoney(m_amountToDeposit, m_fundType);
+}
+
+}
+}
+}
 }
 

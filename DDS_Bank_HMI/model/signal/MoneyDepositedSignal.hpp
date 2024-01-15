@@ -3,21 +3,25 @@
 
 #include <idl/bank.hpp>
 
-namespace model {
+namespace model
+{
+namespace signal
+{
 
-    class MoneyDepositedSignal
-    {
-        public:
-            MoneyDepositedSignal(int amount);
-            //Añadir variable miembro con la cantidad para que la vista pueda acceder al valor
+class MoneyDepositedSignal
+{
+    public:
+        MoneyDepositedSignal(int amount);
+        //Añadir variable miembro con la cantidad para que la vista pueda acceder al valor
 
-            int getAmount() const;
-            void setAmount(int newAmount);
+        int getAmount() const;
+        void setAmount(int newAmount);
 
     private:
-            int m_amount;
-    };
+        int m_amount;
+};
 
+}
 }
 
 #endif // SIGNAL_HPP
