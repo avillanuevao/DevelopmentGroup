@@ -16,7 +16,7 @@ class Fund
         int getAmount() const;
         void setAmount(int newAmount);
 
-private:
+    private:
         FundType m_fundType;
         int m_amount;
 };

@@ -14,22 +14,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
+# -------------------------------------------- RECURSES ------------------------------------------------------
 file(GLOB_RECURSE UTILS
-    ${PROJECT_SOURCE_DIR}/utils/*.hpp  #Variable
+    ${PROJECT_SOURCE_DIR}/utils/*.hpp
     ${PROJECT_SOURCE_DIR}/utils/*.cpp)
 
-file(GLOB_RECURSE VIEW
-    ${PROJECT_SOURCE_DIR}/view/*.hpp  #Variable
-    ${PROJECT_SOURCE_DIR}/view/*.cpp)
-
 file(GLOB_RECURSE MODEL
-    ${PROJECT_SOURCE_DIR}/model/*.hpp  #Variable
+    ${PROJECT_SOURCE_DIR}/model/*.hpp
     ${PROJECT_SOURCE_DIR}/model/*.cpp)
 
-file(GLOB_RECURSE VIEWMODEL
-    ${PROJECT_SOURCE_DIR}/viewModel/*.hpp  #Variable
-    ${PROJECT_SOURCE_DIR}/viewModel/*.cpp)
+file(GLOB_RECURSE PACKAGE_FRONTEND
+    ${PROJECT_SOURCE_DIR}/frontend/*.hpp
+    ${PROJECT_SOURCE_DIR}/frontend/*.cpp)
 
+file(GLOB_RECURSE PACKAGE_BACKEND
+    ${PROJECT_SOURCE_DIR}/backend/*.hpp
+    ${PROJECT_SOURCE_DIR}/backend/*.cpp)
+# -------------------------------------------- RECURSES ------------------------------------------------------
 
 #DDS
 list(APPEND CMAKE_MODULE_PATH $ENV{NDDSHOME}/resource/cmake)
@@ -77,31 +78,32 @@ foreach(IDL_FILE ${IDL_FILES})
 
 endforeach()
 
-# ------------------------------------------- IDL to C++ -----------------------------------------------------
-
-
+# -------------------------------------------- RECURSES ------------------------------------------------------
 file(GLOB_RECURSE IDL
     ${PROJECT_SOURCE_DIR}/idl/*.hpp
     ${PROJECT_SOURCE_DIR}/idl/*.cxx)
+# -------------------------------------------- RECURSES ------------------------------------------------------
+# ------------------------------------------- IDL to C++ -----------------------------------------------------
 
-
-set(PROJECT_SOURCES
+# ------------------------------------------- PROJECT SOURCES ------------------------------------------------
+set(PROJECT_SOURCES_FRONTEND
     ${IDL}
-    ${UTILS}    #Tomar Valor Variable
-    ${VIEW}
+    ${UTILS}
     ${MODEL}
-    ${VIEWMODEL}
+    ${PACKAGE_FRONTEND}
     mainFront.cpp
     qml.qrc
     )
 
 set(PROJECT_SOURCES_BACKEND
+    ${IDL}
     ${UTILS}
-    /home/blindados/workspace/RepoAna/DevelopmentGroup/DDS_Bank_HMI/view/dds/BackDDSView.hpp
-    /home/blindados/workspace/RepoAna/DevelopmentGroup/DDS_Bank_HMI/view/dds/BackDDSView.cpp
+    ${MODEL}
+    ${PACKAGE_BACKEND}
     mainBack.cpp
     )
-
+# ------------------------------------------- PROJECT SOURCES ------------------------------------------------
+# ----------------------------------------- GENERING EXECUTABLE ----------------------------------------------
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DDS_Bank_HMI
         MANUAL_FINALIZATION
@@ -114,28 +116,26 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 else()
     if(ANDROID)
         add_library(DDS_Bank_HMI SHARED
-            ${PROJECT_SOURCES}
+            ${PROJECT_SOURCES_FRONTEND}
             )
         # Define properties for Android with Qt 5 after find_package() calls as:
         #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(FRONTEND
-            ${PROJECT_SOURCES}
+            ${PROJECT_SOURCES_FRONTEND}
             )
         add_executable(BACKEND
             ${PROJECT_SOURCES_BACKEND}
             )
     endif()
 endif()
-
+# ----------------------------------------- GENERING EXECUTABLE ----------------------------------------------
+# ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
 target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
 target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
-    PUBLIC RTIConnextDDS::cpp2_api
-    )
-
-target_link_libraries(BACKEND
     PUBLIC RTIConnextDDS::cpp2_api
     )
 
@@ -149,6 +149,13 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_import_qml_plugins(FRONTEND)
     qt_finalize_executable(FRONTEND)
 endif()
+# ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
+# ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------
+target_link_libraries(BACKEND
+    PUBLIC RTIConnextDDS::cpp2_api
+    )
+# ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------
+
 
 
 

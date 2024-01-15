@@ -2,16 +2,17 @@
 #define DEPOSITMODEL_HPP
 
 #include <map>
-#include <model/Fund.hpp>
-#include <utils/SignalPublisher.hpp>
-#include <model/signal/MoneyDepositedSignal.hpp>
+
 #include <idl/bank.hpp>
+#include <model/Fund.hpp>
+#include <model/signal/MoneyDepositedSignal.hpp>
+#include <utils/designPattern/SignalPublisher.hpp>
 
 namespace model {
 
 //typedef std::tuple<FundType, Fund> FundTuple;
 
-class AllFunds : public utils::SignalPublisher<model::MoneyDepositedSignal>
+class AllFunds : public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>
 {
     public:
         AllFunds();

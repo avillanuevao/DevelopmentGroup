@@ -3,12 +3,10 @@
 #include <QQmlContext>
 #include <memory>
 
-#include <view/DepositMoneyView.hpp>
-#include <viewModel/DepositViewModel.hpp>
 #include <model/AllFunds.hpp>
-#include <view/dds/FrontDDSView.hpp>
-
-#include <memory>
+#include <frontend/view/ui/operations/DepositMoneyView.hpp>
+#include <frontend/view/dds/operations/FrontDDSView.hpp>
+#include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -17,17 +15,14 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
 
     model::AllFunds allFunds;
-    viewModel::DepositViewModel depositViewModel(allFunds);
-    view::DepositMoneyView depositViewMoney(depositViewModel, allFunds, engine);
-    view::dds::FrontDDSView frontDDSView(0,2);
+    frontend::viewModel::ui::operations::DepositViewModel depositViewModel(allFunds);
+    frontend::view::ui::operations::DepositMoneyView depositViewMoney(depositViewModel, allFunds, engine);
+    frontend::view::dds::operations::FrontDDSView frontDDSView(0,2);
 
     depositViewModel.addSubscriber(frontDDSView);
-    depositViewModel.removeSubscriber(frontDDSView);
-    depositViewModel.notifySubscribers(viewModel::signal::DepositMoneySignal(FundType::HOUSING, 100));
     allFunds.addSubscriber(depositViewMoney);
 
     engine.rootContext()->setContextProperty("depositViewMoney", &depositViewMoney);
