@@ -11,7 +11,7 @@ AllFunds::AllFunds()
 void AllFunds::increaseAmount(FundType fundType, int amount)
 {
     m_funds.find(fundType)->second.increaseAmount(amount);
-    model::signal::MoneyDepositedSignal signal = model::signal::MoneyDepositedSignal(m_funds.find(fundType)->second.getAmount());
+    model::signal::MoneyDepositedSignal signal = model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());
     notifySubscribers(signal);
 }
 
@@ -23,7 +23,7 @@ int AllFunds::getAmount(FundType fundType) const
 void AllFunds::setAmount(FundType fundType, int newAmount)
 {
     m_funds.find(fundType)->second.setAmount(newAmount);
-    model::signal::MoneyDepositedSignal signal = model::signal::MoneyDepositedSignal(m_funds.find(fundType)->second.getAmount());
+    model::signal::MoneyDepositedSignal signal = model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());
     notifySubscribers(signal);
 }
 
