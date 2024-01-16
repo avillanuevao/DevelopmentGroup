@@ -12,6 +12,7 @@
 #include <idl/bank.hpp>
 #include <utils/dds/DDSDataReader.hpp>
 
+
 namespace backend
 {
 namespace view
@@ -29,13 +30,15 @@ class BackDDSView
 
     private:
         void configureDeposit(Deposit deposit);
+        void initDepositUseCase();
 
         unsigned int m_domainId;
         unsigned int m_sampleCount;
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
         utils::dds::DDSDataReader<Deposit> m_readerDeposit;
-//        std::shared_ptr<std::thread> m_threadDeposit;
+        std::shared_ptr<std::thread> m_threadDeposit;
+        ::dds::core::Duration m_wait;
 };
 
 }

@@ -29,12 +29,15 @@ class DDSDataReader
 
         {
             m_statusCondition.enabled_statuses(::dds::core::status::StatusMask::data_available());
-            m_statusCondition.extensions().handler(std::bind(&DDSDataReader::getSample, *this));
+            m_statusCondition.extensions().handler(std::bind(&DDSDataReader::getSample, this));
         }
 
         void wait(::dds::core::Duration seconds)
         {
             std::cout << "esperando..." << std::endl;
+            ::dds::core::cond::WaitSet waitset;
+            waitset += m_statusCondition;
+            waitset.dispatch(seconds);
         }
 
     private:
