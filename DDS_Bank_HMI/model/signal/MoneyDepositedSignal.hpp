@@ -11,14 +11,18 @@ namespace signal
 class MoneyDepositedSignal
 {
     public:
-        MoneyDepositedSignal(int amount);
+        MoneyDepositedSignal(FundType fundType, int amount);
         //Añadir variable miembro con la cantidad para que la vista pueda acceder al valor
 
         int getAmount() const;
         void setAmount(int newAmount);
 
-    private:
+        FundType getFundType() const;
+        void setFundType(FundType newFundType);
+
+private:
         int m_amount;
+        FundType m_fundType;
 };
 
 }

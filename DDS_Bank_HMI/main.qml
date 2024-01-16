@@ -38,7 +38,7 @@ Window {
         TextField
         {
             id: amount
-            placeholderText: "Amount osit"
+            placeholderText: "Amount deposit"
 
             validator: RegExpValidator{regExp: /^-?\d+$/}
             onTextChanged:
