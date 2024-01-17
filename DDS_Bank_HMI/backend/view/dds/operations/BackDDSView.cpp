@@ -30,44 +30,42 @@ BackDDSView::BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int
 
 BackDDSView::~BackDDSView()
 {
-    std::cout << "~BackDDSView" << std::endl;
     m_threadDeposit->join();
     m_threadDeposit = nullptr;
 }
 
 void BackDDSView::update(model::signal::MoneyDepositedSignal signal)
 {
-    std::cout << "update BackddsView" << std::endl;
-    writeFundData(signal.getFundType(), signal.getAmount());
+    writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
 }
 
 void BackDDSView::configureDeposit(Deposit deposit)
 {
     std::cout << "Data obtenido: " << std::endl;
     std::cout << "\t" << deposit << std::endl;
-    m_depositMoneyController->doDeposit(deposit);
+    m_depositMoneyController->doDeposit(
+                model::Deposit(static_cast<model::FundType>(deposit.fund_type()), deposit.amount()));
 
 }
 
 void BackDDSView::initDepositUseCase()
 {
-    std::cout << "initDepositUseCase" << std::endl;
     while(!utils::so::shutdown_requested)
     {
-        std::cout << "initDepositUseCase-while" << std::endl;
         m_readerDeposit.wait(m_wait);
     }
 }
 
-const FundData BackDDSView::writeFundData(const FundType &fund_type, int16_t amount)
+const FundData BackDDSView::writeFundData(const FundType &fundType, int16_t amount)
 {
-    FundData sampleFundData(fund_type, amount);
+    FundData sampleFundData(fundType, amount);
 
     m_writerFundData.write(sampleFundData);
     std::cout << "topic sended: "
               << static_cast<int>(sampleFundData.fund_type())
               << " "
-              << sampleFundData.amount();
+              << sampleFundData.amount()
+              << std::endl;
 
     return sampleFundData;
 }

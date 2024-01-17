@@ -64,19 +64,19 @@ void DepositMoneyView::setAmountToDeposit(int amount)
     m_amountToDeposit = amount;
 }
 
-FundType DepositMoneyView::getFundType()
+model::FundType DepositMoneyView::getFundType()
 {
     return m_fundType;
 }
 
 void DepositMoneyView::setFundType(int fundType)
 {
-    m_fundType = static_cast<FundType>(fundType);
+    m_fundType = static_cast<model::FundType>(fundType);
 }
 
 void DepositMoneyView::depositMoney()
 {
-    m_depositViewModel->depositMoney(m_amountToDeposit, m_fundType);
+    m_depositViewModel->depositMoney(m_fundType, m_amountToDeposit);
 }
 
 }

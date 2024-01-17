@@ -1,23 +1,23 @@
 #ifndef FUND_HPP
 #define FUND_HPP
 
-#include <idl/bank.hpp>
+#include <model/FundType.hpp>
 
 namespace model {
 
 class Fund
 {
     public:
-        Fund(FundType fundType, int amount);
+        Fund(model::FundType fundType, int amount);
 
         void increaseAmount(int amount);
 
-        FundType getFundType() const;
+        model::FundType getFundType() const;
         int getAmount() const;
         void setAmount(int newAmount);
 
     private:
-        FundType m_fundType;
+        model::FundType m_fundType;
         int m_amount;
 };
 

@@ -5,7 +5,8 @@ namespace model
 namespace signal
 {
 
-MoneyDepositedSignal::MoneyDepositedSignal(FundType fundType, int amount) : m_fundType(fundType), m_amount(amount)
+MoneyDepositedSignal::MoneyDepositedSignal(model::FundType fundType, int amount)
+    : m_fundType(fundType), m_amount(amount)
 {
 }
 
@@ -19,12 +20,12 @@ void MoneyDepositedSignal::setAmount(int newAmount)
     m_amount = newAmount;
 }
 
-FundType MoneyDepositedSignal::getFundType() const
+model::FundType MoneyDepositedSignal::getFundType() const
 {
     return m_fundType;
 }
 
-void MoneyDepositedSignal::setFundType(FundType newFundType)
+void MoneyDepositedSignal::setFundType(model::FundType newFundType)
 {
     m_fundType = newFundType;
 }

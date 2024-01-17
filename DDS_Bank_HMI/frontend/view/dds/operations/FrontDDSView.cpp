@@ -21,7 +21,7 @@ FrontDDSView::FrontDDSView(unsigned int domain_id, unsigned int sample_count) :
 
 void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
 {
-    writeDeposit(signal.getFundType(), signal.getAmount());
+    writeDeposit(static_cast<FundType>(signal.getFundType()), signal.getAmount());
 }
 
 const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amount)
@@ -32,7 +32,8 @@ const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amou
     std::cout << "topic sended: "
               << static_cast<int>(sampleDeposit.fund_type())
               << " "
-              << sampleDeposit.amount();
+              << sampleDeposit.amount()
+              << std::endl;
 
     return sampleDeposit;
 }

@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include <idl/bank.hpp>
 #include <model/AllFunds.hpp>
+#include <model/FundType.hpp>
 #include <utils/designPattern/SignalPublisher.hpp>
 #include <frontend/viewModel/signal/DepositMoneySignal.hpp>
 
@@ -22,7 +22,7 @@ class DepositViewModel:
 {
     public:
         DepositViewModel(std::shared_ptr<model::AllFunds> allFunds);
-        void depositMoney(int amount, FundType fundType);
+        void depositMoney(model::FundType fundType, int amount);
 
     private:
         std::shared_ptr<model::AllFunds> m_allFunds;

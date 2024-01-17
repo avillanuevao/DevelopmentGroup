@@ -7,9 +7,9 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <idl/bank.hpp>
 #include <utils/designPattern/SignalSubscriber.hpp>
 #include <model/AllFunds.hpp>
+#include <model/FundType.hpp>
 #include <model/signal/MoneyDepositedSignal.hpp>
 #include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
 
@@ -37,7 +37,7 @@ class DepositMoneyView : public QObject,
     public slots:
         int getAmountFromFund();
         void setAmountToDeposit(int amount);
-        FundType getFundType();
+        model::FundType getFundType();
         void setFundType(int fundType);
         void depositMoney();
 
@@ -48,7 +48,7 @@ class DepositMoneyView : public QObject,
         QObject* m_parent;
         int m_amountToDeposit;
         int m_amountFromFund;
-        FundType m_fundType; //TODO: Cual sería el valor inicial que le queremos dar?
+        model::FundType m_fundType; //TODO: Cual sería el valor inicial que le queremos dar?
 };
 
 }

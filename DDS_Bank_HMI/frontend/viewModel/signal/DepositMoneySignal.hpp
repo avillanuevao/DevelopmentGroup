@@ -1,7 +1,7 @@
 #ifndef DEPOSITMONEYSIGNAL_HPP
 #define DEPOSITMONEYSIGNAL_HPP
 
-#include <idl/bank.hpp>
+#include <model/FundType.hpp>
 
 namespace frontend
 {
@@ -13,13 +13,13 @@ namespace signal
 class DepositMoneySignal
 {
     public:
-        DepositMoneySignal(FundType fundType,  int amount);
+        DepositMoneySignal(model::FundType fundType,  int amount);
 
-        FundType getFundType() const;
+        model::FundType getFundType() const;
         int getAmount() const;
 
     private:
-        FundType m_fundType;
+        model::FundType m_fundType;
         int m_amount;
 
 };

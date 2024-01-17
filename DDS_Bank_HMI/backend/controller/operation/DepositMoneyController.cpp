@@ -13,9 +13,9 @@ DepositMoneyController::DepositMoneyController(std::shared_ptr<model::AllFunds> 
 
 }
 
-void DepositMoneyController::doDeposit(Deposit deposit)
+void DepositMoneyController::doDeposit(model::Deposit deposit)
 {
-    m_allFunds->increaseAmount(deposit.fund_type(), deposit.amount());
+    m_allFunds->increaseAmount(deposit.getFundType(), deposit.getAmount());
 }
 
 
