@@ -7,6 +7,7 @@
 #include <frontend/view/ui/operations/DepositMoneyView.hpp>
 #include <frontend/view/dds/operations/FrontDDSView.hpp>
 #include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
+#include <frontend/viewModel/signal/DepositMoneySignal.hpp>
 
 using DepositViewModel = frontend::viewModel::ui::operations::DepositViewModel;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoneyView;
@@ -18,15 +19,16 @@ std::shared_ptr<DepositMoneyView> initiate(QQmlApplicationEngine& engine)
             std::make_shared<model::AllFunds>();
     std::shared_ptr<DepositViewModel> depositViewModel =
             std::make_shared<DepositViewModel>(allFunds);
-    std::shared_ptr<DepositMoneyView> depositViewMoney =
+    std::shared_ptr<DepositMoneyView> depositMoneyView =
             std::make_shared<DepositMoneyView>(depositViewModel, allFunds, engine);
     std::shared_ptr<FrontDDSView> frontDDSView =
             std::make_shared<FrontDDSView>(allFunds, 0,2);
 
-    depositViewModel->addSubscriber(frontDDSView);
-    allFunds->addSubscriber(depositViewMoney);
+    allFunds->addSubscriber(depositViewModel);
+    depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyDepositedSignal>::addSubscriber(depositMoneyView);
+    depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::DepositMoneySignal>::addSubscriber(frontDDSView);
 
-    return depositViewMoney;
+    return depositMoneyView;
 }
 
 int main(int argc, char *argv[])
@@ -38,9 +40,9 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    auto depositViewMoney = initiate(engine);
+    auto depositMoneyView = initiate(engine);
 
-    engine.rootContext()->setContextProperty("depositViewMoney", &*depositViewMoney);
+    engine.rootContext()->setContextProperty("depositMoneyView", &*depositMoneyView);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

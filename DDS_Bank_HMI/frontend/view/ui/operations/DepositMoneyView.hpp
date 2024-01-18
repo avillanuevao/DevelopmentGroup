@@ -12,6 +12,7 @@
 #include <model/FundType.hpp>
 #include <model/signal/MoneyDepositedSignal.hpp>
 #include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
+#include <frontend/viewModel/signal/MoneyDepositedSignal.hpp>
 
 namespace frontend
 {
@@ -22,8 +23,9 @@ namespace ui
 namespace operations
 {
 
-class DepositMoneyView : public QObject,
-        public utils::designPattern::SignalSubscriber<model::signal::MoneyDepositedSignal>
+class DepositMoneyView :
+        public QObject,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::MoneyDepositedSignal>
 {
     Q_OBJECT
     public:
@@ -32,7 +34,7 @@ class DepositMoneyView : public QObject,
                                   QQmlApplicationEngine &engine,
                                   QObject *parent = nullptr);
 
-        void update(model::signal::MoneyDepositedSignal signal);
+        void update(frontend::viewModel::signal::MoneyDepositedSignal signal);
 
     public slots:
         int getAmountFromFund();

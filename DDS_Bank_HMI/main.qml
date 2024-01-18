@@ -30,8 +30,9 @@ Window {
 
             onCurrentIndexChanged:
             {
-                depositViewMoney.setFundType(fundTypeCB.currentIndex)
+                depositMoneyView.setFundType(fundTypeCB.currentIndex)
                 console.log("Indice seleccionado: ", fundTypeCB.currentIndex);
+                displayT.text = depositMoneyView.getAmountFromFund()
             }
         }
 
@@ -55,15 +56,15 @@ Window {
 
             onClicked:
             {
-                depositViewMoney.setAmountToDeposit(amount.text)
-                depositViewMoney.depositMoney()
+                depositMoneyView.setAmountToDeposit(amount.text)
+                depositMoneyView.depositMoney()
             }
         }
 
         Text {
             objectName: "displayT"
             id: displayT
-            text: depositViewMoney.getAmountFromFund()
+            text: depositMoneyView.getAmountFromFund()
         }
     }
 

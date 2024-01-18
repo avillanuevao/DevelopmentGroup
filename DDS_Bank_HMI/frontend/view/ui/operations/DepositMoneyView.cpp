@@ -23,10 +23,11 @@ DepositMoneyView::DepositMoneyView(std::shared_ptr<viewModel::ui::operations::De
     m_amountFromFund = 0;
 }
 
-void DepositMoneyView::update(model::signal::MoneyDepositedSignal signal)
+void DepositMoneyView::update(frontend::viewModel::signal::MoneyDepositedSignal signal)
 {
-    std::cout << "Signal recieved." << std::endl;
+    std::cout << "DepositMoneyView::update Signal recieved." << std::endl;
     m_amountFromFund = signal.getAmount();
+    std::cout << "DepositMoneyView::update m_amountFromFund = " << m_amountFromFund << std::endl;
 
     if(!m_engine.rootObjects().isEmpty())
     {
@@ -56,7 +57,7 @@ void DepositMoneyView::update(model::signal::MoneyDepositedSignal signal)
 
 int DepositMoneyView::getAmountFromFund()
 {
-    return m_amountFromFund;
+    return m_allFunds->getAmount(m_fundType);
 }
 
 void DepositMoneyView::setAmountToDeposit(int amount)
