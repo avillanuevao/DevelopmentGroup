@@ -25,6 +25,9 @@ int AllFunds::getAmount(model::FundType fundType) const
 
 void AllFunds::setAmount(model::FundType fundType, int newAmount)
 {
+    std::cout << "setAmount: [fundType: " << static_cast<int>(fundType)
+              << ", amount: " << newAmount << "]" << std::endl;
+
     m_funds.find(fundType)->second.setAmount(newAmount);
     model::signal::MoneyDepositedSignal signal =
             model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());

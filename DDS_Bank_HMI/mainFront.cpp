@@ -21,7 +21,7 @@ std::shared_ptr<DepositMoneyView> initiate(QQmlApplicationEngine& engine)
     std::shared_ptr<DepositMoneyView> depositViewMoney =
             std::make_shared<DepositMoneyView>(depositViewModel, allFunds, engine);
     std::shared_ptr<FrontDDSView> frontDDSView =
-            std::make_shared<FrontDDSView>(0,2);
+            std::make_shared<FrontDDSView>(allFunds, 0,2);
 
     depositViewModel->addSubscriber(frontDDSView);
     allFunds->addSubscriber(depositViewMoney);

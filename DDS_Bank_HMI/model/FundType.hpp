@@ -7,7 +7,8 @@ namespace model {
 
 enum class FundType {
     SAVINGS,
-    HOUSING
+    HOUSING,
+    NONE
 };
 
 }

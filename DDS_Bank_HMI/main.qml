@@ -40,7 +40,7 @@ Window {
             id: amount
             placeholderText: "Amount deposit"
 
-            validator: RegExpValidator{regExp: /^-?\d+$/}
+            validator: RegExpValidator{ regExp: /^\d+$/ }
             onTextChanged:
             {
 

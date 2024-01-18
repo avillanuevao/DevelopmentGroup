@@ -43,8 +43,8 @@ void BackDDSView::configureDeposit(Deposit deposit)
 {
     std::cout << "Data obtenido: " << std::endl;
     std::cout << "\t" << deposit << std::endl;
-    m_depositMoneyController->doDeposit(
-                model::Deposit(static_cast<model::FundType>(deposit.fund_type()), deposit.amount()));
+    m_depositMoneyController->doDeposit(model::Operation(
+                model::FundType::NONE, static_cast<model::FundType>(deposit.fund_type()), deposit.amount()));
 
 }
 
