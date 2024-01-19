@@ -20,8 +20,8 @@ file(GLOB_RECURSE UTILS
     ${PROJECT_SOURCE_DIR}/utils/*.cpp)
 
 file(GLOB_RECURSE MODEL
-    ${PROJECT_SOURCE_DIR}/model/*.hpp
-    ${PROJECT_SOURCE_DIR}/model/*.cpp)
+    ${PROJECT_SOURCE_DIR}/model/*.hpp)
+#    ${PROJECT_SOURCE_DIR}/model/*.cpp) ya le damos los cpp compilados por lo que no lo necesita
 
 file(GLOB_RECURSE PACKAGE_FRONTEND
     ${PROJECT_SOURCE_DIR}/frontend/*.hpp
@@ -31,7 +31,9 @@ file(GLOB_RECURSE PACKAGE_BACKEND
     ${PROJECT_SOURCE_DIR}/backend/*.hpp
     ${PROJECT_SOURCE_DIR}/backend/*.cpp)
 # -------------------------------------------- RECURSES ------------------------------------------------------
-
+# ---------------------------------------- MODEL AS LIBRARY --------------------------------------------------
+add_subdirectory(model)
+# ---------------------------------------- MODEL AS LIBRARY --------------------------------------------------
 #DDS
 list(APPEND CMAKE_MODULE_PATH $ENV{NDDSHOME}/resource/cmake)
 find_package(RTIConnextDDS "6.1.0" REQUIRED COMPONENTS core routing_service)
@@ -133,9 +135,12 @@ endif()
 target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
+target_include_directories(FRONTEND PRIVATE modelLib)
+
 target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     PUBLIC RTIConnextDDS::cpp2_api
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.a
     )
 
 set_target_properties(FRONTEND PROPERTIES
