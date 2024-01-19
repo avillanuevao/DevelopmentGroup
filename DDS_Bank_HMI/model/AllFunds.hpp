@@ -16,6 +16,7 @@ class AllFunds : public utils::designPattern::SignalPublisher<model::signal::Mon
         AllFunds();
 
         void increaseAmount(model::FundType fundType, int amount);
+        void decereaseAmount(model::FundType fundType, int amount);
         int getAmount(model::FundType fundType) const;
         void setAmount(model::FundType fundType, int newAmount);
 

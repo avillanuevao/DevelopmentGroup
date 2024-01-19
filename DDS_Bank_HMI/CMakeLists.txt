@@ -31,12 +31,15 @@ file(GLOB_RECURSE PACKAGE_BACKEND
     ${PROJECT_SOURCE_DIR}/backend/*.hpp
     ${PROJECT_SOURCE_DIR}/backend/*.cpp)
 # -------------------------------------------- RECURSES ------------------------------------------------------
-# ---------------------------------------- MODEL AS LIBRARY --------------------------------------------------
-add_subdirectory(model)
-# ---------------------------------------- MODEL AS LIBRARY --------------------------------------------------
-#DDS
+
+# --------------------------------------- ADD SUBDIRECTORIES -------------------------------------------------
+add_subdirectory(model) # hay una nueva carpeta con un nuevo CMakeList, para que lea y ejecute en cmakelist
+# --------------------------------------- ADD SUBDIRECTORIES -------------------------------------------------
+
+# -------------------------------------------- RTI-DDS -------------------------------------------------------
 list(APPEND CMAKE_MODULE_PATH $ENV{NDDSHOME}/resource/cmake)
 find_package(RTIConnextDDS "6.1.0" REQUIRED COMPONENTS core routing_service)
+# -------------------------------------------- RTI-DDS -------------------------------------------------------
 
 # ------------------------------------------- IDL to C++ -----------------------------------------------------
 # Configura la ubicación de los archivos IDL
@@ -86,6 +89,7 @@ file(GLOB_RECURSE IDL
     ${PROJECT_SOURCE_DIR}/idl/*.cxx)
 # -------------------------------------------- RECURSES ------------------------------------------------------
 # ------------------------------------------- IDL to C++ -----------------------------------------------------
+
 # ------------------------------------------- PROJECT SOURCES ------------------------------------------------
 set(PROJECT_SOURCES_FRONTEND
     ${IDL}
@@ -104,6 +108,7 @@ set(PROJECT_SOURCES_BACKEND
     mainBack.cpp
     )
 # ------------------------------------------- PROJECT SOURCES ------------------------------------------------
+
 # ----------------------------------------- GENERING EXECUTABLE ----------------------------------------------
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DDS_Bank_HMI
@@ -131,16 +136,18 @@ else()
     endif()
 endif()
 # ----------------------------------------- GENERING EXECUTABLE ----------------------------------------------
+
 # ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
 target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
+# TODO: no se sabe si es necesario, mirar a ver si hace falta
 target_include_directories(FRONTEND PRIVATE modelLib)
 
 target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     PUBLIC RTIConnextDDS::cpp2_api
-    PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.a
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.so
     )
 
 set_target_properties(FRONTEND PROPERTIES
@@ -154,8 +161,10 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(FRONTEND)
 endif()
 # ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
+
 # ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------
 target_link_libraries(BACKEND
     PUBLIC RTIConnextDDS::cpp2_api
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.so
     )
 # ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------
