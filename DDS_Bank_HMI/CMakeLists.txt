@@ -16,12 +16,10 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 # -------------------------------------------- RECURSES ------------------------------------------------------
 file(GLOB_RECURSE UTILS
-    ${PROJECT_SOURCE_DIR}/utils/*.hpp
-    ${PROJECT_SOURCE_DIR}/utils/*.cpp)
+    ${PROJECT_SOURCE_DIR}/utils/*.hpp)
 
 file(GLOB_RECURSE MODEL
     ${PROJECT_SOURCE_DIR}/model/*.hpp)
-#    ${PROJECT_SOURCE_DIR}/model/*.cpp) ya le damos los cpp compilados por lo que no lo necesita
 
 file(GLOB_RECURSE PACKAGE_FRONTEND
     ${PROJECT_SOURCE_DIR}/frontend/*.hpp
@@ -34,6 +32,7 @@ file(GLOB_RECURSE PACKAGE_BACKEND
 
 # --------------------------------------- ADD SUBDIRECTORIES -------------------------------------------------
 add_subdirectory(model) # hay una nueva carpeta con un nuevo CMakeList, para que lea y ejecute en cmakelist
+add_subdirectory(utils)
 # --------------------------------------- ADD SUBDIRECTORIES -------------------------------------------------
 
 # -------------------------------------------- RTI-DDS -------------------------------------------------------
@@ -141,13 +140,11 @@ endif()
 target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-# TODO: no se sabe si es necesario, mirar a ver si hace falta
-target_include_directories(FRONTEND PRIVATE modelLib)
-
 target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     PUBLIC RTIConnextDDS::cpp2_api
     PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.so
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
     )
 
 set_target_properties(FRONTEND PROPERTIES
@@ -166,5 +163,6 @@ endif()
 target_link_libraries(BACKEND
     PUBLIC RTIConnextDDS::cpp2_api
     PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.so
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
     )
 # ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------
