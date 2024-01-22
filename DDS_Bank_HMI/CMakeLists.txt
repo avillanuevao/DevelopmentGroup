@@ -35,6 +35,16 @@ add_subdirectory(model) # hay una nueva carpeta con un nuevo CMakeList, para que
 add_subdirectory(utils)
 # --------------------------------------- ADD SUBDIRECTORIES -------------------------------------------------
 
+# --------------------------------------------- GTEST --------------------------------------------------------
+# GTEST is required for testing
+find_package(GTest REQUIRED)
+
+# Enables testing for this directory and below.
+# This command should be in the source directory root because ctest expects to
+# find a test file in the build directory root.
+enable_testing()
+# --------------------------------------------- GTEST --------------------------------------------------------
+
 # -------------------------------------------- RTI-DDS -------------------------------------------------------
 list(APPEND CMAKE_MODULE_PATH $ENV{NDDSHOME}/resource/cmake)
 find_package(RTIConnextDDS "6.1.0" REQUIRED COMPONENTS core routing_service)

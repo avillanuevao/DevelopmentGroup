@@ -15,3 +15,9 @@ set_target_properties(modelLib PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOU
 target_include_directories(modelLib
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
+
+# Enable testing
+# TODO: Include this lines within an IF and create an option to enable testing
+find_package(GTest REQUIRED)
+enable_testing()
+add_subdirectory(unittest)
