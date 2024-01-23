@@ -1,5 +1,5 @@
-#ifndef FRONTDDSVIEW_HPP
-#define FRONTDDSVIEW_HPP
+#ifndef FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP
+#define FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP
 
 #include <iostream>
 #include <thread>
@@ -10,7 +10,7 @@
 #include <rti/config/Logger.hpp>
 
 #include <idl/bank.hpp>
-#include <model/AllFunds.hpp>
+#include <model/source/AllFunds.hpp>
 #include <utils/dds/DDSDataWriter.hpp>
 #include <utils/dds/DDSDataReader.hpp>
 #include <utils/designPattern/SignalSubscriber.hpp>
@@ -57,4 +57,4 @@ class FrontDDSView: public utils::designPattern::SignalSubscriber<viewModel::sig
 }
 }
 
-#endif // FRONTDDSVIEW_HPP
+#endif // FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP

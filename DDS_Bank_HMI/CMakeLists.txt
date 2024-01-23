@@ -15,12 +15,6 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 # -------------------------------------------- RECURSES ------------------------------------------------------
-file(GLOB_RECURSE UTILS
-    ${PROJECT_SOURCE_DIR}/utils/*.hpp)
-
-file(GLOB_RECURSE MODEL
-    ${PROJECT_SOURCE_DIR}/model/*.hpp)
-
 file(GLOB_RECURSE PACKAGE_FRONTEND
     ${PROJECT_SOURCE_DIR}/frontend/*.hpp
     ${PROJECT_SOURCE_DIR}/frontend/*.cpp)
@@ -102,8 +96,6 @@ file(GLOB_RECURSE IDL
 # ------------------------------------------- PROJECT SOURCES ------------------------------------------------
 set(PROJECT_SOURCES_FRONTEND
     ${IDL}
-    ${UTILS}
-    ${MODEL}
     ${PACKAGE_FRONTEND}
     mainFront.cpp
     qml.qrc
@@ -111,8 +103,6 @@ set(PROJECT_SOURCES_FRONTEND
 
 set(PROJECT_SOURCES_BACKEND
     ${IDL}
-    ${UTILS}
-    ${MODEL}
     ${PACKAGE_BACKEND}
     mainBack.cpp
     )
@@ -147,13 +137,18 @@ endif()
 # ----------------------------------------- GENERING EXECUTABLE ----------------------------------------------
 
 # ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
+target_include_directories(FRONTEND
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils
+)
+
 target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     PUBLIC RTIConnextDDS::cpp2_api
-    PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.so
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source/libmodelLib.so
     PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
     )
 
@@ -170,9 +165,14 @@ endif()
 # ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
 
 # ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------
+target_include_directories(BACKEND
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils
+)
+
 target_link_libraries(BACKEND
     PUBLIC RTIConnextDDS::cpp2_api
-    PUBLIC ${PROJECT_SOURCE_DIR}/model/libmodelLib.so
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source/libmodelLib.so
     PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
     )
 # ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------

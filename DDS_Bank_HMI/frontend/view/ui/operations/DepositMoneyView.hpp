@@ -8,9 +8,9 @@
 #include <QQmlComponent>
 
 #include <utils/designPattern/SignalSubscriber.hpp>
-#include <model/AllFunds.hpp>
-#include <model/FundType.hpp>
-#include <model/signal/MoneyDepositedSignal.hpp>
+#include <model/source/AllFunds.hpp>
+#include <model/source/FundType.hpp>
+#include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
 #include <frontend/viewModel/signal/MoneyDepositedSignal.hpp>
 

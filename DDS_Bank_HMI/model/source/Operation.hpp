@@ -1,7 +1,7 @@
 #ifndef OPERATION_HPP
 #define OPERATION_HPP
 
-#include <model/FundType.hpp>
+#include <FundType.hpp>
 
 namespace model
 {

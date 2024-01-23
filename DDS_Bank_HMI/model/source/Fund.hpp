@@ -1,10 +1,9 @@
 #ifndef FUND_HPP
 #define FUND_HPP
 
-#include <model/FundType.hpp>
+#include <FundType.hpp>
 
 namespace model {
-
 class Fund
 {
     public:

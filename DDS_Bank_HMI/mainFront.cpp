@@ -3,7 +3,7 @@
 #include <QQmlContext>
 #include <memory>
 
-#include <model/AllFunds.hpp>
+#include <model/source/AllFunds.hpp>
 #include <frontend/view/ui/operations/DepositMoneyView.hpp>
 #include <frontend/view/dds/operations/FrontDDSView.hpp>
 #include <frontend/viewModel/ui/operations/DepositViewModel.hpp>

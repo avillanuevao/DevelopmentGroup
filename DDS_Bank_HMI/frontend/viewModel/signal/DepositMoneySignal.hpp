@@ -1,7 +1,7 @@
 #ifndef DEPOSITMONEYSIGNAL_HPP
 #define DEPOSITMONEYSIGNAL_HPP
 
-#include <model/FundType.hpp>
+#include <model/source/FundType.hpp>
 
 namespace frontend
 {

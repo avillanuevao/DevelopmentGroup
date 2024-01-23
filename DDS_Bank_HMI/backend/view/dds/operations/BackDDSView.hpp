@@ -14,8 +14,8 @@
 #include <utils/dds/DDSDataReader.hpp>
 #include <utils/dds/DDSDataWriter.hpp>
 #include <utils/designPattern/SignalSubscriber.hpp>
-#include <model/signal/MoneyDepositedSignal.hpp>
-#include <model/AllFunds.hpp>
+#include <model/source/signal/MoneyDepositedSignal.hpp>
+#include <model/source/AllFunds.hpp>
 #include <backend/controller/operation/DepositMoneyController.hpp>
 
 namespace backend

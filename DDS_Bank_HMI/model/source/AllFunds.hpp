@@ -3,10 +3,10 @@
 
 #include <map>
 
-#include <model/Fund.hpp>
-#include <model/signal/MoneyDepositedSignal.hpp>
-#include <model/FundType.hpp>
-#include <utils/designPattern/SignalPublisher.hpp>
+#include <Fund.hpp>
+#include <FundType.hpp>
+#include <signal/MoneyDepositedSignal.hpp>
+#include "designPattern/SignalPublisher.hpp"
 
 namespace model {
 

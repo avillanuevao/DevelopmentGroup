@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include <model/AllFunds.hpp>
-#include <model/Operation.hpp>
+#include <model/source/AllFunds.hpp>
+#include <model/source/Operation.hpp>
 
 namespace frontend
 {

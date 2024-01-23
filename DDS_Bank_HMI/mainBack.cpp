@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <model/AllFunds.hpp>
+#include <model/source/AllFunds.hpp>
 #include <backend/view/dds/operations/BackDDSView.hpp>
 
 int main(int argc, char *argv[])
