@@ -7,14 +7,14 @@ namespace viewModel
 namespace signal
 {
 
-DepositMoneySignal::DepositMoneySignal(FundType fundType,  int amount):
+DepositMoneySignal::DepositMoneySignal(model::FundType fundType,  int amount):
     m_fundType(fundType),
     m_amount(amount)
 {
 
 }
 
-FundType DepositMoneySignal::getFundType() const
+model::FundType DepositMoneySignal::getFundType() const
 {
     return m_fundType;
 }

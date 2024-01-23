@@ -7,11 +7,12 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <idl/bank.hpp>
 #include <utils/designPattern/SignalSubscriber.hpp>
-#include <model/AllFunds.hpp>
-#include <model/signal/MoneyDepositedSignal.hpp>
+#include <model/source/AllFunds.hpp>
+#include <model/source/FundType.hpp>
+#include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
+#include <frontend/viewModel/signal/MoneyDepositedSignal.hpp>
 
 namespace frontend
 {
@@ -22,8 +23,9 @@ namespace ui
 namespace operations
 {
 
-class DepositMoneyView : public QObject,
-        public utils::designPattern::SignalSubscriber<model::signal::MoneyDepositedSignal>
+class DepositMoneyView :
+        public QObject,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::MoneyDepositedSignal>
 {
     Q_OBJECT
     public:
@@ -32,12 +34,12 @@ class DepositMoneyView : public QObject,
                                   QQmlApplicationEngine &engine,
                                   QObject *parent = nullptr);
 
-        void update(model::signal::MoneyDepositedSignal signal);
+        void update(frontend::viewModel::signal::MoneyDepositedSignal signal);
 
     public slots:
         int getAmountFromFund();
         void setAmountToDeposit(int amount);
-        FundType getFundType();
+        model::FundType getFundType();
         void setFundType(int fundType);
         void depositMoney();
 
@@ -48,7 +50,7 @@ class DepositMoneyView : public QObject,
         QObject* m_parent;
         int m_amountToDeposit;
         int m_amountFromFund;
-        FundType m_fundType; //TODO: Cual sería el valor inicial que le queremos dar?
+        model::FundType m_fundType; //TODO: Cual sería el valor inicial que le queremos dar?
 };
 
 }

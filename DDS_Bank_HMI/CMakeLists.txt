@@ -15,14 +15,6 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 # -------------------------------------------- RECURSES ------------------------------------------------------
-file(GLOB_RECURSE UTILS
-    ${PROJECT_SOURCE_DIR}/utils/*.hpp
-    ${PROJECT_SOURCE_DIR}/utils/*.cpp)
-
-file(GLOB_RECURSE MODEL
-    ${PROJECT_SOURCE_DIR}/model/*.hpp
-    ${PROJECT_SOURCE_DIR}/model/*.cpp)
-
 file(GLOB_RECURSE PACKAGE_FRONTEND
     ${PROJECT_SOURCE_DIR}/frontend/*.hpp
     ${PROJECT_SOURCE_DIR}/frontend/*.cpp)
@@ -32,9 +24,25 @@ file(GLOB_RECURSE PACKAGE_BACKEND
     ${PROJECT_SOURCE_DIR}/backend/*.cpp)
 # -------------------------------------------- RECURSES ------------------------------------------------------
 
-#DDS
+# --------------------------------------- ADD SUBDIRECTORIES -------------------------------------------------
+add_subdirectory(model) # hay una nueva carpeta con un nuevo CMakeList, para que lea y ejecute en cmakelist
+add_subdirectory(utils)
+# --------------------------------------- ADD SUBDIRECTORIES -------------------------------------------------
+
+# --------------------------------------------- GTEST --------------------------------------------------------
+# GTEST is required for testing
+find_package(GTest REQUIRED)
+
+# Enables testing for this directory and below.
+# This command should be in the source directory root because ctest expects to
+# find a test file in the build directory root.
+enable_testing()
+# --------------------------------------------- GTEST --------------------------------------------------------
+
+# -------------------------------------------- RTI-DDS -------------------------------------------------------
 list(APPEND CMAKE_MODULE_PATH $ENV{NDDSHOME}/resource/cmake)
 find_package(RTIConnextDDS "6.1.0" REQUIRED COMPONENTS core routing_service)
+# -------------------------------------------- RTI-DDS -------------------------------------------------------
 
 # ------------------------------------------- IDL to C++ -----------------------------------------------------
 # Configura la ubicación de los archivos IDL
@@ -84,11 +92,10 @@ file(GLOB_RECURSE IDL
     ${PROJECT_SOURCE_DIR}/idl/*.cxx)
 # -------------------------------------------- RECURSES ------------------------------------------------------
 # ------------------------------------------- IDL to C++ -----------------------------------------------------
+
 # ------------------------------------------- PROJECT SOURCES ------------------------------------------------
 set(PROJECT_SOURCES_FRONTEND
     ${IDL}
-    ${UTILS}
-    ${MODEL}
     ${PACKAGE_FRONTEND}
     mainFront.cpp
     qml.qrc
@@ -96,12 +103,11 @@ set(PROJECT_SOURCES_FRONTEND
 
 set(PROJECT_SOURCES_BACKEND
     ${IDL}
-    ${UTILS}
-    ${MODEL}
     ${PACKAGE_BACKEND}
     mainBack.cpp
     )
 # ------------------------------------------- PROJECT SOURCES ------------------------------------------------
+
 # ----------------------------------------- GENERING EXECUTABLE ----------------------------------------------
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DDS_Bank_HMI
@@ -129,13 +135,21 @@ else()
     endif()
 endif()
 # ----------------------------------------- GENERING EXECUTABLE ----------------------------------------------
+
 # ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
+target_include_directories(FRONTEND
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils
+)
+
 target_compile_definitions(FRONTEND
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     PUBLIC RTIConnextDDS::cpp2_api
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source/libmodelLib.so
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
     )
 
 set_target_properties(FRONTEND PROPERTIES
@@ -149,8 +163,16 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(FRONTEND)
 endif()
 # ---------------------------------- CONFIGURATION EXECUTABLE FRONTEND ---------------------------------------
+
 # ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------
+target_include_directories(BACKEND
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils
+)
+
 target_link_libraries(BACKEND
     PUBLIC RTIConnextDDS::cpp2_api
+    PUBLIC ${PROJECT_SOURCE_DIR}/model/source/libmodelLib.so
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
     )
 # ---------------------------------- CONFIGURATION EXECUTABLE BACKEND ----------------------------------------

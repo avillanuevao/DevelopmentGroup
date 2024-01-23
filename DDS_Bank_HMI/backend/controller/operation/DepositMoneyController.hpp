@@ -1,8 +1,8 @@
 #ifndef DEPOSITMONEYCONTROLLER_HPP
 #define DEPOSITMONEYCONTROLLER_HPP
 
-#include <idl/bank.hpp>
-#include <model/AllFunds.hpp>
+#include <model/source/AllFunds.hpp>
+#include <model/source/Operation.hpp>
 
 namespace backend
 {
@@ -15,7 +15,7 @@ class DepositMoneyController
 {
     public:
         DepositMoneyController(std::shared_ptr<model::AllFunds> allFunds);
-        void doDeposit(Deposit deposit);
+        void doDeposit(model::Operation deposit);
     private:
         std::shared_ptr<model::AllFunds> m_allFunds;
 

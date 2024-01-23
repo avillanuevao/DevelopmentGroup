@@ -30,8 +30,9 @@ Window {
 
             onCurrentIndexChanged:
             {
-                depositViewMoney.setFundType(fundTypeCB.currentIndex)
+                depositMoneyView.setFundType(fundTypeCB.currentIndex)
                 console.log("Indice seleccionado: ", fundTypeCB.currentIndex);
+                displayT.text = depositMoneyView.getAmountFromFund()
             }
         }
 
@@ -40,7 +41,7 @@ Window {
             id: amount
             placeholderText: "Amount deposit"
 
-            validator: RegExpValidator{regExp: /^-?\d+$/}
+            validator: RegExpValidator{ regExp: /^\d+$/ }
             onTextChanged:
             {
 
@@ -55,15 +56,15 @@ Window {
 
             onClicked:
             {
-                depositViewMoney.setAmountToDeposit(amount.text)
-                depositViewMoney.depositMoney()
+                depositMoneyView.setAmountToDeposit(amount.text)
+                depositMoneyView.depositMoney()
             }
         }
 
         Text {
             objectName: "displayT"
             id: displayT
-            text: depositViewMoney.getAmountFromFund()
+            text: depositMoneyView.getAmountFromFund()
         }
     }
 

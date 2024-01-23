@@ -14,8 +14,8 @@
 #include <utils/dds/DDSDataReader.hpp>
 #include <utils/dds/DDSDataWriter.hpp>
 #include <utils/designPattern/SignalSubscriber.hpp>
-#include <model/signal/MoneyDepositedSignal.hpp>
-#include <model/AllFunds.hpp>
+#include <model/source/signal/MoneyDepositedSignal.hpp>
+#include <model/source/AllFunds.hpp>
 #include <backend/controller/operation/DepositMoneyController.hpp>
 
 namespace backend
@@ -38,7 +38,7 @@ class BackDDSView :
     private:
         void configureDeposit(Deposit deposit);
         void initDepositUseCase();
-        const FundData writeFundData(const FundType &fund_type, int16_t amount);
+        const FundData writeFundData(const FundType &fundType, int16_t amount);
 
 
         const std::shared_ptr<model::AllFunds> m_allFunds;

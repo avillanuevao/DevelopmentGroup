@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-#include <utils/designPattern/SignalSubscriber.hpp>
+#include <designPattern/SignalSubscriber.hpp>
 
 namespace utils
 {
