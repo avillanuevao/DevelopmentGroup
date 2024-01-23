@@ -4,12 +4,11 @@ namespace model {
 
 AllFunds::AllFunds()
 {
+    //TODO: Eliminar la inicialización a 0
     m_funds.insert(std::make_pair<model::FundType, Fund>(
                        model::FundType::SAVINGS, model::Fund(model::FundType::SAVINGS, 0)));
     m_funds.insert(std::make_pair<model::FundType, Fund>(
                        model::FundType::HOUSING, model::Fund(model::FundType::HOUSING, 0)));
-
-    std::cout << "HOPLAAA" << std::endl;
 }
 
 void AllFunds::increaseAmount(model::FundType fundType, int amount)
@@ -18,11 +17,6 @@ void AllFunds::increaseAmount(model::FundType fundType, int amount)
     model::signal::MoneyDepositedSignal signal =
             model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());
     notifySubscribers(signal);
-}
-
-void AllFunds::decereaseAmount(FundType fundType, int amount)
-{
-    std::cout << "decremento" << std::endl;
 }
 
 int AllFunds::getAmount(model::FundType fundType) const

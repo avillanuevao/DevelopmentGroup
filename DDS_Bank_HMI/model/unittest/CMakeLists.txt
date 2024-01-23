@@ -1,3 +1,4 @@
 find_package(GTest REQUIRED)
 
-add_subdirectory(allModel)
+add_subdirectory(allFunds)
+add_subdirectory(fund)
