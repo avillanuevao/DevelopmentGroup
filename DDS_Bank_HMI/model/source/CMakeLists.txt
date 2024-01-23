@@ -15,8 +15,3 @@ set_target_properties(modelLib PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOU
 target_include_directories(modelLib
     PUBLIC ${PROJECT_SOURCE_DIR}/utils
 )
-
-set(AUX ${CMAKE_CURRENT_SOURCE_DIR}/..)
-
-message(STATUS "--------------------------------------${CMAKE_CURRENT_SOURCE_DIR}")
-message(STATUS "${AUX}")
