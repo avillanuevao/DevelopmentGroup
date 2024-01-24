@@ -4,6 +4,11 @@
 
 #include <AllFunds.hpp>
 
+const int AMOUNTZERO = 0;
+const int AMOUNT01 = 500;
+const int AMOUNT02 = 1000;
+const int AMOUNTNEGATIVE = -2000;
+
 class AllFundsUnitTest : public testing::TestWithParam<model::FundType>
 {
     public:
@@ -45,26 +50,46 @@ void AllFundsUnitTest::TearDown()
  * @unittest Test of AllFundsUnitTest
  */
 
-TEST_P(AllFundsUnitTest, getAmount)
+TEST_P(AllFundsUnitTest, getAmountOK)
 {
-    int amountExpected = 0;
     int amountOutput = m_allFunds->getAmount(m_fundType);
 
-    ASSERT_EQ(amountExpected, amountOutput);
+    ASSERT_EQ(AMOUNTZERO, amountOutput);
 }
 
 /**
  * @unittest Test of AllFundsUnitTest
  */
 
-TEST_P(AllFundsUnitTest, setAmount)
+TEST_P(AllFundsUnitTest, getAmountNotOK)
 {
-    int newAmount = 2000;
-
-    m_allFunds->setAmount(m_fundType, newAmount);
     int amountOutput = m_allFunds->getAmount(m_fundType);
 
-    ASSERT_EQ(newAmount, amountOutput);
+    ASSERT_NE(AMOUNT01, amountOutput);
+}
+
+/**
+ * @unittest Test of AllFundsUnitTest
+ */
+
+TEST_P(AllFundsUnitTest, setAmountOK)
+{
+    m_allFunds->setAmount(m_fundType, AMOUNT01);
+    int amountOutput = m_allFunds->getAmount(m_fundType);
+
+    ASSERT_EQ(AMOUNT01, amountOutput);
+}
+
+/**
+ * @unittest Test of AllFundsUnitTest
+ */
+
+TEST_P(AllFundsUnitTest, setAmountNotOK)
+{
+    m_allFunds->setAmount(m_fundType, AMOUNT01);
+    int amountOutput = m_allFunds->getAmount(m_fundType);
+
+    ASSERT_NE(AMOUNT02, amountOutput);
 }
 
 /**
@@ -73,25 +98,27 @@ TEST_P(AllFundsUnitTest, setAmount)
 
 TEST_P(AllFundsUnitTest, setAmountNegative)
 {
-    int newAmount = -2000;
-
-    //TODO: CAMBIAR A ASSERT
-    EXPECT_ANY_THROW(m_allFunds->setAmount(m_fundType, newAmount));
+    ASSERT_THROW(m_allFunds->setAmount(m_fundType, AMOUNTNEGATIVE), std::logic_error);
 }
 
 /**
  * @unittest Test of AllFundsUnitTest
  */
 
-TEST_P(AllFundsUnitTest, increaseAmount)
-{
-    int newAmount = 2000;
-    int amountExpected = m_allFunds->getAmount(m_fundType) + newAmount;
+TEST_P(AllFundsUnitTest, increaseAmountOK)
+{    
+    int amountExpected = m_allFunds->getAmount(m_fundType) + AMOUNT01;
 
-    m_allFunds->increaseAmount(m_fundType, newAmount);
-    int amountOutput = m_allFunds->getAmount(m_fundType);
+    for(int i = 0; i < 5; i++)
+    {
+        m_allFunds->increaseAmount(m_fundType, AMOUNT01);
+        int amountOutput = m_allFunds->getAmount(m_fundType);
 
-    ASSERT_EQ(amountExpected, amountOutput);
+        ASSERT_EQ(amountExpected, amountOutput);
+
+        amountExpected += AMOUNT01;
+    }
+
 }
 
 /**
@@ -100,8 +127,6 @@ TEST_P(AllFundsUnitTest, increaseAmount)
 
 TEST_P(AllFundsUnitTest, increaseAmountNegative)
 {
-    int newAmount = -2000;
 
-    //TODO: CAMBIAR A ASSERT
-    EXPECT_ANY_THROW(m_allFunds->increaseAmount(m_fundType, newAmount));
+    ASSERT_THROW(m_allFunds->increaseAmount(m_fundType, AMOUNTNEGATIVE), std::logic_error);
 }

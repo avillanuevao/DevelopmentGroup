@@ -2,6 +2,7 @@
 #define DEPOSITMODEL_HPP
 
 #include <map>
+#include <stdexcept>
 
 #include <Fund.hpp>
 #include <FundType.hpp>

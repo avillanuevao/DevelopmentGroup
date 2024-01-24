@@ -13,7 +13,13 @@ AllFunds::AllFunds()
 
 void AllFunds::increaseAmount(model::FundType fundType, int amount)
 {
-    m_funds.find(fundType)->second.increaseAmount(amount);
+    try
+    {
+        m_funds.find(fundType)->second.increaseAmount(amount);
+    }  catch (const std::logic_error& e)
+    {
+        throw e;
+    }
     model::signal::MoneyDepositedSignal signal =
             model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());
     notifySubscribers(signal);
@@ -28,8 +34,14 @@ void AllFunds::setAmount(model::FundType fundType, int newAmount)
 {
     std::cout << "setAmount: [fundType: " << static_cast<int>(fundType)
               << ", amount: " << newAmount << "]" << std::endl;
+    try
+    {
+        m_funds.find(fundType)->second.setAmount(newAmount);
+    }  catch (const std::logic_error& e)
+    {
+        throw e;
+    }
 
-    m_funds.find(fundType)->second.setAmount(newAmount);
     model::signal::MoneyDepositedSignal signal =
             model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());
     notifySubscribers(signal);

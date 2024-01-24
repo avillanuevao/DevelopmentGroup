@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include <model/source/AllFunds.hpp>
-#include <backend/view/dds/operations/BackDDSView.hpp>
+#include <backend/source/view/dds/operations/BackDDSView.hpp>
 
 int main(int argc, char *argv[])
 {

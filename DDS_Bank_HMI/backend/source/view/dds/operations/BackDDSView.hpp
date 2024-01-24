@@ -16,7 +16,7 @@
 #include <utils/designPattern/SignalSubscriber.hpp>
 #include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <model/source/AllFunds.hpp>
-#include <backend/controller/operation/DepositMoneyController.hpp>
+#include <backend/source/controller/operation/DepositMoneyController.hpp>
 
 namespace backend
 {
