@@ -7,16 +7,21 @@
 #include <Fund.hpp>
 #include <FundType.hpp>
 #include <signal/MoneyDepositedSignal.hpp>
+#include <signal/MoneyWithdrawnSignal.hpp>
 #include <designPattern/SignalPublisher.hpp>
 
 namespace model {
 
-class AllFunds : public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>
+class AllFunds :
+        public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>,
+        public utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>
 {
     public:
         AllFunds();
 
-        void increaseAmount(model::FundType fundType, int amount);
+        void increaseAmount(model::FundType fundType, int amount) noexcept(false);
+        void decreaseAmount(model::FundType fundType, int amount) noexcept(false);
+
         int getAmount(model::FundType fundType) const;
         void setAmount(model::FundType fundType, int newAmount);
 

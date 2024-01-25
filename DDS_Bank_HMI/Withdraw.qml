@@ -17,9 +17,9 @@ ColumnLayout
 
         onCurrentIndexChanged:
         {
-            depositMoneyView.setFundType(fundTypeCB.currentIndex)
-            console.log("Indice seleccionado: ", fundTypeCB.currentIndex);
-            displayT.text = depositMoneyView.getAmountFromFund()
+            withdrawMoneyView.setFundType(fundTypeCBW.currentIndex)
+            console.log("Indice seleccionado: ", fundTypeCBW.currentIndex);
+            displayTW.text = withdrawMoneyView.getAmountFromFund()
         }
     }
 
@@ -32,7 +32,7 @@ ColumnLayout
         onTextChanged:
         {
 
-            console.log(amount.text)
+            console.log(amountW.text)
         }
     }
 
@@ -43,14 +43,14 @@ ColumnLayout
 
         onClicked:
         {
-            depositMoneyView.setAmountToDeposit(amount.text)
-            depositMoneyView.depositMoney()
+            withdrawMoneyView.setAmountToWithdraw(amountW.text)
+            withdrawMoneyView.withdrawMoney()
         }
     }
 
     Text {
-        objectName: "displayT"
         id: displayTW
-        text: depositMoneyView.getAmountFromFund()
+        objectName: "displayTW"
+        text: withdrawMoneyView.getAmountFromFund()
     }
 }
