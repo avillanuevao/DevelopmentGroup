@@ -11,12 +11,12 @@
 #include <rti/config/Logger.hpp>
 
 #include <idl/bank.hpp>
-#include <utils/dds/DDSDataReader.hpp>
-#include <utils/dds/DDSDataWriter.hpp>
-#include <utils/designPattern/SignalSubscriber.hpp>
+#include <utils/source/dds/DDSDataReader.hpp>
+#include <utils/source/dds/DDSDataWriter.hpp>
+#include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <model/source/AllFunds.hpp>
-#include <backend/controller/operation/DepositMoneyController.hpp>
+#include <backend/source/controller/operation/DepositMoneyController.hpp>
 
 namespace backend
 {

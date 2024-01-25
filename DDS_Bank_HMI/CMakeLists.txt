@@ -59,7 +59,7 @@ enable_testing()
 
 ## Iterar sobre cada archivo IDL encontrado
 #foreach(IDL_FILE ${IDL_FILES})
-#    # Extraer el nombre base del archivo IDL
+#    # Extraer el nombre base del archivo IDL# hay una nueva carpeta con un nuevo CMakeList, para que lea y ejecute en cmakelist
 #    get_filename_component(IDL_BASENAME ${IDL_FILE} NAME_WE)
 
 #    # Construir los nombres de los archivos generados

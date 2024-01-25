@@ -6,10 +6,10 @@
 #include <model/source/AllFunds.hpp>
 #include <model/source/FundType.hpp>
 #include <model/source/signal/MoneyDepositedSignal.hpp>
-#include <utils/designPattern/SignalPublisher.hpp>
-#include <utils/designPattern/SignalSubscriber.hpp>
-#include <frontend/viewModel/signal/DepositMoneySignal.hpp>
-#include <frontend/viewModel/signal/MoneyDepositedSignal.hpp>
+#include <utils/source/designPattern/SignalPublisher.hpp>
+#include <utils/source/designPattern/SignalSubscriber.hpp>
+#include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
+#include <frontend/source/viewModel/signal/MoneyDepositedSignal.hpp>
 
 namespace frontend
 {
