@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.12
 
 Window {
+    id: appWindow
     width: 640
     height: 480
     visible: true
@@ -11,61 +12,56 @@ Window {
 
     ColumnLayout
     {
-        id: columnLayout
-
-        RadioButton
+        RowLayout
         {
-            id: depositRB
-            text: "Deposit"
-        }
-
-        ComboBox
-        {
-            id: fundTypeCB
-            model: ListModel
+            id: mainRL
+            RadioButton
             {
-                ListElement {text: "Savings"}
-                ListElement {text: "Housing"}
+                id: depositRB
+                text: "Deposit"
+
+                onClicked:
+                {
+                    deposit.visible = true;
+                    withdraw.visible = false;
+                }
             }
-
-            onCurrentIndexChanged:
+            RadioButton
             {
-                depositMoneyView.setFundType(fundTypeCB.currentIndex)
-                console.log("Indice seleccionado: ", fundTypeCB.currentIndex);
-                displayT.text = depositMoneyView.getAmountFromFund()
+                id: withdrawRB
+                text: "Withdraw"
+
+                onClicked:
+                {
+                    deposit.visible = false;
+                    withdraw.visible = true;
+                }
             }
-        }
-
-        TextField
-        {
-            id: amount
-            placeholderText: "Amount deposit"
-
-            validator: RegExpValidator{ regExp: /^\d+$/ }
-            onTextChanged:
+            RadioButton
             {
+                id: transferRB
+                text: "Transfer"
 
-                console.log(amount.text)
-            }
-        }
-
-        Button
-        {
-            id: acceptB
-            text: "Accept"
-
-            onClicked:
-            {
-                depositMoneyView.setAmountToDeposit(amount.text)
-                depositMoneyView.depositMoney()
+                onClicked:
+                {
+                    deposit.visible = false;
+                }
             }
         }
 
-        Text {
-            objectName: "displayT"
-            id: displayT
-            text: depositMoneyView.getAmountFromFund()
+
+        Deposit
+        {
+            id: deposit
+            visible: false
+        }
+
+        Withdraw
+        {
+            id: withdraw
+            visible: false
         }
     }
+
 
 }

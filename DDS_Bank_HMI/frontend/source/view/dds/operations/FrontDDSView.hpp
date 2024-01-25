@@ -11,11 +11,11 @@
 
 #include <idl/bank.hpp>
 #include <model/source/AllFunds.hpp>
-#include <utils/dds/DDSDataWriter.hpp>
-#include <utils/dds/DDSDataReader.hpp>
-#include <utils/designPattern/SignalSubscriber.hpp>
-#include <frontend/viewModel/dds/operations/DDSViewModel.hpp>
-#include <frontend/viewModel/signal/DepositMoneySignal.hpp>
+#include <utils/source/dds/DDSDataWriter.hpp>
+#include <utils/source/dds/DDSDataReader.hpp>
+#include <utils/source/designPattern/SignalSubscriber.hpp>
+#include <frontend/source/viewModel/dds/operations/DDSViewModel.hpp>
+#include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
 
 namespace frontend
 {

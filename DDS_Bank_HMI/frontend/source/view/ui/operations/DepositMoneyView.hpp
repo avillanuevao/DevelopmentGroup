@@ -7,12 +7,12 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <utils/designPattern/SignalSubscriber.hpp>
+#include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <model/source/AllFunds.hpp>
 #include <model/source/FundType.hpp>
 #include <model/source/signal/MoneyDepositedSignal.hpp>
-#include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
-#include <frontend/viewModel/signal/MoneyDepositedSignal.hpp>
+#include <frontend/source/viewModel/ui/operations/DepositViewModel.hpp>
+#include <frontend/source/viewModel/signal/MoneyDepositedSignal.hpp>
 
 namespace frontend
 {

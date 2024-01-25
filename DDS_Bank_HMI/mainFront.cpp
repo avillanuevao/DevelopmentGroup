@@ -4,10 +4,10 @@
 #include <memory>
 
 #include <model/source/AllFunds.hpp>
-#include <frontend/view/ui/operations/DepositMoneyView.hpp>
-#include <frontend/view/dds/operations/FrontDDSView.hpp>
-#include <frontend/viewModel/ui/operations/DepositViewModel.hpp>
-#include <frontend/viewModel/signal/DepositMoneySignal.hpp>
+#include <frontend/source/view/ui/operations/DepositMoneyView.hpp>
+#include <frontend/source/view/dds/operations/FrontDDSView.hpp>
+#include <frontend/source/viewModel/ui/operations/DepositViewModel.hpp>
+#include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
 
 using DepositViewModel = frontend::viewModel::ui::operations::DepositViewModel;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoneyView;

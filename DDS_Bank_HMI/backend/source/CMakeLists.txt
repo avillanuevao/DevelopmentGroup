@@ -29,7 +29,7 @@ add_executable(BACKEND
 target_include_directories(BACKEND
     PUBLIC ${PROJECT_SOURCE_DIR}/
     PUBLIC ${PROJECT_SOURCE_DIR}/model/source
-    PUBLIC ${PROJECT_SOURCE_DIR}/utils
+    PUBLIC ${PROJECT_SOURCE_DIR}/utils/source
 )
 
 target_link_libraries(BACKEND

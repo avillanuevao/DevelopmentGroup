@@ -7,7 +7,7 @@
 #include <Fund.hpp>
 #include <FundType.hpp>
 #include <signal/MoneyDepositedSignal.hpp>
-#include "designPattern/SignalPublisher.hpp"
+#include <designPattern/SignalPublisher.hpp>
 
 namespace model {
 

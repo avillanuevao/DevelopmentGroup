@@ -1,5 +1,5 @@
 #include "FrontDDSView.hpp"
-#include <utils/so/Shutdown.hpp>
+#include <utils/source/so/Shutdown.hpp>
 
 namespace frontend
 {
