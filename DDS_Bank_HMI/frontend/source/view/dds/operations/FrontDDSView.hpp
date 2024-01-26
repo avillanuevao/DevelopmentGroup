@@ -16,6 +16,7 @@
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <frontend/source/viewModel/dds/operations/DDSViewModel.hpp>
 #include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
+#include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
 
 namespace frontend
 {
@@ -26,15 +27,20 @@ namespace dds
 namespace operations
 {
 
-class FrontDDSView: public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>
+class FrontDDSView:
+        public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>
+
 {
     public:
         FrontDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int domain_id, unsigned int sample_count);
 
         void update(viewModel::signal::DepositMoneySignal signal);
+        void update(frontend::viewModel::signal::TransferedMoneySignal signal);
 
     private:
         const Deposit writeDeposit(const FundType& fund_type, int16_t amount);
+        const Transaction writeTransaction(const FundType& originFundType, const FundType& destinationFundType, int16_t amount);
         void configureFundData(FundData fundData);
         void initReaderFundData();
 
@@ -46,6 +52,7 @@ class FrontDDSView: public utils::designPattern::SignalSubscriber<viewModel::sig
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
         std::shared_ptr<::dds::pub::Publisher> m_publisher;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
+        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
         utils::dds::DDSDataReader<FundData> m_readerFundData;
         std::shared_ptr<std::thread> m_threadFundData;

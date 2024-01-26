@@ -18,6 +18,7 @@ FrontDDSView::FrontDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned i
     m_participant(std::make_shared<::dds::domain::DomainParticipant>(domain_id)),
     m_publisher(std::make_shared<::dds::pub::Publisher>(*m_participant)),
     m_writerDeposit(m_participant, m_publisher, DEPOSIT_TOPIC),
+    m_writerTransfer(m_participant, m_publisher, TRANSACTION_TOPIC),
     m_subscriber(std::make_shared<::dds::sub::Subscriber>(*m_participant)),
     m_readerFundData(m_participant, m_subscriber, FUND_DATA_TOPIC, std::bind(&FrontDDSView::configureFundData, this, std::placeholders::_1))
 {
@@ -29,6 +30,11 @@ FrontDDSView::FrontDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned i
 void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
 {
     writeDeposit(static_cast<FundType>(signal.getFundType()), signal.getAmount());
+}
+
+void FrontDDSView::update(viewModel::signal::TransferedMoneySignal signal)
+{
+    writeTransaction(static_cast<FundType>(signal.getOriginFundType()), static_cast<FundType>(signal.getDestinationFundType()), signal.getAmount());
 }
 
 const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amount)
@@ -43,6 +49,21 @@ const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amou
               << std::endl;
 
     return sampleDeposit;
+}
+
+const Transaction FrontDDSView::writeTransaction(const FundType &originFundType, const FundType &destinationFundType, int16_t amount)
+{
+    Transaction sampleTransaction(originFundType, destinationFundType, amount);
+    m_writerTransfer.write(sampleTransaction);
+    std::cout << "topic sended: "
+              << static_cast<int>(sampleTransaction.fund_type_origin())
+              << " "
+              << static_cast<int>(sampleTransaction.fund_type_destination())
+              << " "
+              << sampleTransaction.amount()
+              << std::endl;
+
+    return sampleTransaction;
 }
 
 void FrontDDSView::configureFundData(FundData fundData)
