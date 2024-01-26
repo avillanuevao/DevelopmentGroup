@@ -25,33 +25,10 @@ DepositMoneyView::DepositMoneyView(std::shared_ptr<viewModel::ui::operations::De
 
 void DepositMoneyView::update(frontend::viewModel::signal::MoneyDepositedSignal signal)
 {
-    std::cout << "DepositMoneyView::update Signal recieved." << std::endl;
+
     m_amountFromFund = signal.getAmount();
-    std::cout << "DepositMoneyView::update m_amountFromFund = " << m_amountFromFund << std::endl;
-
-    if(!m_engine.rootObjects().isEmpty())
-    {
-        QObject* rootObject = m_engine.rootObjects().first(); // Obtengo lo que es el objeto Window, la raiz
-        QQuickWindow* rootWindow = qobject_cast<QQuickWindow*>(rootObject); // Aqui tengo el objeto como tipo ventana
-        if(rootWindow)
-        {
-            QObject* textQML = rootObject->findChild<QObject*>("displayT", Qt::FindChildrenRecursively);
-            if(textQML)
-            {
-                textQML->setProperty("text", m_amountFromFund);
-            }else
-            {
-                std::cerr << "Error: Unable to find QML object with id 'displayT'." << std::endl;
-            }
-        }else
-        {
-            std::cerr << "Error: Root object is not a QQuickWindow." << std::endl;
-        }
-
-    }else
-    {
-        std::cerr << "Error: No root objects found." << std::endl;
-    }
+    QMetaObject::invokeMethod(this, "updateAmountQML",
+                              Qt::QueuedConnection, Q_ARG(QVariant, m_amountFromFund));
 
 }
 
@@ -78,6 +55,36 @@ void DepositMoneyView::setFundType(int fundType)
 void DepositMoneyView::depositMoney()
 {
     m_depositViewModel->depositMoney(m_fundType, m_amountToDeposit);
+}
+
+void DepositMoneyView::updateAmountQML(const QVariant &value)
+{
+    if(!m_engine.rootObjects().isEmpty())
+    {
+        QObject* rootObject = m_engine.rootObjects().first(); // Obtengo lo que es el objeto Window, la raiz
+        QQuickWindow* rootWindow = qobject_cast<QQuickWindow*>(rootObject); // Aqui tengo el objeto como tipo ventana
+        if(rootWindow)
+        {
+            QObject* textQML = rootObject->findChild<QObject*>("displayT", Qt::FindChildrenRecursively);
+            if(textQML)
+            {
+                textQML->setProperty("text", value);
+            }
+            else
+            {
+                std::cerr << "Error: Unable to find QML object with id 'displayT'." << std::endl;
+            }
+        }
+        else
+        {
+            std::cerr << "Error: Root object is not a QQuickWindow." << std::endl;
+        }
+
+    }
+    else
+    {
+        std::cerr << "Error: No root objects found." << std::endl;
+    }
 }
 
 }

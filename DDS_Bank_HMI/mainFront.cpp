@@ -46,9 +46,13 @@ int main(int argc, char *argv[])
             std::make_shared<FrontDDSView>(allFunds, 0,2);
 
     allFunds->utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>::addSubscriber(depositViewModel);
+    allFunds->utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>::addSubscriber(withdrawViewModel);
+
     depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyDepositedSignal>::addSubscriber(depositMoneyView);
     depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::DepositMoneySignal>::addSubscriber(frontDDSView);
-    withdrawViewModel->addSubscriber(frontDDSView);
+
+    withdrawViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyWithdrawnSignal>::addSubscriber(withdrawMoneyView);
+    withdrawViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::WithdrawnMoneySignal>::addSubscriber(frontDDSView);
 
     engine.rootContext()->setContextProperty("depositMoneyView", &*depositMoneyView);
     engine.rootContext()->setContextProperty("withdrawMoneyView", &*withdrawMoneyView);

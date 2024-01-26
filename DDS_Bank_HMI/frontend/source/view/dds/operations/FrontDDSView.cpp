@@ -44,18 +44,16 @@ const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amou
     Deposit sampleDeposit(fund_type, amount);
 
     m_writerDeposit.write(sampleDeposit);
-    std::cout << "topic sended: "
-              << static_cast<int>(sampleDeposit.fund_type())
-              << " "
-              << sampleDeposit.amount()
-              << std::endl;
+
+    std::cout << "topic sended: " << std::endl
+              << "\t[fundType: " << sampleDeposit.fund_type() << ", amount: " << sampleDeposit.amount() << "]" << std::endl;
 
     return sampleDeposit;
 }
 
 void FrontDDSView::configureFundData(FundData fundData)
 {
-    std::cout << "Data obtenido: " << std::endl;
+    std::cout << "FundData topic recieved: " << std::endl;
     std::cout << "\t" << fundData << std::endl;
     m_ddsViewModel->updateModel(model::Operation(
                                     model::FundType::NONE, static_cast<model::FundType>(fundData.fund_type()), fundData.amount()));

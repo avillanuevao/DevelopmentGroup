@@ -46,8 +46,8 @@ int AllFunds::getAmount(model::FundType fundType) const
 
 void AllFunds::setAmount(model::FundType fundType, int newAmount)
 {
-    std::cout << "setAmount: [fundType: " << static_cast<int>(fundType)
-              << ", amount: " << newAmount << "]" << std::endl;
+    std::cout << "setAmount: " << std::endl
+              << "\t[fundType: " << static_cast<int>(fundType) << ", amount: " << newAmount << "]" << std::endl;
     try
     {
         m_funds.find(fundType)->second.setAmount(newAmount);

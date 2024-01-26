@@ -15,10 +15,16 @@ WithdrawViewModel::WithdrawViewModel(std::shared_ptr<model::AllFunds> allFunds):
 
 }
 
+void WithdrawViewModel::update(model::signal::MoneyWithdrawnSignal signal)
+{
+    viewModel::signal::MoneyWithdrawnSignal moneyWithdrawnSignal(signal.getFundType(), signal.getAmount());
+    utils::designPattern::SignalPublisher<viewModel::signal::MoneyWithdrawnSignal>::notifySubscribers(moneyWithdrawnSignal);
+}
+
 void WithdrawViewModel::withdrawMoney(model::FundType fundType, int amount)
 {
     viewModel::signal::WithdrawnMoneySignal withdrawnMoneySignal(fundType, amount);
-    notifySubscribers(withdrawnMoneySignal);
+    utils::designPattern::SignalPublisher<viewModel::signal::WithdrawnMoneySignal>::notifySubscribers(withdrawnMoneySignal);
 }
 
 }
