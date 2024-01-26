@@ -17,6 +17,7 @@
 #include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <model/source/AllFunds.hpp>
 #include <backend/source/controller/operation/DepositMoneyController.hpp>
+#include <backend/source/controller/operation/TransferMoneyController.hpp>
 
 namespace backend
 {
@@ -38,11 +39,14 @@ class BackDDSView :
     private:
         void configureDeposit(Deposit deposit);
         void initDepositUseCase();
+        void configureTransaction(Transaction transaction);
+        void initTransactionUseCase();
         const FundData writeFundData(const FundType &fundType, int16_t amount);
 
 
         const std::shared_ptr<model::AllFunds> m_allFunds;
         std::unique_ptr<backend::controller::operation::DepositMoneyController> m_depositMoneyController;
+        std::unique_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
         unsigned int m_domainId;
         unsigned int m_sampleCount;
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
@@ -50,6 +54,8 @@ class BackDDSView :
         utils::dds::DDSDataReader<Deposit> m_readerDeposit;
         std::shared_ptr<std::thread> m_threadDeposit;
         ::dds::core::Duration m_wait;
+        utils::dds::DDSDataReader<Transaction> m_readerTransaction;
+        std::shared_ptr<std::thread> m_threadTransaction;
         std::shared_ptr<::dds::pub::Publisher> m_publisher;
         utils::dds::DDSDataWriter<FundData> m_writerFundData;
 };
