@@ -18,12 +18,8 @@
 using FrontDDSView = frontend::view::dds::operations::FrontDDSView;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoneyView;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoneyView;
-
 using DepositViewModel = frontend::viewModel::ui::operations::DepositViewModel;
 using WithdrawViewModel = frontend::viewModel::ui::operations::WithdrawViewModel;
-
-
-
 using TransferMoneyView = frontend::view::ui::operations::TransferMoneyView;
 using TransferViewModel = frontend::viewModel::ui::operations::TransferViewModel;
 
