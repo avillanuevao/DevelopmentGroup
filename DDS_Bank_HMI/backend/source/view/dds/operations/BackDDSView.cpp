@@ -85,9 +85,16 @@ void BackDDSView::receivedTopicWithdraw(Withdraw withdraw)
     std::cout << "Withdraw topic received: " << std::endl;
     std::cout << "\t" << withdraw << std::endl;
 
-    m_withdrawMoneyController->withdraw(model::Operation(model::FundType::NONE,
-                                                         static_cast<model::FundType>(withdraw.fund_type()),
-                                                         withdraw.amount()));
+    try{
+
+        m_withdrawMoneyController->withdraw(model::Operation(model::FundType::NONE,
+                                                             static_cast<model::FundType>(withdraw.fund_type()),
+                                                             withdraw.amount()));
+    }
+    catch (std::logic_error e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 void BackDDSView::readingTopicWithdraw()

@@ -15,7 +15,7 @@ class WithdrawMoneyController
 {
     public:
         WithdrawMoneyController(std::shared_ptr<model::AllFunds> allFunds);
-        void withdraw(model::Operation withdraw);
+        void withdraw(model::Operation withdraw) noexcept(false);
 
     private:
         std::shared_ptr<model::AllFunds> m_allFunds;
