@@ -23,7 +23,8 @@ Window {
                 onClicked:
                 {
                     deposit.visible = true;
-                    withdraw.visible = false;
+//                    withdraw.visible = false;
+                    transfer.visible = false;
                 }
             }
             RadioButton
@@ -34,7 +35,8 @@ Window {
                 onClicked:
                 {
                     deposit.visible = false;
-                    withdraw.visible = true;
+//                    withdraw.visible = true;
+                    transfer.visible = false;
                 }
             }
             RadioButton
@@ -45,6 +47,8 @@ Window {
                 onClicked:
                 {
                     deposit.visible = false;
+//                    withdraw.visible = false;
+                    transfer.visible = true;
                 }
             }
         }
@@ -56,9 +60,15 @@ Window {
             visible: false
         }
 
-        Withdraw
+//        Withdraw
+//        {
+//            id: withdraw
+//            visible: false
+//        }
+
+        Transfer
         {
-            id: withdraw
+            id: transfer
             visible: false
         }
     }

@@ -15,10 +15,17 @@
 using FrontDDSView = frontend::view::dds::operations::FrontDDSView;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoneyView;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoneyView;
+#include <frontend/source/view/ui/operations/TransferMoneyView.hpp>
+#include <frontend/source/viewModel/ui/operations/TransferViewModel.hpp>
+#include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
+
 using DepositViewModel = frontend::viewModel::ui::operations::DepositViewModel;
 using WithdrawViewModel = frontend::viewModel::ui::operations::WithdrawViewModel;
 
 
+
+using TransferMoneyView = frontend::view::ui::operations::TransferMoneyView;
+using TransferViewModel = frontend::viewModel::ui::operations::TransferViewModel;
 
 int main(int argc, char *argv[])
 {
@@ -54,8 +61,17 @@ int main(int argc, char *argv[])
     withdrawViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyWithdrawnSignal>::addSubscriber(withdrawMoneyView);
     withdrawViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::WithdrawnMoneySignal>::addSubscriber(frontDDSView);
 
+    std::shared_ptr<TransferViewModel> transferViewModel =
+            std::make_shared<TransferViewModel>(allFunds);
+    std::shared_ptr<TransferMoneyView> transferMoneyView =
+            std::make_shared<TransferMoneyView>(transferViewModel, allFunds,engine);
+    allFunds->utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::addSubscriber(transferViewModel);
+    transferViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyTransferedSignal>::addSubscriber(transferMoneyView);
+    transferViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::TransferedMoneySignal>::addSubscriber(frontDDSView);
     engine.rootContext()->setContextProperty("depositMoneyView", &*depositMoneyView);
     engine.rootContext()->setContextProperty("withdrawMoneyView", &*withdrawMoneyView);
+    engine.rootContext()->setContextProperty("transferMoneyView", &*transferMoneyView);
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
