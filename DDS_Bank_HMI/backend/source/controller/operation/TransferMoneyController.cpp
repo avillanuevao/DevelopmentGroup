@@ -15,7 +15,8 @@ TransferMoneyController::TransferMoneyController(std::shared_ptr<model::AllFunds
 
 void TransferMoneyController::doTransaction(model::Operation transaction)
 {
-
+    m_allFunds->transferAmount(
+                transaction.getFundTypeOrigin(), transaction.getFundTypeDestination(), transaction.getAmount());
 }
 
 }

@@ -31,7 +31,7 @@ std::shared_ptr<DepositMoneyView> initiate(QQmlApplicationEngine& engine)
     std::shared_ptr<FrontDDSView> frontDDSView =
             std::make_shared<FrontDDSView>(allFunds, 0,2);
 
-    allFunds->addSubscriber(depositViewModel);
+    allFunds->utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>::addSubscriber(depositViewModel);
     depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyDepositedSignal>::addSubscriber(depositMoneyView);
     depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::DepositMoneySignal>::addSubscriber(frontDDSView);
 
@@ -52,13 +52,24 @@ int main(int argc, char *argv[])
 //    engine.rootContext()->setContextProperty("depositMoneyView", &*depositMoneyView);
 
     std::shared_ptr<model::AllFunds> allFunds = std::make_shared<model::AllFunds>();
-    std::shared_ptr<TransferViewModel> transferViewModel = std::make_shared<TransferViewModel>(allFunds);
+    std::shared_ptr<DepositViewModel> depositViewModel =
+            std::make_shared<DepositViewModel>(allFunds);
+    std::shared_ptr<TransferViewModel> transferViewModel =
+            std::make_shared<TransferViewModel>(allFunds);
+    std::shared_ptr<DepositMoneyView> depositMoneyView =
+                std::make_shared<DepositMoneyView>(depositViewModel, allFunds, engine);
     std::shared_ptr<TransferMoneyView> transferMoneyView =
             std::make_shared<TransferMoneyView>(transferViewModel, allFunds,engine);
     std::shared_ptr<FrontDDSView> frontDDSView =
             std::make_shared<FrontDDSView>(allFunds, 0,2);
+    allFunds->utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>::addSubscriber(depositViewModel);
+    allFunds->utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::addSubscriber(transferViewModel);
+    depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyDepositedSignal>::addSubscriber(depositMoneyView);
+    depositViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::DepositMoneySignal>::addSubscriber(frontDDSView);
+    transferViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::MoneyTransferedSignal>::addSubscriber(transferMoneyView);
     transferViewModel->utils::designPattern::SignalPublisher<frontend::viewModel::signal::TransferedMoneySignal>::addSubscriber(frontDDSView);
 
+    engine.rootContext()->setContextProperty("depositMoneyView", &*depositMoneyView);
     engine.rootContext()->setContextProperty("transferMoneyView", &*transferMoneyView);
 
 

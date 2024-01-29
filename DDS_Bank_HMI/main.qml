@@ -22,7 +22,7 @@ Window {
 
                 onClicked:
                 {
-//                    deposit.visible = true;
+                    deposit.visible = true;
 //                    withdraw.visible = false;
                     transfer.visible = false;
                 }
@@ -34,7 +34,7 @@ Window {
 
                 onClicked:
                 {
-//                    deposit.visible = false;
+                    deposit.visible = false;
 //                    withdraw.visible = true;
                     transfer.visible = false;
                 }
@@ -46,7 +46,7 @@ Window {
 
                 onClicked:
                 {
-//                    deposit.visible = false;
+                    deposit.visible = false;
 //                    withdraw.visible = false;
                     transfer.visible = true;
                 }
@@ -54,11 +54,11 @@ Window {
         }
 
 
-//        Deposit
-//        {
-//            id: deposit
-//            visible: false
-//        }
+        Deposit
+        {
+            id: deposit
+            visible: false
+        }
 
 //        Withdraw
 //        {

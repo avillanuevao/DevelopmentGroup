@@ -42,6 +42,11 @@ void BackDDSView::update(model::signal::MoneyDepositedSignal signal)
     writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
 }
 
+void BackDDSView::update(model::signal::MoneyTransferedSignal signal)
+{
+    writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
+}
+
 void BackDDSView::configureDeposit(Deposit deposit)
 {
     std::cout << "Data obtenido: " << std::endl;

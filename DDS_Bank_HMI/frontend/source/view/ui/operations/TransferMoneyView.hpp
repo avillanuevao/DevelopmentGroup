@@ -1,5 +1,7 @@
-#ifndef TRANSFERMONEYVIEW_HPP
-#define TRANSFERMONEYVIEW_HPP
+#ifndef FRONTEND_VIEW_UI_OPERATIONS_TRANSFERMONEYVIEW_HPP
+#define FRONTEND_VIEW_UI_OPERATIONS_TRANSFERMONEYVIEW_HPP
+
+#include <iostream>
 
 #include <QObject>
 #include <QQmlApplicationEngine>
@@ -9,6 +11,7 @@
 #include <model/source/AllFunds.hpp>
 #include <model/source/FundType.hpp>
 #include <frontend/source/viewModel/ui/operations/TransferViewModel.hpp>
+#include <frontend/source/viewModel/signal/MoneyTransferedSignal.hpp>
 
 namespace frontend
 {
@@ -19,7 +22,9 @@ namespace ui
 namespace operations
 {
 
-class TransferMoneyView : public QObject
+class TransferMoneyView :
+        public QObject,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::MoneyTransferedSignal>
 {
     Q_OBJECT
     public:
@@ -28,6 +33,8 @@ class TransferMoneyView : public QObject
                                    const std::shared_ptr<model::AllFunds> allFunds,
                                    QQmlApplicationEngine &engine,
                                    QObject *parent = nullptr);
+
+        void update(frontend::viewModel::signal::MoneyTransferedSignal signal);
 
 public slots:
         void transferMoney();
@@ -64,4 +71,4 @@ private:
 }
 }
 
-#endif // TRANSFERMONEYVIEW_HPP
+#endif // FRONTEND_VIEW_UI_OPERATIONS_TRANSFERMONEYVIEW_HPP

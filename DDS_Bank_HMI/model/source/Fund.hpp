@@ -12,6 +12,7 @@ class Fund
         Fund(model::FundType fundType, int amount);
 
         void increaseAmount(int amount) noexcept(false);
+        void decreaseAmount(int amount);
 
         model::FundType getFundType() const;
         int getAmount() const;
