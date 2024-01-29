@@ -16,6 +16,7 @@
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <frontend/source/viewModel/dds/operations/DDSViewModel.hpp>
 #include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
+#include <frontend/source/viewModel/signal/WithdrawnMoneySignal.hpp>
 
 namespace frontend
 {
@@ -26,26 +27,34 @@ namespace dds
 namespace operations
 {
 
-class FrontDDSView: public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>
+class FrontDDSView:
+        public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
+        public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>
 {
     public:
-        FrontDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int domain_id, unsigned int sample_count);
+        FrontDDSView(std::shared_ptr<model::AllFunds> allFunds,
+                     unsigned int domain_id,
+                     unsigned int sample_count);
 
         void update(viewModel::signal::DepositMoneySignal signal);
+        void update(viewModel::signal::WithdrawnMoneySignal signal);
 
     private:
         const Deposit writeDeposit(const FundType& fund_type, int16_t amount);
         void configureFundData(FundData fundData);
         void initReaderFundData();
 
+        const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
+
+        const std::shared_ptr<model::AllFunds> m_allFunds;
         unsigned int m_domain_id;
         unsigned int m_sample_count;
 
-        const std::shared_ptr<model::AllFunds> m_allFunds;
         std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> m_ddsViewModel;
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
         std::shared_ptr<::dds::pub::Publisher> m_publisher;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
+        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
         utils::dds::DDSDataReader<FundData> m_readerFundData;
         std::shared_ptr<std::thread> m_threadFundData;

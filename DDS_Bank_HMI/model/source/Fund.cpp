@@ -17,6 +17,16 @@ void Fund::increaseAmount(int amount) noexcept(false)
     m_amount += amount;
 }
 
+void Fund::decreaseAmount(int amount) noexcept(false)
+{
+    if(amount < 0)
+    {
+        throw std::logic_error("Amount must be positive");
+    }
+
+    m_amount -= amount;
+}
+
 model::FundType Fund::getFundType() const
 {
     return m_fundType;

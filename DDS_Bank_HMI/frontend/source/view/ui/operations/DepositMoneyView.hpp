@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
+#include <QQuickItem>
 #include <QQmlComponent>
 
 #include <utils/source/designPattern/SignalSubscriber.hpp>
@@ -42,6 +43,9 @@ class DepositMoneyView :
         model::FundType getFundType();
         void setFundType(int fundType);
         void depositMoney();
+
+    private slots:
+        void updateAmountQML(const QVariant& newAmount);
 
     private:
         std::shared_ptr<viewModel::ui::operations::DepositViewModel> m_depositViewModel;

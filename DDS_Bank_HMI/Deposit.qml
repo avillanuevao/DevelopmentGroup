@@ -42,9 +42,9 @@ ColumnLayout
 
         onCurrentIndexChanged:
         {
-            depositMoneyView.setFundType(fundTypeCB.currentIndex)
-            console.log("Indice seleccionado: ", fundTypeCB.currentIndex);
-            displayT.text = depositMoneyView.getAmountFromFund()
+            depositMoneyView.setFundType(visualizeFundTypeComboBox.currentIndex)
+            console.log("Indice seleccionado: ", visualizeFundTypeComboBox.currentIndex);
+            visualizeAmount.text = depositMoneyView.getAmountFromFund()
         }
     }
 
