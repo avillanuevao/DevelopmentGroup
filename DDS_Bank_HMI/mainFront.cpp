@@ -7,17 +7,17 @@
 #include <frontend/source/view/dds/operations/FrontDDSView.hpp>
 #include <frontend/source/view/ui/operations/DepositMoneyView.hpp>
 #include <frontend/source/view/ui/operations/WithdrawMoneyView.hpp>
+#include <frontend/source/view/ui/operations/TransferMoneyView.hpp>
 #include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
 #include <frontend/source/viewModel/signal/WithdrawnMoneySignal.hpp>
+#include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
 #include <frontend/source/viewModel/ui/operations/DepositViewModel.hpp>
 #include <frontend/source/viewModel/ui/operations/WithdrawViewModel.hpp>
+#include <frontend/source/viewModel/ui/operations/TransferViewModel.hpp>
 
 using FrontDDSView = frontend::view::dds::operations::FrontDDSView;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoneyView;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoneyView;
-#include <frontend/source/view/ui/operations/TransferMoneyView.hpp>
-#include <frontend/source/viewModel/ui/operations/TransferViewModel.hpp>
-#include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
 
 using DepositViewModel = frontend::viewModel::ui::operations::DepositViewModel;
 using WithdrawViewModel = frontend::viewModel::ui::operations::WithdrawViewModel;
