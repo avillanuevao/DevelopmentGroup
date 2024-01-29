@@ -33,7 +33,7 @@ namespace operations
 
 class BackDDSView :
         public utils::designPattern::SignalSubscriber<model::signal::MoneyDepositedSignal>,
-        public utils::designPattern::SignalSubscriber<model::signal::MoneyWithdrawnSignal>
+        public utils::designPattern::SignalSubscriber<model::signal::MoneyWithdrawnSignal>,
         public utils::designPattern::SignalSubscriber<model::signal::MoneyTransferedSignal>
 {
     public:
@@ -56,22 +56,22 @@ class BackDDSView :
 
 
         const std::shared_ptr<model::AllFunds> m_allFunds;
-        std::unique_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
         unsigned int m_domainId;
         unsigned int m_sampleCount;
         std::unique_ptr<backend::controller::operation::DepositMoneyController> m_depositMoneyController;
         std::unique_ptr<backend::controller::operation::WithdrawMoneyController> m_withdrawMoneyController;
+        std::unique_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
         utils::dds::DDSDataReader<Deposit> m_readerDeposit;
         utils::dds::DDSDataReader<Withdraw> m_readerWithdraw;
-        std::shared_ptr<std::thread> m_threadDeposit;
-        std::shared_ptr<std::thread> m_threadWithdraw;
-        ::dds::core::Duration m_wait;
         utils::dds::DDSDataReader<Transaction> m_readerTransaction;
-        std::shared_ptr<std::thread> m_threadTransaction;
         std::shared_ptr<::dds::pub::Publisher> m_publisher;
         utils::dds::DDSDataWriter<FundData> m_writerFundData;
+        ::dds::core::Duration m_wait;
+        std::shared_ptr<std::thread> m_threadDeposit;
+        std::shared_ptr<std::thread> m_threadWithdraw;
+        std::shared_ptr<std::thread> m_threadTransaction;
 };
 
 }

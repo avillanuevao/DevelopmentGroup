@@ -11,12 +11,14 @@
 #include <signal/MoneyTransferedSignal.hpp>
 #include <designPattern/SignalPublisher.hpp>
 
-namespace model {
-
-        public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>,
-        public utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>
-        public utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>
+namespace model
 {
+
+    class AllFunds :
+            public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>,
+            public utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>,
+            public utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>
+    {
     public:
         AllFunds();
 

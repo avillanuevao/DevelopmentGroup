@@ -27,9 +27,10 @@ namespace dds
 {
 namespace operations
 {
+class FrontDDSView :
 
         public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
-        public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>
+        public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>
 {
     public:
