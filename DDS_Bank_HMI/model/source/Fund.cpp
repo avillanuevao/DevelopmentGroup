@@ -14,7 +14,8 @@ void Fund::increaseAmount(int amount) noexcept(false)
         throw std::logic_error("Amount must be positive");
     }
 
-    m_amount += amount;
+    // Hay codigo duplicado porque hacen la misma funcionalidad, que en este caso es setear el valor de la variable
+    setAmount(m_amount + amount);
 }
 
 void Fund::decreaseAmount(int amount)
@@ -24,13 +25,11 @@ void Fund::decreaseAmount(int amount)
         throw std::logic_error("Amount must be positive");
     }
 
-    if(amount > m_amount)
-    {
+    try {
+        setAmount(m_amount - amount);
+    }  catch (std::logic_error e) {
         throw std::logic_error("Not enough money");
     }
-
-    m_amount -= amount;
-
 }
 
 model::FundType Fund::getFundType() const

@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
             std::make_shared<model::AllFunds>();
 
     std::shared_ptr<DepositViewModel> depositViewModel =
-            std::make_shared<DepositViewModel>(allFunds);
+            std::make_shared<DepositViewModel>();
     std::shared_ptr<DepositMoneyView> depositMoneyView =
             std::make_shared<DepositMoneyView>(depositViewModel, allFunds, engine);
 

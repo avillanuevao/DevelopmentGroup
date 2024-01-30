@@ -9,7 +9,7 @@ namespace ui
 namespace operations
 {
 
-DepositViewModel::DepositViewModel(std::shared_ptr<model::AllFunds> allFunds) : m_allFunds(allFunds)
+DepositViewModel::DepositViewModel(std::shared_ptr<model::AllFunds> allFunds)
 {
 
 }
