@@ -3,7 +3,6 @@
 
 #include <memory>
 
-#include <model/source/AllFunds.hpp>
 #include <model/source/FundType.hpp>
 #include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
@@ -26,12 +25,9 @@ class DepositViewModel:
         public utils::designPattern::SignalPublisher<viewModel::signal::MoneyDepositedSignal>
 {
     public:
-        DepositViewModel(std::shared_ptr<model::AllFunds> allFunds);
+        DepositViewModel();
         void depositMoney(model::FundType fundType, int amount);
         void update(model::signal::MoneyDepositedSignal signal);
-
-    private:
-        std::shared_ptr<model::AllFunds> m_allFunds;
 };
 
 }

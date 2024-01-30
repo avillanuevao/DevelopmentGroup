@@ -9,7 +9,7 @@ namespace dds
 namespace operations
 {
 
-DDSViewModel::DDSViewModel(std::shared_ptr<model::AllFunds> allFunds):
+DDSViewModel::DDSViewModel(std::shared_ptr<model::AllFundsDDSInterface> allFunds):
     m_allFunds(allFunds)
 {
 
