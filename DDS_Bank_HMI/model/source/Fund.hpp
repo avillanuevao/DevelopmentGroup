@@ -4,19 +4,21 @@
 #include <stdexcept>
 
 #include <FundType.hpp>
+#include <FundInterface.hpp>
 
 namespace model {
-class Fund
+class Fund:
+        public model::FundInterface
 {
     public:
         Fund(model::FundType fundType, int amount);
 
-        void increaseAmount(int amount) noexcept(false);
-        void decreaseAmount(int amount) noexcept(false);
+        void increaseAmount(int amount) noexcept(false) override;
+        void decreaseAmount(int amount) noexcept(false) override;
 
-        model::FundType getFundType() const;
-        int getAmount() const;
-        void setAmount(int newAmount) noexcept(false);
+        model::FundType getFundType() const override;
+        int getAmount() const override;
+        void setAmount(int newAmount) noexcept(false) override;
 
     private:
         model::FundType m_fundType;

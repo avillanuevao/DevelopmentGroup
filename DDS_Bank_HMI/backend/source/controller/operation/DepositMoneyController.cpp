@@ -7,15 +7,15 @@ namespace  controller
 namespace  operation
 {
 
-DepositMoneyController::DepositMoneyController(std::shared_ptr<model::AllFunds> allFunds) :
-    m_allFunds(allFunds)
+DepositMoneyController::DepositMoneyController(std::shared_ptr<model::FundInterface> fund) :
+    m_fund(fund)
 {
 
 }
 
 void DepositMoneyController::doDeposit(model::Operation deposit)
 {
-    m_allFunds->increaseAmount(deposit.getFundTypeDestination(), deposit.getAmount());
+    m_fund->increaseAmount(deposit.getAmount());
 }
 
 

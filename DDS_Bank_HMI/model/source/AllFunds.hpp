@@ -11,28 +11,41 @@
 #include <signal/MoneyTransferedSignal.hpp>
 #include <designPattern/SignalPublisher.hpp>
 
-#include <model/source/AllFundsDDSInterface.hpp>
+#include <AllFundsDDSInterface.hpp>
+#include <FundInterface.hpp>
 
 namespace model
 {
 
     class AllFunds :
             public model::AllFundsDDSInterface,
+            public model::FundInterface,
             public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>,
             public utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>,
             public utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>
     {
     public:
-        AllFunds();
+        AllFunds(model::FundType actualFund);
 
-        void increaseAmount(model::FundType fundType, int amount) noexcept(false);
-        void decreaseAmount(model::FundType fundType, int amount) noexcept(false);
-        void transferAmount(model::FundType originFundType, model::FundType destinationFundType, int amount);
-        int getAmount(model::FundType fundType) const;
+        void increaseAmount(int amount) noexcept(false) override;
+        void decreaseAmount(int amount) noexcept(false) override;
+        int getAmount() const override;
+        void setAmount(int amount) override;
         void setAmount(FundType fundType, int amount) override;
 
-    private:
-        std::map<model::FundType, Fund> m_funds;
+        void transferAmount(model::FundType originFundType, model::FundType destinationFundType, int amount);
+
+        void setActualFund(model::FundType newActualFund);
+
+
+        private:
+        std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund);
+        std::shared_ptr<model::FundInterface> getActualFund();
+        std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund) const;
+        std::shared_ptr<model::FundInterface> getActualFund() const;
+
+        std::map<model::FundType, std::shared_ptr<model::FundInterface>> m_funds;
+        model::FundType m_actualFund;
 
     };
 

@@ -1,7 +1,7 @@
 #ifndef ALLFUNDSDDSINTERFACE_HPP
 #define ALLFUNDSDDSINTERFACE_HPP
 
-#include <model/source/FundType.hpp>
+#include <FundType.hpp>
 
 namespace model
 {
