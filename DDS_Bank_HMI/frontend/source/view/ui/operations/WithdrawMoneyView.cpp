@@ -38,7 +38,7 @@ void WithdrawMoneyView::withdrawMoney()
 
 int WithdrawMoneyView::getAmountFromFund()
 {
-    return m_allFunds->getAmount(m_fundType);
+    return m_allFunds->getAmount();
 }
 
 void WithdrawMoneyView::setAmountToWithdraw(int amount)

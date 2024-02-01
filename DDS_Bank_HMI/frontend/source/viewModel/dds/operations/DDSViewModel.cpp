@@ -9,7 +9,7 @@ namespace dds
 namespace operations
 {
 
-DDSViewModel::DDSViewModel(std::shared_ptr<model::AllFundsDDSInterface> allFunds):
+DDSViewModel::DDSViewModel(std::shared_ptr<model::AllFunds> allFunds):
     m_allFunds(allFunds)
 {
 
@@ -17,7 +17,7 @@ DDSViewModel::DDSViewModel(std::shared_ptr<model::AllFundsDDSInterface> allFunds
 
 void DDSViewModel::updateModel(model::Operation operation)
 {
-    m_allFunds->setAmount(operation.getFundTypeDestination(), operation.getAmount());
+    m_allFunds->setAmount(operation.getAmount());
 }
 
 }

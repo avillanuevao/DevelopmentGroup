@@ -2,20 +2,29 @@
 #define MODEL_FUNDINTERFACE_HPP
 
 #include <FundType.hpp>
+#include <FundIncreaseAmountInterface.hpp>
+#include <FundDecreaseAmountInterface.hpp>
+#include <FundSetFundTypeInterface.hpp>
+#include <FundSetAmountInterface.hpp>
+#include <FundGetParameterInterface.hpp>
+
+#include <designPattern/SignalPublisher.hpp>
+#include <signal/UpdatedFundSignal.hpp>
 
 namespace model
 {
 
-class FundInterface
+class FundInterface :
+        public model::FundIncreaseAmountInterface,
+        public model::FundDecreaseAmountInterface,
+        public model::FundSetAmountInterface,
+        public model::FundSetFundTypeInterface,
+        public model::FundGetParameterInterface,
+        public utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>
+
 {
     public:
         FundInterface() = default;
-        virtual void increaseAmount(int amount) = 0;
-        virtual void decreaseAmount(int amount) = 0;
-
-        virtual model::FundType getFundType() const = 0;
-        virtual int getAmount() const = 0;
-        virtual void setAmount(int newAmount) noexcept(false) = 0;
 };
 
 }

@@ -14,7 +14,7 @@
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
-#include <model/source/signal/UpdatedModelSignal.hpp>
+#include <model/source/signal/UpdatedFundSignal.hpp>
 #include <model/source/AllFunds.hpp>
 #include <backend/source/controller/operation/DepositMoneyController.hpp>
 #include <backend/source/controller/operation/WithdrawMoneyController.hpp>
@@ -30,13 +30,13 @@ namespace operations
 {
 
 class BackDDSView :
-        public utils::designPattern::SignalSubscriber<model::signal::UpdatedModelSignal>
+        public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundSignal>
 {
     public:
         BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int domainId, unsigned int sampleCount);
         ~BackDDSView();
 
-        void update(model::signal::UpdatedModelSignal signal);
+        void update(model::signal::UpdatedFundSignal signal);
 
     private:
         void configureDeposit(Deposit deposit);

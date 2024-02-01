@@ -7,14 +7,13 @@ Fund::Fund(model::FundType fundType, int amount) : m_fundType(fundType), m_amoun
 
 }
 
-void Fund::increaseAmount(int amount) noexcept(false)
+void Fund::increaseAmount(int amount)
 {
     if(amount < 0)
     {
         throw std::logic_error("Amount must be positive");
     }
 
-    // Hay codigo duplicado porque hacen la misma funcionalidad, que en este caso es setear el valor de la variable
     setAmount(m_amount + amount);
 }
 
@@ -42,7 +41,7 @@ int Fund::getAmount() const
     return m_amount;
 }
 
-void Fund::setAmount(int newAmount) noexcept(false)
+void Fund::setAmount(int newAmount)
 {
     if(newAmount < 0)
     {
@@ -50,6 +49,11 @@ void Fund::setAmount(int newAmount) noexcept(false)
     }
 
     m_amount = newAmount;
+}
+
+void Fund::setFundType(FundType fundType)
+{
+    m_fundType = fundType;
 }
 
 }

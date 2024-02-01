@@ -1,5 +1,5 @@
-#ifndef MODEL_SIGNAL_UPDATEDMODELSIGNAL_HPP
-#define MODEL_SIGNAL_UPDATEDMODELSIGNAL_HPP
+#ifndef MODEL_SIGNAL_UPDATEDFUNDSIGNAL_HPP
+#define MODEL_SIGNAL_UPDATEDFUNDSIGNAL_HPP
 
 #include <FundType.hpp>
 
@@ -8,10 +8,10 @@ namespace  model
 namespace signal
 {
 
-class UpdatedModelSignal
+class UpdatedFundSignal
 {
     public:
-        UpdatedModelSignal(model::FundType fundType, int amount);
+        UpdatedFundSignal(model::FundType fundType, int amount);
         //Añadir variable miembro con la cantidad para que la vista pueda acceder al valor
 
         int getAmount() const;
@@ -29,4 +29,4 @@ private:
 }
 
 
-#endif // MODEL_SIGNAL_UPDATEDMODELSIGNAL_HPP
+#endif // MODEL_SIGNAL_UPDATEDFUNDSIGNAL_HPP

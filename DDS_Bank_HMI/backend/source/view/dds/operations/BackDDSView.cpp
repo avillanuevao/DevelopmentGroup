@@ -40,7 +40,7 @@ BackDDSView::~BackDDSView()
     deleteThread(m_threadTransaction);
 }
 
-void BackDDSView::update(model::signal::UpdatedModelSignal signal)
+void BackDDSView::update(model::signal::UpdatedFundSignal signal)
 {
     writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
 }

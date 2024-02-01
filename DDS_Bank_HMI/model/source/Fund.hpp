@@ -13,16 +13,17 @@ class Fund:
     public:
         Fund(model::FundType fundType, int amount);
 
-        void increaseAmount(int amount) noexcept(false) override;
-        void decreaseAmount(int amount) noexcept(false) override;
+        void increaseAmount(int amount) override;
+        void decreaseAmount(int amount) override;
 
-        model::FundType getFundType() const override;
         int getAmount() const override;
-        void setAmount(int newAmount) noexcept(false) override;
+        FundType getFundType() const override;
+        void setAmount(int amount) override;
+        void setFundType(FundType fundType) override;
 
     private:
         model::FundType m_fundType;
-        int m_amount;
+        int m_amount;       
 };
 
 }

@@ -3,33 +3,31 @@
 
 #include <map>
 #include <stdexcept>
+#include <memory>
 
 #include <Fund.hpp>
 #include <FundType.hpp>
-#include <signal/UpdatedModelSignal.hpp>
-#include <designPattern/SignalPublisher.hpp>
-#include <AllFundsDDSInterface.hpp>
 #include <FundInterface.hpp>
+#include <FundTransferAmountInterface.hpp>
 
 namespace model
 {
 
 class AllFunds :
-        public model::AllFundsDDSInterface,
         public model::FundInterface,
-        public utils::designPattern::SignalPublisher<model::signal::UpdatedModelSignal>
+        public model::FundTransferAmountInterface
 {
     public:
         AllFunds(model::FundType actualFund);
 
-        void increaseAmount(int amount) noexcept(false) override;
-        void decreaseAmount(int amount) noexcept(false) override;
-        int getAmount() const override;
-        void setAmount(int amount) override;
-        void setAmount(FundType fundType, int amount) override;
+        void increaseAmount(int amount) override;
+        void decreaseAmount(int amount) override;
+        void transferAmount(model::FundType fundTypeDestination, int amount) override;
 
-        void transferAmount(model::FundType originFundType, model::FundType destinationFundType, int amount);
-        void setActualFund(model::FundType newActualFund);
+        int getAmount() const override;
+        model::FundType getFundType() const override;
+        void setAmount(int amount) override;
+        void setFundType(model::FundType fundType) override;
 
     private:
         std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund);

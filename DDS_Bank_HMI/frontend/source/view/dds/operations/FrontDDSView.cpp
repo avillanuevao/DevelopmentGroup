@@ -10,11 +10,10 @@ namespace dds
 namespace operations
 {
 
-FrontDDSView::FrontDDSView(std::shared_ptr<model::AllFunds> allFunds,
+FrontDDSView::FrontDDSView(std::shared_ptr<viewModel::dds::operations::DDSViewModel> ddsViewModel,
                            unsigned int domain_id,
                            unsigned int sample_count) :
-    m_allFunds(allFunds),
-    m_ddsViewModel(std::make_shared<frontend::viewModel::dds::operations::DDSViewModel>(allFunds)),
+    m_ddsViewModel(ddsViewModel),
     m_domain_id(domain_id),
     m_sample_count(sample_count),
     m_participant(std::make_shared<::dds::domain::DomainParticipant>(domain_id)),
