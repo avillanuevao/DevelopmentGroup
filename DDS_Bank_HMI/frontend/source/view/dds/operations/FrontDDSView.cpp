@@ -32,7 +32,7 @@ FrontDDSView::FrontDDSView(std::shared_ptr<model::AllFunds> allFunds,
 
 void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
 {
-    writeDeposit(static_cast<FundType>(signal.getFundType()), signal.getAmount());
+    writeDeposit(signal.getAmount());
 }
 
 void FrontDDSView::update(viewModel::signal::WithdrawnMoneySignal signal)
@@ -45,14 +45,14 @@ void FrontDDSView::update(viewModel::signal::TransferedMoneySignal signal)
     writeTransaction(static_cast<FundType>(signal.getOriginFundType()), static_cast<FundType>(signal.getDestinationFundType()), signal.getAmount());
 }
 
-const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amount)
+const Deposit FrontDDSView::writeDeposit(int16_t amount)
 {
-    Deposit sampleDeposit(fund_type, amount);
+    Deposit sampleDeposit(amount);
 
     m_writerDeposit.write(sampleDeposit);
 
     std::cout << "topic sended: " << std::endl
-              << "\t[fundType: " << sampleDeposit.fund_type() << ", amount: " << sampleDeposit.amount() << "]" << std::endl;
+              << "\t[amount:" << sampleDeposit.amount() << "]" << std::endl;
 
     return sampleDeposit;
 }

@@ -6,24 +6,19 @@
 
 #include <Fund.hpp>
 #include <FundType.hpp>
-#include <signal/MoneyDepositedSignal.hpp>
-#include <signal/MoneyWithdrawnSignal.hpp>
-#include <signal/MoneyTransferedSignal.hpp>
+#include <signal/UpdatedModelSignal.hpp>
 #include <designPattern/SignalPublisher.hpp>
-
 #include <AllFundsDDSInterface.hpp>
 #include <FundInterface.hpp>
 
 namespace model
 {
 
-    class AllFunds :
-            public model::AllFundsDDSInterface,
-            public model::FundInterface,
-            public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>,
-            public utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>,
-            public utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>
-    {
+class AllFunds :
+        public model::AllFundsDDSInterface,
+        public model::FundInterface,
+        public utils::designPattern::SignalPublisher<model::signal::UpdatedModelSignal>
+{
     public:
         AllFunds(model::FundType actualFund);
 
@@ -34,20 +29,20 @@ namespace model
         void setAmount(FundType fundType, int amount) override;
 
         void transferAmount(model::FundType originFundType, model::FundType destinationFundType, int amount);
-
         void setActualFund(model::FundType newActualFund);
 
-
-        private:
+    private:
         std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund);
         std::shared_ptr<model::FundInterface> getActualFund();
         std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund) const;
         std::shared_ptr<model::FundInterface> getActualFund() const;
+        void initFund(FundType fundType);
+        void notifySubscriber(model::FundType fundType, int amount);
 
         std::map<model::FundType, std::shared_ptr<model::FundInterface>> m_funds;
         model::FundType m_actualFund;
 
-    };
+};
 
 }
 

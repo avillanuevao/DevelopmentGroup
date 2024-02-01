@@ -14,9 +14,7 @@
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
-#include <model/source/signal/MoneyDepositedSignal.hpp>
-#include <model/source/signal/MoneyWithdrawnSignal.hpp>
-#include <model/source/signal/MoneyTransferedSignal.hpp>
+#include <model/source/signal/UpdatedModelSignal.hpp>
 #include <model/source/AllFunds.hpp>
 #include <backend/source/controller/operation/DepositMoneyController.hpp>
 #include <backend/source/controller/operation/WithdrawMoneyController.hpp>
@@ -32,17 +30,13 @@ namespace operations
 {
 
 class BackDDSView :
-        public utils::designPattern::SignalSubscriber<model::signal::MoneyDepositedSignal>,
-        public utils::designPattern::SignalSubscriber<model::signal::MoneyWithdrawnSignal>,
-        public utils::designPattern::SignalSubscriber<model::signal::MoneyTransferedSignal>
+        public utils::designPattern::SignalSubscriber<model::signal::UpdatedModelSignal>
 {
     public:
         BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int domainId, unsigned int sampleCount);
         ~BackDDSView();
 
-        void update(model::signal::MoneyDepositedSignal signal);
-        void update(model::signal::MoneyTransferedSignal signal);
-        void update(model::signal::MoneyWithdrawnSignal signal);
+        void update(model::signal::UpdatedModelSignal signal);
 
     private:
         void configureDeposit(Deposit deposit);
@@ -53,6 +47,7 @@ class BackDDSView :
 
         void receivedTopicWithdraw(Withdraw withdraw);
         void readingTopicWithdraw();
+        void deleteThread(std::shared_ptr<std::thread> thread);
 
 
         const std::shared_ptr<model::AllFunds> m_allFunds;

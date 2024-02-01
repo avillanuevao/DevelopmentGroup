@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bankPlugin_1860237937_h
-#define bankPlugin_1860237937_h
+#ifndef bankPlugin_1860237969_h
+#define bankPlugin_1860237969_h
 
 #include "bank.hpp"
 
@@ -67,26 +67,216 @@ FundTypePluginSupport_print_data(
 /* The type used to store keys for instances of type struct
 * AnotherSimple.
 *
-* By default, this type is struct Deposit
+* By default, this type is struct SelectFund
 * itself. However, if for some reason this choice is not practical for your
-* system (e.g. if sizeof(struct Deposit)
+* system (e.g. if sizeof(struct SelectFund)
 * is very large), you may redefine this typedef in terms of another type of
 * your choosing. HOWEVER, if you define the KeyHolder type to be something
 * other than struct AnotherSimple, the
 * following restriction applies: the key of struct
-* Deposit must consist of a
+* SelectFund must consist of a
 * single field of your redefined KeyHolder type and that field must be the
-* first field in struct Deposit.
+* first field in struct SelectFund.
 */
-typedef  class Deposit DepositKeyHolder;
+typedef  class SelectFund SelectFundKeyHolder;
+
+#define SelectFundPlugin_get_sample PRESTypePluginDefaultEndpointData_getSample
+
+#define SelectFundPlugin_get_buffer PRESTypePluginDefaultEndpointData_getBuffer 
+#define SelectFundPlugin_return_buffer PRESTypePluginDefaultEndpointData_returnBuffer
+
+#define SelectFundPlugin_get_key PRESTypePluginDefaultEndpointData_getKey 
+#define SelectFundPlugin_return_key PRESTypePluginDefaultEndpointData_returnKey
+
+#define SelectFundPlugin_create_sample PRESTypePluginDefaultEndpointData_createSample 
+#define SelectFundPlugin_destroy_sample PRESTypePluginDefaultEndpointData_deleteSample 
+
+/* --------------------------------------------------------------------------------------
+Support functions:
+* -------------------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern SelectFund*
+SelectFundPluginSupport_create_data_w_params(
+    const struct DDS_TypeAllocationParams_t * alloc_params);
+
+NDDSUSERDllExport extern SelectFund*
+SelectFundPluginSupport_create_data_ex(RTIBool allocate_pointers);
+
+NDDSUSERDllExport extern SelectFund*
+SelectFundPluginSupport_create_data(void);
+
+NDDSUSERDllExport extern RTIBool 
+SelectFundPluginSupport_copy_data(
+    SelectFund *out,
+    const SelectFund *in);
+
+NDDSUSERDllExport extern void 
+SelectFundPluginSupport_destroy_data_w_params(
+    SelectFund *sample,
+    const struct DDS_TypeDeallocationParams_t * dealloc_params);
+
+NDDSUSERDllExport extern void 
+SelectFundPluginSupport_destroy_data_ex(
+    SelectFund *sample,RTIBool deallocate_pointers);
+
+NDDSUSERDllExport extern void 
+SelectFundPluginSupport_destroy_data(
+    SelectFund *sample);
+
+NDDSUSERDllExport extern void 
+SelectFundPluginSupport_print_data(
+    const SelectFund *sample,
+    const char *desc,
+    unsigned int indent);
+
+NDDSUSERDllExport extern SelectFund*
+SelectFundPluginSupport_create_key_ex(RTIBool allocate_pointers);
+
+NDDSUSERDllExport extern SelectFund*
+SelectFundPluginSupport_create_key(void);
+
+NDDSUSERDllExport extern void 
+SelectFundPluginSupport_destroy_key_ex(
+    SelectFundKeyHolder *key,RTIBool deallocate_pointers);
+
+NDDSUSERDllExport extern void 
+SelectFundPluginSupport_destroy_key(
+    SelectFundKeyHolder *key);
+
+/* ----------------------------------------------------------------------------
+Callback functions:
+* ---------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern PRESTypePluginParticipantData 
+SelectFundPlugin_on_participant_attached(
+    void *registration_data, 
+    const struct PRESTypePluginParticipantInfo *participant_info,
+    RTIBool top_level_registration, 
+    void *container_plugin_context,
+    RTICdrTypeCode *typeCode);
+
+NDDSUSERDllExport extern void 
+SelectFundPlugin_on_participant_detached(
+    PRESTypePluginParticipantData participant_data);
+
+NDDSUSERDllExport extern PRESTypePluginEndpointData 
+SelectFundPlugin_on_endpoint_attached(
+    PRESTypePluginParticipantData participant_data,
+    const struct PRESTypePluginEndpointInfo *endpoint_info,
+    RTIBool top_level_registration, 
+    void *container_plugin_context);
+
+NDDSUSERDllExport extern void 
+SelectFundPlugin_on_endpoint_detached(
+    PRESTypePluginEndpointData endpoint_data);
+
+NDDSUSERDllExport extern void    
+SelectFundPlugin_return_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    SelectFund *sample,
+    void *handle);    
+
+NDDSUSERDllExport extern RTIBool 
+SelectFundPlugin_copy_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    SelectFund *out,
+    const SelectFund *in);
+
+/* ----------------------------------------------------------------------------
+(De)Serialize functions:
+* ------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern RTIBool
+SelectFundPlugin_serialize_to_cdr_buffer(
+    char * buffer,
+    unsigned int * length,
+    const SelectFund *sample,
+    ::dds::core::policy::DataRepresentationId representation
+    = ::dds::core::policy::DataRepresentation::xcdr()); 
+
+NDDSUSERDllExport extern RTIBool 
+SelectFundPlugin_deserialize(
+    PRESTypePluginEndpointData endpoint_data,
+    SelectFund **sample, 
+    RTIBool * drop_sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+SelectFundPlugin_deserialize_from_cdr_buffer(
+    SelectFund *sample,
+    const char * buffer,
+    unsigned int length);    
+
+NDDSUSERDllExport extern unsigned int 
+SelectFundPlugin_get_serialized_sample_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+/* --------------------------------------------------------------------------------------
+Key Management functions:
+* -------------------------------------------------------------------------------------- */
+NDDSUSERDllExport extern PRESTypePluginKeyKind 
+SelectFundPlugin_get_key_kind(void);
+
+NDDSUSERDllExport extern unsigned int 
+SelectFundPlugin_get_serialized_key_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int 
+SelectFundPlugin_get_serialized_key_max_size_for_keyhash(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern RTIBool 
+SelectFundPlugin_deserialize_key(
+    PRESTypePluginEndpointData endpoint_data,
+    SelectFund ** sample,
+    RTIBool * drop_sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+SelectFundPlugin_instance_to_key(
+    PRESTypePluginEndpointData endpoint_data,
+    SelectFundKeyHolder *key, 
+    const SelectFund *instance);
+
+NDDSUSERDllExport extern RTIBool 
+SelectFundPlugin_key_to_instance(
+    PRESTypePluginEndpointData endpoint_data,
+    SelectFund *instance, 
+    const SelectFundKeyHolder *key);
+
+NDDSUSERDllExport extern RTIBool 
+SelectFundPlugin_serialized_sample_to_keyhash(
+    PRESTypePluginEndpointData endpoint_data,
+    struct RTICdrStream *stream, 
+    DDS_KeyHash_t *keyhash,
+    RTIBool deserialize_encapsulation,
+    void *endpoint_plugin_qos); 
+
+/* Plugin Functions */
+NDDSUSERDllExport extern struct PRESTypePlugin*
+SelectFundPlugin_new(void);
+
+NDDSUSERDllExport extern void
+SelectFundPlugin_delete(struct PRESTypePlugin *);
 
 #define DepositPlugin_get_sample PRESTypePluginDefaultEndpointData_getSample
 
 #define DepositPlugin_get_buffer PRESTypePluginDefaultEndpointData_getBuffer 
 #define DepositPlugin_return_buffer PRESTypePluginDefaultEndpointData_returnBuffer
-
-#define DepositPlugin_get_key PRESTypePluginDefaultEndpointData_getKey 
-#define DepositPlugin_return_key PRESTypePluginDefaultEndpointData_returnKey
 
 #define DepositPlugin_create_sample PRESTypePluginDefaultEndpointData_createSample 
 #define DepositPlugin_destroy_sample PRESTypePluginDefaultEndpointData_deleteSample 
@@ -128,20 +318,6 @@ DepositPluginSupport_print_data(
     const Deposit *sample,
     const char *desc,
     unsigned int indent);
-
-NDDSUSERDllExport extern Deposit*
-DepositPluginSupport_create_key_ex(RTIBool allocate_pointers);
-
-NDDSUSERDllExport extern Deposit*
-DepositPluginSupport_create_key(void);
-
-NDDSUSERDllExport extern void 
-DepositPluginSupport_destroy_key_ex(
-    DepositKeyHolder *key,RTIBool deallocate_pointers);
-
-NDDSUSERDllExport extern void 
-DepositPluginSupport_destroy_key(
-    DepositKeyHolder *key);
 
 /* ----------------------------------------------------------------------------
 Callback functions:
@@ -245,26 +421,6 @@ DepositPlugin_deserialize_key(
     RTIBool deserialize_encapsulation,
     RTIBool deserialize_key,
     void *endpoint_plugin_qos);
-
-NDDSUSERDllExport extern RTIBool 
-DepositPlugin_instance_to_key(
-    PRESTypePluginEndpointData endpoint_data,
-    DepositKeyHolder *key, 
-    const Deposit *instance);
-
-NDDSUSERDllExport extern RTIBool 
-DepositPlugin_key_to_instance(
-    PRESTypePluginEndpointData endpoint_data,
-    Deposit *instance, 
-    const DepositKeyHolder *key);
-
-NDDSUSERDllExport extern RTIBool 
-DepositPlugin_serialized_sample_to_keyhash(
-    PRESTypePluginEndpointData endpoint_data,
-    struct RTICdrStream *stream, 
-    DDS_KeyHash_t *keyhash,
-    RTIBool deserialize_encapsulation,
-    void *endpoint_plugin_qos); 
 
 /* Plugin Functions */
 NDDSUSERDllExport extern struct PRESTypePlugin*
@@ -907,5 +1063,5 @@ FundDataPlugin_delete(struct PRESTypePlugin *);
 #define NDDSUSERDllExport
 #endif
 
-#endif /* bankPlugin_1860237937_h */
+#endif /* bankPlugin_1860237969_h */
 

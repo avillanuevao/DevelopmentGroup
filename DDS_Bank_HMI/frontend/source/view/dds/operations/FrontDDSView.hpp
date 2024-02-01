@@ -43,12 +43,12 @@ class FrontDDSView :
         void update(frontend::viewModel::signal::TransferedMoneySignal signal);
 
     private:
-        const Deposit writeDeposit(const FundType& fund_type, int16_t amount);
+        const Deposit writeDeposit(int16_t amount);
+        const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
         const Transaction writeTransaction(const FundType& originFundType, const FundType& destinationFundType, int16_t amount);
         void configureFundData(FundData fundData);
         void initReaderFundData();
 
-        const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
 
         const std::shared_ptr<model::AllFunds> m_allFunds;
         unsigned int m_domain_id;

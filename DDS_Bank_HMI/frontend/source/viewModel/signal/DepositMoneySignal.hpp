@@ -13,13 +13,11 @@ namespace signal
 class DepositMoneySignal
 {
     public:
-        DepositMoneySignal(model::FundType fundType,  int amount);
+        DepositMoneySignal(int amount);
 
-        model::FundType getFundType() const;
         int getAmount() const;
 
     private:
-        model::FundType m_fundType;
         int m_amount;
 
 };

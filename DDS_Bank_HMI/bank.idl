@@ -10,11 +10,16 @@ enum FundType
     HOUSING
 };
 
+//Topic
+struct SelectFund
+{
+    @key	
+    FundType fund_type;
+};
+
 //Topic 
 struct Deposit 
 {
-    @key
-    FundType fund_type;
     int16 amount;
 };
 
@@ -42,7 +47,6 @@ struct FundData
     FundType fund_type;
     int16 amount;
 };
-
 
 
 

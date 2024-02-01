@@ -6,11 +6,8 @@ AllFunds::AllFunds(FundType actualFund):
     m_actualFund(actualFund)
 {
     //TODO: Eliminar la inicialización a 0
-    // TODO: hacerlo en una funcion aparte que sea createNewFund(model::FundType fundType)
-    m_funds.insert(std::make_pair<model::FundType, std::shared_ptr<model::Fund>>(
-                       model::FundType::SAVINGS, std::make_shared<model::Fund>(model::Fund(model::FundType::SAVINGS, 0))));
-    m_funds.insert(std::make_pair<model::FundType, std::shared_ptr<model::Fund>>(
-                       model::FundType::SAVINGS, std::make_shared<model::Fund>(model::Fund(model::FundType::HOUSING, 0))));
+    initFund(model::FundType::SAVINGS);
+    initFund(model::FundType::HOUSING);
 }
 
 std::shared_ptr<model::FundInterface> model::AllFunds::getFund(model::FundType fundType)
@@ -33,6 +30,17 @@ std::shared_ptr<FundInterface> AllFunds::getActualFund() const
     return getFund(m_actualFund);
 }
 
+void AllFunds::initFund(model::FundType fundType)
+{
+    m_funds[fundType] = std::make_shared<model::Fund>(model::Fund(fundType, 0));
+}
+
+void AllFunds::notifySubscriber(FundType fundType, int amount)
+{
+    model::signal::UpdatedModelSignal signalUpdatedModel(fundType, getActualFund()->getAmount());
+    notifySubscribers(signalUpdatedModel);
+}
+
 void AllFunds::increaseAmount(int amount)
 {
     try
@@ -42,9 +50,8 @@ void AllFunds::increaseAmount(int amount)
     {
         throw e;
     }
-    model::signal::MoneyDepositedSignal signal =
-            model::signal::MoneyDepositedSignal(m_actualFund, m_funds.find(m_actualFund)->second->getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>::notifySubscribers(signal);
+
+    notifySubscriber(m_actualFund, getActualFund()->getAmount());
 }
 
 void AllFunds::transferAmount(FundType originFundType, FundType destinationFundType, int amount)
@@ -71,15 +78,8 @@ void AllFunds::transferAmount(FundType originFundType, FundType destinationFundT
         throw e;
     }
 
-    model::signal::MoneyTransferedSignal signalOriginData =
-            model::signal::MoneyTransferedSignal(originFundType,
-                                                 getFund(originFundType)->getAmount());
-    model::signal::MoneyTransferedSignal signalDestinationData =
-            model::signal::MoneyTransferedSignal(destinationFundType,
-                                                 getFund(destinationFundType)->getAmount());
-
-    utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::notifySubscribers(signalOriginData);
-    utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::notifySubscribers(signalDestinationData);
+    notifySubscriber(originFundType, getFund(originFundType)->getAmount());
+    notifySubscriber(destinationFundType, getFund(destinationFundType)->getAmount());
 
 }
 
@@ -92,9 +92,8 @@ void AllFunds::decreaseAmount(int amount)
     {
         throw e;
     }
-    model::signal::MoneyWithdrawnSignal signal =
-            model::signal::MoneyWithdrawnSignal(m_actualFund, getActualFund()->getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>::notifySubscribers(signal);
+
+    notifySubscriber(m_actualFund, getActualFund()->getAmount());
 }
 
 int AllFunds::getAmount() const
@@ -114,16 +113,7 @@ void AllFunds::setAmount(model::FundType fundType, int newAmount)
         throw e;
     }
 
-    // TODO: esto es la misma señal, habría que eliminar el resto
-    model::signal::MoneyDepositedSignal signalDeposit =
-            model::signal::MoneyDepositedSignal(fundType, getActualFund()->getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>::notifySubscribers(signalDeposit);
-    model::signal::MoneyWithdrawnSignal signalWithdrawn =
-            model::signal::MoneyWithdrawnSignal(fundType, getActualFund()->getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>::notifySubscribers(signalWithdrawn);
-    model::signal::MoneyTransferedSignal signalTransfer =
-            model::signal::MoneyTransferedSignal(fundType, getActualFund()->getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::notifySubscribers(signalTransfer);
+    notifySubscriber(fundType, getActualFund()->getAmount());
 }
 
 void AllFunds::setAmount(int newAmount)

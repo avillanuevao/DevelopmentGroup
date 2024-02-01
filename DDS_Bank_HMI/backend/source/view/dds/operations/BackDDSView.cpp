@@ -26,7 +26,6 @@ BackDDSView::BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int
     m_writerFundData(m_participant, m_publisher, FUND_DATA_TOPIC)
 
 {
-    std::cout << "BackDDSView" << std::endl;
     utils::so::setup_signal_handlers();
     m_wait = ::dds::core::Duration(1);
     m_threadDeposit = std::make_shared<std::thread>(&BackDDSView::initDepositUseCase, this);
@@ -36,25 +35,12 @@ BackDDSView::BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int
 
 BackDDSView::~BackDDSView()
 {
-    m_threadDeposit->join();
-    m_threadDeposit.reset();
-    m_threadDeposit = nullptr;
-    m_threadWithdraw->join();
-    m_threadWithdraw.reset();
-    m_threadWithdraw = nullptr;
+    deleteThread(m_threadDeposit);
+    deleteThread(m_threadWithdraw);
+    deleteThread(m_threadTransaction);
 }
 
-void BackDDSView::update(model::signal::MoneyDepositedSignal signal)
-{
-    writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
-}
-
-void BackDDSView::update(model::signal::MoneyTransferedSignal signal)
-{
-    writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
-}
-
-void BackDDSView::update(model::signal::MoneyWithdrawnSignal signal)
+void BackDDSView::update(model::signal::UpdatedModelSignal signal)
 {
     writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
 }
@@ -129,6 +115,13 @@ void BackDDSView::readingTopicWithdraw()
     {
         m_readerWithdraw.wait(m_wait);
     }
+}
+
+void BackDDSView::deleteThread(std::shared_ptr<std::thread> thread)
+{
+    thread->join();
+    thread.reset();
+    thread = nullptr;
 }
 
 }
