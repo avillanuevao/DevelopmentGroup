@@ -18,6 +18,7 @@ FrontDDSView::FrontDDSView(std::shared_ptr<viewModel::dds::operations::DDSViewMo
     m_sample_count(sample_count),
     m_participant(std::make_shared<::dds::domain::DomainParticipant>(domain_id)),
     m_publisher(std::make_shared<::dds::pub::Publisher>(*m_participant)),
+    m_writerSelectFund(m_participant, m_publisher, SELECT_FUND_TOPIC),
     m_writerDeposit(m_participant, m_publisher, DEPOSIT_TOPIC),
     m_writerWithdraw(m_participant, m_publisher, WITHDRAW_TOPIC),
     m_writerTransfer(m_participant, m_publisher, TRANSACTION_TOPIC),
@@ -42,6 +43,11 @@ void FrontDDSView::update(viewModel::signal::WithdrawnMoneySignal signal)
 void FrontDDSView::update(viewModel::signal::TransferedMoneySignal signal)
 {
     writeTransaction(static_cast<FundType>(signal.getOriginFundType()), static_cast<FundType>(signal.getDestinationFundType()), signal.getAmount());
+}
+
+void FrontDDSView::update(viewModel::ui::operations::signal::SelectFundSignal signal)
+{
+    writeSelectFund(static_cast<FundType>(signal.getFundType()));
 }
 
 const Deposit FrontDDSView::writeDeposit(int16_t amount)
@@ -69,6 +75,11 @@ const Transaction FrontDDSView::writeTransaction(const FundType &originFundType,
               << std::endl;
 
     return sampleTransaction;
+}
+
+const SelectFund FrontDDSView::writeSelectFund(FundType fundType)
+{
+
 }
 
 void FrontDDSView::configureFundData(FundData fundData)

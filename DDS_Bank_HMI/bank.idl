@@ -1,3 +1,4 @@
+const string SELECT_FUND_TOPIC = "SelectFund";
 const string DEPOSIT_TOPIC = "Deposit";
 const string WITHDRAW_TOPIC = "Withdraw";
 const string TRANSACTION_TOPIC = "Transaction";

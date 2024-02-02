@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bank_1860237969_hpp
-#define bank_1860237969_hpp
+#ifndef bank_1860238016_hpp
+#define bank_1860238016_hpp
 
 #include <iosfwd>
 
@@ -56,6 +56,8 @@ or consult the Code Generator User's Manual.
 #undef NDDSUSERDllExport
 #define NDDSUSERDllExport __declspec(dllexport)
 #endif
+
+static const std::string SELECT_FUND_TOPIC = "SelectFund";
 
 static const std::string DEPOSIT_TOPIC = "Deposit";
 
@@ -682,5 +684,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // bank_1860237969_hpp
+#endif // bank_1860238016_hpp
 
