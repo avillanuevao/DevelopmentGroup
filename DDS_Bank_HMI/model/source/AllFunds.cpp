@@ -118,6 +118,7 @@ void AllFunds::setAmount(int newAmount)
     {
         throw e;
     }
+    notifySubscriber(m_actualFund, getActualFund()->getAmount());
 }
 
 void AllFunds::setFundType(FundType fundType)

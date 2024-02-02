@@ -1,6 +1,8 @@
 #ifndef MODEL_FUNDSETAMOUNTINTERFACE_HPP
 #define MODEL_FUNDSETAMOUNTINTERFACE_HPP
 
+#include <FundType.hpp>
+
 namespace model
 {
 

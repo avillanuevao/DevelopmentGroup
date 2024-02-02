@@ -11,7 +11,7 @@ class FundTransferAmountInterface
     public:
         FundTransferAmountInterface() = default;
 
-        virtual void transferAmount(model::FundType fundTypeDestination, int amount);
+        virtual void transferAmount(model::FundType fundTypeDestination, int amount) = 0;
 };
 
 }

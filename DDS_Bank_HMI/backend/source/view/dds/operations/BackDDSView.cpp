@@ -15,8 +15,8 @@ BackDDSView::BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int
     m_domainId(domainId),
     m_sampleCount(sampleCount),
     m_depositMoneyController(new backend::controller::operation::DepositMoneyController(m_allFunds)),
-    m_withdrawMoneyController(new backend::controller::operation::WithdrawMoneyController(m_allFunds)),
-    m_transferMoneyController(new backend::controller::operation::TransferMoneyController(m_allFunds)),
+    //m_withdrawMoneyController(new backend::controller::operation::WithdrawMoneyController(m_allFunds)),
+    //m_transferMoneyController(new backend::controller::operation::TransferMoneyController(m_allFunds)),
     m_participant(std::make_shared<::dds::domain::DomainParticipant>(m_domainId)),
     m_subscriber(std::make_shared<::dds::sub::Subscriber>(*m_participant)),
     m_readerDeposit(m_participant, m_subscriber, DEPOSIT_TOPIC, std::bind(&BackDDSView::configureDeposit, this, std::placeholders::_1)),
@@ -49,10 +49,7 @@ void BackDDSView::configureDeposit(Deposit deposit)
 {
     std::cout << "Deposit topic received: " << std::endl;
     std::cout << "\t" << deposit << std::endl;
-    m_depositMoneyController->doDeposit(model::Operation(model::FundType::NONE,
-                                                         static_cast<model::FundType>(deposit.fund_type()),
-                                                         deposit.amount()));
-
+    m_depositMoneyController->deposit(deposit.amount());
 }
 
 void BackDDSView::initDepositUseCase()
@@ -68,9 +65,9 @@ void BackDDSView::configureTransaction(Transaction transaction)
     std::cout << "Data obtenido transaccion: " << std::endl;
     std::cout << "\t" << transaction << std::endl;
 
-    m_transferMoneyController->doTransaction(model::Operation(
-                static_cast<model::FundType>(transaction.fund_type_origin()),
-                static_cast<model::FundType>(transaction.fund_type_destination()), transaction.amount()));
+//    m_transferMoneyController->doTransaction(model::Operation(
+//                static_cast<model::FundType>(transaction.fund_type_origin()),
+//                static_cast<model::FundType>(transaction.fund_type_destination()), transaction.amount()));
 }
 
 void BackDDSView::initTransactionUseCase()
@@ -99,9 +96,9 @@ void BackDDSView::receivedTopicWithdraw(Withdraw withdraw)
 
     try{
 
-        m_withdrawMoneyController->withdraw(model::Operation(model::FundType::NONE,
-                                                             static_cast<model::FundType>(withdraw.fund_type()),
-                                                             withdraw.amount()));
+//        m_withdrawMoneyController->withdraw(model::Operation(model::FundType::NONE,
+//                                                             static_cast<model::FundType>(withdraw.fund_type()),
+//                                                             withdraw.amount()));
     }
     catch (std::logic_error e)
     {

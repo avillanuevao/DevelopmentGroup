@@ -54,8 +54,8 @@ class BackDDSView :
         unsigned int m_domainId;
         unsigned int m_sampleCount;
         std::unique_ptr<backend::controller::operation::DepositMoneyController> m_depositMoneyController;
-        std::unique_ptr<backend::controller::operation::WithdrawMoneyController> m_withdrawMoneyController;
-        std::unique_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
+        //std::unique_ptr<backend::controller::operation::WithdrawMoneyController> m_withdrawMoneyController;
+        //std::unique_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
         utils::dds::DDSDataReader<Deposit> m_readerDeposit;

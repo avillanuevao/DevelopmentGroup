@@ -30,28 +30,4 @@ ColumnLayout
             depositMoneyView.depositMoney()
         }
     }
-
-    ComboBox
-    {
-        id: visualizeFundTypeComboBox
-        model: ListModel
-        {
-            ListElement {text: "Savings"}
-            ListElement {text: "Housing"}
-        }
-
-        onCurrentIndexChanged:
-        {
-            depositMoneyView.setFundType(visualizeFundTypeComboBox.currentIndex)
-            console.log("Indice seleccionado: ", visualizeFundTypeComboBox.currentIndex);
-            visualizeAmount.text = depositMoneyView.getAmountFromFund()
-        }
-    }
-
-    Text
-    {
-        id: visualizeAmount
-        objectName: "displayT"
-        text: depositMoneyView.getAmountFromFund()
-    }
 }

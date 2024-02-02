@@ -1,9 +1,9 @@
-#ifndef DEPOSITMONEYCONTROLLER_HPP
-#define DEPOSITMONEYCONTROLLER_HPP
+#ifndef BACKEND_CONTROLLER_OPERATION_DEPOSITMONEYCONTROLLER_HPP
+#define BACKEND_CONTROLLER_OPERATION_DEPOSITMONEYCONTROLLER_HPP
 
 #include <memory>
 
-#include <model/source/FundInterface.hpp>
+#include <model/source/FundIncreaseAmountInterface.hpp>
 #include <model/source/Operation.hpp>
 
 namespace backend
@@ -16,15 +16,15 @@ namespace operation
 class DepositMoneyController
 {
     public:
-        DepositMoneyController(std::shared_ptr<model::FundInterface> fund);
-        void doDeposit(model::Operation deposit);
+        DepositMoneyController(std::shared_ptr<model::FundIncreaseAmountInterface> fund);
+
+        void deposit(int amount);
+
     private:
-        std::shared_ptr<model::FundInterface> m_fund;
-
-
+        std::shared_ptr<model::FundIncreaseAmountInterface> m_fund;
 };
 
 }
 }
 }
-#endif // DEPOSITMONEYCONTROLLER_HPP
+#endif // BACKEND_CONTROLLER_OPERATION_DEPOSITMONEYCONTROLLER_HPP

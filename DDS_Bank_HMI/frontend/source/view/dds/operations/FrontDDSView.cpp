@@ -75,9 +75,8 @@ void FrontDDSView::configureFundData(FundData fundData)
 {
     std::cout << "FundData topic recieved: " << std::endl;
     std::cout << "\t" << fundData << std::endl;
-    //TODO: ¿Que sentido tiene que updateModel contenga 3 variables?
-    m_ddsViewModel->updateModel(model::Operation(
-                                    model::FundType::NONE, static_cast<model::FundType>(fundData.fund_type()), fundData.amount()));
+
+    m_ddsViewModel->updateModel(static_cast<model::FundType>(fundData.fund_type()), fundData.amount());
 }
 
 void FrontDDSView::initReaderFundData()
