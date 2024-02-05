@@ -29,28 +29,29 @@ namespace dds
 namespace operations
 {
 class FrontDDSView :
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFundSignal>,
         public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
         public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFundSignal>
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>
 {
     public:
         FrontDDSView(std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel,
                      unsigned int domain_id,
                      unsigned int sample_count);
 
-        void update(viewModel::signal::DepositMoneySignal signal);
-        void update(viewModel::signal::WithdrawnMoneySignal signal);
-        void update(frontend::viewModel::signal::TransferedMoneySignal signal);
         void update(frontend::viewModel::ui::operations::signal::SelectFundSignal signal);
+        void update(frontend::viewModel::signal::DepositMoneySignal signal);
+        void update(frontend::viewModel::signal::WithdrawnMoneySignal signal);
+        void update(frontend::viewModel::signal::TransferedMoneySignal signal);
 
     private:
-        const Deposit writeDeposit(int16_t amount);
+        void writeSelectFund(FundType fundType);
+        void writeDeposit(int16_t amount);
         const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
         const Transaction writeTransaction(const FundType& originFundType, const FundType& destinationFundType, int16_t amount);
-        const SelectFund writeSelectFund(FundType fundType);
-        void receivedTopicSelectFund(SelectFund selectFund);
-        void readingTopicSelectFund();
+
+        void receivedTopicSelectFundAck(SelectFundAck selectFundAck);
+        void readingTopicSelectFundAck();
         void receivedTopicFundData(FundData fundData);
         void readingTopicFundData();
 
@@ -67,9 +68,9 @@ class FrontDDSView :
 //        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
 //        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
-//        utils::dds::DDSDataReader<SelectFund> m_readerSelectFund;
+        utils::dds::DDSDataReader<SelectFundAck> m_readerSelectFundAck;
         utils::dds::DDSDataReader<FundData> m_readerFundData;
-        std::thread m_threadSelectFund;
+        std::thread m_threadSelectFundAck;
         std::thread m_threadFundData;
         ::dds::core::Duration m_wait;
 };

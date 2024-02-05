@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bank_1860238016_hpp
-#define bank_1860238016_hpp
+#ifndef bank_1860238142_hpp
+#define bank_1860238142_hpp
 
 #include <iosfwd>
 
@@ -58,6 +58,8 @@ or consult the Code Generator User's Manual.
 #endif
 
 static const std::string SELECT_FUND_TOPIC = "SelectFund";
+
+static const std::string SELECT_FUND_TOPIC_ACK = "SelectFundAck";
 
 static const std::string DEPOSIT_TOPIC = "Deposit";
 
@@ -125,6 +127,59 @@ inline void swap(SelectFund& a, SelectFund& b)  OMG_NOEXCEPT
 }
 
 NDDSUSERDllExport std::ostream& operator<<(std::ostream& o, const SelectFund& sample);
+
+class NDDSUSERDllExport SelectFundAck {
+  public:
+    SelectFundAck();
+
+    explicit SelectFundAck(
+        const FundType& fund_type);
+
+    #ifdef RTI_CXX11_RVALUE_REFERENCES
+    #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+    SelectFundAck (SelectFundAck&&) = default;
+    SelectFundAck& operator=(SelectFundAck&&) = default;
+    SelectFundAck& operator=(const SelectFundAck&) = default;
+    SelectFundAck(const SelectFundAck&) = default;
+    #else
+    SelectFundAck(SelectFundAck&& other_) OMG_NOEXCEPT;  
+    SelectFundAck& operator=(SelectFundAck&&  other_) OMG_NOEXCEPT;
+    #endif
+    #endif 
+
+    FundType& fund_type() OMG_NOEXCEPT {
+        return m_fund_type_;
+    }
+
+    const FundType& fund_type() const OMG_NOEXCEPT {
+        return m_fund_type_;
+    }
+
+    void fund_type(const FundType& value) {
+        m_fund_type_ = value;
+    }
+
+    void fund_type(FundType&& value) {
+        m_fund_type_ = std::move(value);
+    }
+
+    bool operator == (const SelectFundAck& other_) const;
+    bool operator != (const SelectFundAck& other_) const;
+
+    void swap(SelectFundAck& other_) OMG_NOEXCEPT ;
+
+  private:
+
+    FundType m_fund_type_;
+
+};
+
+inline void swap(SelectFundAck& a, SelectFundAck& b)  OMG_NOEXCEPT 
+{
+    a.swap(b);
+}
+
+NDDSUSERDllExport std::ostream& operator<<(std::ostream& o, const SelectFundAck& sample);
 
 class NDDSUSERDllExport Deposit {
   public:
@@ -436,6 +491,42 @@ namespace dds {
         };
 
         template<>
+        struct topic_type_name< SelectFundAck > {
+            NDDSUSERDllExport static std::string value() {
+                return "SelectFundAck";
+            }
+        };
+
+        template<>
+        struct is_topic_type< SelectFundAck > : public ::dds::core::true_type {};
+
+        template<>
+        struct topic_type_support< SelectFundAck > {
+            NDDSUSERDllExport 
+            static void register_type(
+                ::dds::domain::DomainParticipant& participant,
+                const std::string & type_name);
+
+            NDDSUSERDllExport 
+            static std::vector<char>& to_cdr_buffer(
+                std::vector<char>& buffer, 
+                const SelectFundAck& sample,
+                ::dds::core::policy::DataRepresentationId representation 
+                = ::dds::core::policy::DataRepresentation::auto_id());
+
+            NDDSUSERDllExport 
+            static void from_cdr_buffer(SelectFundAck& sample, const std::vector<char>& buffer);
+            NDDSUSERDllExport 
+            static void reset_sample(SelectFundAck& sample);
+
+            NDDSUSERDllExport 
+            static void allocate_sample(SelectFundAck& sample, int, int);
+
+            static const ::rti::topic::TypePluginKind::type type_plugin_kind = 
+            ::rti::topic::TypePluginKind::STL;
+        };
+
+        template<>
         struct topic_type_name< Deposit > {
             NDDSUSERDllExport static std::string value() {
                 return "Deposit";
@@ -620,6 +711,20 @@ namespace rti {
 
         #ifndef NDDS_STANDALONE_TYPE
         template<>
+        struct dynamic_type< SelectFundAck > {
+            typedef ::dds::core::xtypes::StructType type;
+            NDDSUSERDllExport static const ::dds::core::xtypes::StructType& get();
+        };
+        #endif
+
+        template <>
+        struct extensibility< SelectFundAck > {
+            static const ::dds::core::xtypes::ExtensibilityKind::type kind =
+            ::dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
+        };
+
+        #ifndef NDDS_STANDALONE_TYPE
+        template<>
         struct dynamic_type< Deposit > {
             typedef ::dds::core::xtypes::StructType type;
             NDDSUSERDllExport static const ::dds::core::xtypes::StructType& get();
@@ -684,5 +789,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // bank_1860238016_hpp
+#endif // bank_1860238142_hpp
 

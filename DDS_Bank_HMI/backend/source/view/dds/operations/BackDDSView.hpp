@@ -54,7 +54,7 @@ class BackDDSView :
         void receivedTopicTransaction(Transaction transaction);
         void readingTopicTransaction();
         void writeFundData(const FundType &fundType, int16_t amount);
-        void writeSelectFund(const FundType &fundType);
+        void writeSelectFundAck(const FundType &fundType);
 
         std::thread initReadingTopicThread(void (backend::view::dds::operations::BackDDSView::*function)());
         void deleteThread(std::shared_ptr<std::thread> thread);
@@ -73,7 +73,7 @@ class BackDDSView :
         utils::dds::DDSDataReader<Withdraw> m_readerWithdraw;
         utils::dds::DDSDataReader<Transaction> m_readerTransaction;
         std::shared_ptr<::dds::pub::Publisher> m_publisher;
-        utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
+        utils::dds::DDSDataWriter<SelectFundAck> m_writerSelectFundAck;
         utils::dds::DDSDataWriter<FundData> m_writerFundData;
         ::dds::core::Duration m_wait;
         std::thread m_threadSelectFund;

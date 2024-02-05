@@ -27,7 +27,7 @@ BackDDSView::BackDDSView(std::shared_ptr<backend::controller::operation::SelectF
     m_readerWithdraw(m_participant, m_subscriber, WITHDRAW_TOPIC, std::bind(&BackDDSView::receivedTopicWithdraw, this, std::placeholders::_1)),
     m_readerTransaction(m_participant, m_subscriber, TRANSACTION_TOPIC, std::bind(&BackDDSView::receivedTopicTransaction, this, std::placeholders::_1)),
     m_publisher(std::make_shared<::dds::pub::Publisher>(*m_participant)),
-    m_writerSelectFund(m_participant, m_publisher, SELECT_FUND_TOPIC),
+    m_writerSelectFundAck(m_participant, m_publisher, SELECT_FUND_TOPIC_ACK),
     m_writerFundData(m_participant, m_publisher, FUND_DATA_TOPIC)
 
 {
@@ -58,7 +58,7 @@ void BackDDSView::update(model::signal::UpdatedFundTypeSignal signal)
 {
     FundType ddsFundType(static_cast<FundType>(signal.getFundType()));
 
-    writeSelectFund(ddsFundType);
+    writeSelectFundAck(ddsFundType);
 }
 
 void BackDDSView::receivedTopicSelectFund(SelectFund selectFund)
@@ -120,13 +120,13 @@ void BackDDSView::writeFundData(const FundType &fundType, int16_t amount)
               << "\t[fundType: " << sampleFundData.fund_type() << ", amount: " << sampleFundData.amount() << "]" << std::endl;
 }
 
-void BackDDSView::writeSelectFund(const FundType &fundType)
+void BackDDSView::writeSelectFundAck(const FundType &fundType)
 {
-    SelectFund sampleSelectFund(fundType);
+    SelectFundAck sampleSelectFundAck(fundType);
 
-    m_writerSelectFund.write(sampleSelectFund);
+    m_writerSelectFundAck.write(sampleSelectFundAck);
     std::cout << "sample SelectFund sended: " << std::endl
-              << "\t[fundType: " << sampleSelectFund.fund_type() << "]" << std::endl;
+              << "\t[fundType: " << sampleSelectFundAck.fund_type() << "]" << std::endl;
 }
 
 std::thread BackDDSView::initReadingTopicThread(void (backend::view::dds::operations::BackDDSView::*function)())
