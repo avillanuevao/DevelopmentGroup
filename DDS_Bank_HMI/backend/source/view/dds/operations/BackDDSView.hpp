@@ -11,6 +11,7 @@
 #include <rti/config/Logger.hpp>
 
 #include <idl/bank.hpp>
+#include <utils/source/dds/DDSView.hpp>
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
@@ -31,14 +32,15 @@ namespace operations
 {
 
 class BackDDSView :
+        public utils::dds::DDSView,
         public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundSignal>,
         public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundTypeSignal>
 {
     public:
-        BackDDSView(std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                    std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
-                    unsigned int domainId,
-                    unsigned int sampleCount);
+        BackDDSView(unsigned int domainId,
+                    unsigned int sampleCount,
+                    std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
+                    std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController);
         ~BackDDSView();
 
         void update(model::signal::UpdatedFundSignal signal);
@@ -57,29 +59,18 @@ class BackDDSView :
         void writeSelectFundAck(const FundType &fundType);
 
         std::thread initReadingTopicThread(void (backend::view::dds::operations::BackDDSView::*function)());
-        void deleteThread(std::shared_ptr<std::thread> thread);
 
         std::shared_ptr<backend::controller::operation::SelectFundController> m_selectFundController;
         std::shared_ptr<backend::controller::operation::DepositMoneyController> m_depositMoneyController;
-        unsigned int m_domainId;
-        unsigned int m_sampleCount;
-
         //std::unique_ptr<backend::controller::operation::WithdrawMoneyController> m_withdrawMoneyController;
         //std::unique_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
-        std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
-        std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
+
         utils::dds::DDSDataReader<SelectFund> m_readerSelectFund;
         utils::dds::DDSDataReader<Deposit> m_readerDeposit;
         utils::dds::DDSDataReader<Withdraw> m_readerWithdraw;
         utils::dds::DDSDataReader<Transaction> m_readerTransaction;
-        std::shared_ptr<::dds::pub::Publisher> m_publisher;
         utils::dds::DDSDataWriter<SelectFundAck> m_writerSelectFundAck;
         utils::dds::DDSDataWriter<FundData> m_writerFundData;
-        ::dds::core::Duration m_wait;
-        std::thread m_threadSelectFund;
-        std::shared_ptr<std::thread> m_threadDeposit;
-        std::shared_ptr<std::thread> m_threadWithdraw;
-        std::shared_ptr<std::thread> m_threadTransaction;
 };
 
 }

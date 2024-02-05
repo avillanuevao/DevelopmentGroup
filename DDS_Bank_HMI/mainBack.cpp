@@ -18,9 +18,9 @@ int main(int argc, char *argv[])
     std::shared_ptr<SelectFundController> selectFundController(new SelectFundController(allFunds));
     std::shared_ptr<DepositMoneyController> depositMoneyController(new DepositMoneyController(allFunds));
 
-    std::shared_ptr<BackDDSView>backDDSView(new BackDDSView(selectFundController,
-                                                            depositMoneyController,
-                                                            0,2));
+    std::shared_ptr<BackDDSView>backDDSView(new BackDDSView(0,2,
+                                                            selectFundController,
+                                                            depositMoneyController));
 
     allFunds->utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::addSubscriber(backDDSView);
     allFunds->utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>::addSubscriber(backDDSView);

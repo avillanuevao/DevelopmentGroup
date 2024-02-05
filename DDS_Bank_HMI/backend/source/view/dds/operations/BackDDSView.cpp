@@ -10,41 +10,35 @@ namespace dds
 namespace operations
 {
 
-BackDDSView::BackDDSView(std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                         std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
-                         unsigned int domainId,
-                         unsigned int sampleCount):
+BackDDSView::BackDDSView(unsigned int domainId,
+                         unsigned int sampleCount,
+                         std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
+                         std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController):
+    DDSView(domainId, sampleCount),
     m_selectFundController(selectFundController),
     m_depositMoneyController(depositMoneyController),
-    m_domainId(domainId),
-    m_sampleCount(sampleCount),
     //m_withdrawMoneyController(new backend::controller::operation::WithdrawMoneyController(m_allFunds)),
     //m_transferMoneyController(new backend::controller::operation::TransferMoneyController(m_allFunds)),
-    m_participant(std::make_shared<::dds::domain::DomainParticipant>(m_domainId)),
-    m_subscriber(std::make_shared<::dds::sub::Subscriber>(*m_participant)),
     m_readerSelectFund(m_participant, m_subscriber, SELECT_FUND_TOPIC, std::bind(&BackDDSView::receivedTopicSelectFund, this, std::placeholders::_1)),
     m_readerDeposit(m_participant, m_subscriber, DEPOSIT_TOPIC, std::bind(&BackDDSView::receivedTopicDeposit, this, std::placeholders::_1)),
     m_readerWithdraw(m_participant, m_subscriber, WITHDRAW_TOPIC, std::bind(&BackDDSView::receivedTopicWithdraw, this, std::placeholders::_1)),
     m_readerTransaction(m_participant, m_subscriber, TRANSACTION_TOPIC, std::bind(&BackDDSView::receivedTopicTransaction, this, std::placeholders::_1)),
-    m_publisher(std::make_shared<::dds::pub::Publisher>(*m_participant)),
+
     m_writerSelectFundAck(m_participant, m_publisher, SELECT_FUND_TOPIC_ACK),
     m_writerFundData(m_participant, m_publisher, FUND_DATA_TOPIC)
 
 {
     utils::so::setup_signal_handlers();
     m_wait = ::dds::core::Duration(1);
-    m_threadSelectFund = initReadingTopicThread(&BackDDSView::readingTopicSelectFund);
-    // TODO: cambiarlo con la funcion cuando nos aseguremos que funcione
-    m_threadDeposit = std::make_shared<std::thread>(&BackDDSView::readingTopicDeposit, this);
-    m_threadTransaction = std::make_shared<std::thread>(&BackDDSView::readingTopicTransaction, this);
-    m_threadWithdraw = std::make_shared<std::thread>(&BackDDSView::readingTopicWithdraw, this);
+
+    m_threadsForReading[SELECT_FUND_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicSelectFund);
+    m_threadsForReading[DEPOSIT_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicDeposit);
+//    m_threadsForReading[WITHDRAW_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicWithdraw);
+//    m_threadsForReading[TRANSACTION_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicTransaction);
 }
 
 BackDDSView::~BackDDSView()
 {
-    deleteThread(m_threadDeposit);
-    deleteThread(m_threadWithdraw);
-    deleteThread(m_threadTransaction);
 }
 
 void BackDDSView::update(model::signal::UpdatedFundSignal signal)
@@ -157,13 +151,6 @@ void BackDDSView::readingTopicWithdraw()
     {
         m_readerWithdraw.wait(m_wait);
     }
-}
-
-void BackDDSView::deleteThread(std::shared_ptr<std::thread> thread)
-{
-    thread->join();
-    thread.reset();
-    thread = nullptr;
 }
 
 }
