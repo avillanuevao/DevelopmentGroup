@@ -35,10 +35,16 @@ void AllFunds::initFund(model::FundType fundType)
     m_funds[fundType] = std::make_shared<model::Fund>(model::Fund(fundType, 0));
 }
 
-void AllFunds::notifySubscriber(FundType fundType, int amount)
+void AllFunds::notifySubscribersFund(FundType fundType, int amount)
 {
     model::signal::UpdatedFundSignal signalUpdatedModel(fundType, getActualFund()->getAmount());
-    notifySubscribers(signalUpdatedModel);
+    utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::notifySubscribers(signalUpdatedModel);
+}
+
+void AllFunds::notifySubscribersFundType(FundType fundType)
+{
+    model::signal::UpdatedFundTypeSignal signalUpdatedFundType(fundType);
+    utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>::notifySubscribers(signalUpdatedFundType);
 }
 
 void AllFunds::increaseAmount(int amount)
@@ -51,7 +57,7 @@ void AllFunds::increaseAmount(int amount)
         throw e;
     }
 
-    notifySubscriber(m_actualFund, getActualFund()->getAmount());
+    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
 }
 
 void AllFunds::transferAmount(FundType destinationFundType, int amount)
@@ -79,8 +85,8 @@ void AllFunds::transferAmount(FundType destinationFundType, int amount)
         throw e;
     }
 
-    notifySubscriber(m_actualFund, getActualFund()->getAmount());
-    notifySubscriber(destinationFundType, getFund(destinationFundType)->getAmount());
+    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
+    notifySubscribersFund(destinationFundType, getFund(destinationFundType)->getAmount());
 
 }
 
@@ -94,7 +100,7 @@ void AllFunds::decreaseAmount(int amount)
         throw e;
     }
 
-    notifySubscriber(m_actualFund, getActualFund()->getAmount());
+    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
 }
 
 
@@ -118,12 +124,14 @@ void AllFunds::setAmount(int newAmount)
     {
         throw e;
     }
-    notifySubscriber(m_actualFund, getActualFund()->getAmount());
+    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
 }
 
 void AllFunds::setFundType(FundType fundType)
 {
     m_actualFund = fundType;
+
+    notifySubscribersFundType(m_actualFund);
 }
 
 }

@@ -19,6 +19,11 @@ void VisualizeFundIncludeView::update(model::signal::UpdatedFundSignal signal)
     m_visualizeFundViewModel->updateView(signal.getAmount());
 }
 
+void VisualizeFundIncludeView::update(model::signal::UpdatedFundTypeSignal signal)
+{
+    m_visualizeFundViewModel->updateView();
+}
+
 
 }
 }

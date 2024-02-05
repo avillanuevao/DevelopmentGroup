@@ -3,16 +3,27 @@
 #include <model/source/AllFunds.hpp>
 #include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <model/source/signal/MoneyTransferedSignal.hpp>
+#include <backend/source/controller/operation/SelectFundController.hpp>
+#include <backend/source/controller/operation/DepositMoneyController.hpp>
 #include <backend/source/view/dds/operations/BackDDSView.hpp>
 
+using SelectFundController = backend::controller::operation::SelectFundController;
+using DepositMoneyController = backend::controller::operation::DepositMoneyController;
 using BackDDSView = backend::view::dds::operations::BackDDSView;
 
 int main(int argc, char *argv[])
 {
     std::shared_ptr<model::AllFunds> allFunds (new model::AllFunds(model::FundType::SAVINGS));
-    std::shared_ptr<BackDDSView>backDDSView(new BackDDSView(allFunds, 0,2));
 
-    allFunds->addSubscriber(backDDSView);
+    std::shared_ptr<SelectFundController> selectFundController(new SelectFundController(allFunds));
+    std::shared_ptr<DepositMoneyController> depositMoneyController(new DepositMoneyController(allFunds));
+
+    std::shared_ptr<BackDDSView>backDDSView(new BackDDSView(selectFundController,
+                                                            depositMoneyController,
+                                                            0,2));
+
+    allFunds->utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::addSubscriber(backDDSView);
+    allFunds->utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>::addSubscriber(backDDSView);
 
     while(true)
     {

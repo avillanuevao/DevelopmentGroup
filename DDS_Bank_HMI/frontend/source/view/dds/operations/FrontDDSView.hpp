@@ -29,7 +29,6 @@ namespace dds
 namespace operations
 {
 class FrontDDSView :
-
         public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
         public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>,
@@ -50,9 +49,12 @@ class FrontDDSView :
         const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
         const Transaction writeTransaction(const FundType& originFundType, const FundType& destinationFundType, int16_t amount);
         const SelectFund writeSelectFund(FundType fundType);
-        void configureFundData(FundData fundData);
-        void initReaderFundData();
+        void receivedTopicSelectFund(SelectFund selectFund);
+        void readingTopicSelectFund();
+        void receivedTopicFundData(FundData fundData);
+        void readingTopicFundData();
 
+        std::thread initReadingTopicThread(void (frontend::view::dds::operations::FrontDDSView::*function)());
 
         std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> m_ddsViewModel;
         unsigned int m_domain_id;
@@ -62,11 +64,13 @@ class FrontDDSView :
         std::shared_ptr<::dds::pub::Publisher> m_publisher;
         utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
-        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
-        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
+//        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
+//        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
         std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
+//        utils::dds::DDSDataReader<SelectFund> m_readerSelectFund;
         utils::dds::DDSDataReader<FundData> m_readerFundData;
-        std::shared_ptr<std::thread> m_threadFundData;
+        std::thread m_threadSelectFund;
+        std::thread m_threadFundData;
         ::dds::core::Duration m_wait;
 };
 

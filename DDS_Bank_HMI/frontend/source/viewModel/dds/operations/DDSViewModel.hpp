@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <model/source/FundSetAmountInterface.hpp>
+#include <model/source/FundSetParameterInterface.hpp>
 
 namespace frontend
 {
@@ -17,12 +17,13 @@ namespace operations
 class DDSViewModel
 {
     public:
-        DDSViewModel(std::shared_ptr<model::FundSetAmountInterface> fund);
+        DDSViewModel(std::shared_ptr<model::FundSetParameterInterface> fund);
 
-        void updateModel(model::FundType fundType, int amount);
+        void updateAmount(int amount);
+        void updateFundType(model::FundType fundType);
 
     private:
-        std::shared_ptr<model::FundSetAmountInterface> m_fund;
+        std::shared_ptr<model::FundSetParameterInterface> m_fund;
 
 };
 

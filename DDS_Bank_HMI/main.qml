@@ -53,6 +53,12 @@ Window {
             }
         }
 
+        SelectFund
+        {
+            id: selectFund
+            visible: true
+        }
+
         Visualize
         {
             id: visualize

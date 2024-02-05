@@ -1,6 +1,8 @@
 #ifndef FRONTEND_VIEWMODEL_UI_OPERATIONS_SELECTFUNDVIEWMODEL_HPP
 #define FRONTEND_VIEWMODEL_UI_OPERATIONS_SELECTFUNDVIEWMODEL_HPP
 
+#include <iostream>
+
 #include <model/source/FundType.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/SelectFundSignal.hpp>

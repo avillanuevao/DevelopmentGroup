@@ -25,7 +25,7 @@ class AllFunds :
         void transferAmount(model::FundType fundTypeDestination, int amount) override;
 
         int getAmount() const override;
-        model::FundType getFundType() const override;
+        model::FundType getFundType() const;
         void setAmount(int amount) override;
         void setFundType(model::FundType fundType) override;
 
@@ -35,7 +35,8 @@ class AllFunds :
         std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund) const;
         std::shared_ptr<model::FundInterface> getActualFund() const;
         void initFund(FundType fundType);
-        void notifySubscriber(model::FundType fundType, int amount);
+        void notifySubscribersFund(model::FundType fundType, int amount);
+        void notifySubscribersFundType(model::FundType fundType);
 
         std::map<model::FundType, std::shared_ptr<model::FundInterface>> m_funds;
         model::FundType m_actualFund;

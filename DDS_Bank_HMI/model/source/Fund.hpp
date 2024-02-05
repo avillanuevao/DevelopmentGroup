@@ -17,7 +17,7 @@ class Fund:
         void decreaseAmount(int amount) override;
 
         int getAmount() const override;
-        FundType getFundType() const override;
+        FundType getFundType() const;
         void setAmount(int amount) override;
         void setFundType(FundType fundType) override;
 
