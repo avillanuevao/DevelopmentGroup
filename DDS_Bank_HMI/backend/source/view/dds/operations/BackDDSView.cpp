@@ -15,8 +15,8 @@ BackDDSView::BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int
     m_domainId(domainId),
     m_sampleCount(sampleCount),
     m_depositMoneyController(new backend::controller::operation::DepositMoneyController(m_allFunds)),
-    m_withdrawMoneyController(new backend::controller::operation::WithdrawMoneyController(m_allFunds)),
-    m_transferMoneyController(new backend::controller::operation::TransferMoneyController(m_allFunds)),
+    //m_withdrawMoneyController(new backend::controller::operation::WithdrawMoneyController(m_allFunds)),
+    //m_transferMoneyController(new backend::controller::operation::TransferMoneyController(m_allFunds)),
     m_participant(std::make_shared<::dds::domain::DomainParticipant>(m_domainId)),
     m_subscriber(std::make_shared<::dds::sub::Subscriber>(*m_participant)),
     m_readerDeposit(m_participant, m_subscriber, DEPOSIT_TOPIC, std::bind(&BackDDSView::configureDeposit, this, std::placeholders::_1)),
@@ -26,7 +26,6 @@ BackDDSView::BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int
     m_writerFundData(m_participant, m_publisher, FUND_DATA_TOPIC)
 
 {
-    std::cout << "BackDDSView" << std::endl;
     utils::so::setup_signal_handlers();
     m_wait = ::dds::core::Duration(1);
     m_threadDeposit = std::make_shared<std::thread>(&BackDDSView::initDepositUseCase, this);
@@ -36,25 +35,12 @@ BackDDSView::BackDDSView(std::shared_ptr<model::AllFunds> allFunds, unsigned int
 
 BackDDSView::~BackDDSView()
 {
-    m_threadDeposit->join();
-    m_threadDeposit.reset();
-    m_threadDeposit = nullptr;
-    m_threadWithdraw->join();
-    m_threadWithdraw.reset();
-    m_threadWithdraw = nullptr;
+    deleteThread(m_threadDeposit);
+    deleteThread(m_threadWithdraw);
+    deleteThread(m_threadTransaction);
 }
 
-void BackDDSView::update(model::signal::MoneyDepositedSignal signal)
-{
-    writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
-}
-
-void BackDDSView::update(model::signal::MoneyTransferedSignal signal)
-{
-    writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
-}
-
-void BackDDSView::update(model::signal::MoneyWithdrawnSignal signal)
+void BackDDSView::update(model::signal::UpdatedFundSignal signal)
 {
     writeFundData(static_cast<FundType>(signal.getFundType()), signal.getAmount());
 }
@@ -63,10 +49,7 @@ void BackDDSView::configureDeposit(Deposit deposit)
 {
     std::cout << "Deposit topic received: " << std::endl;
     std::cout << "\t" << deposit << std::endl;
-    m_depositMoneyController->doDeposit(model::Operation(model::FundType::NONE,
-                                                         static_cast<model::FundType>(deposit.fund_type()),
-                                                         deposit.amount()));
-
+    m_depositMoneyController->deposit(deposit.amount());
 }
 
 void BackDDSView::initDepositUseCase()
@@ -82,9 +65,9 @@ void BackDDSView::configureTransaction(Transaction transaction)
     std::cout << "Data obtenido transaccion: " << std::endl;
     std::cout << "\t" << transaction << std::endl;
 
-    m_transferMoneyController->doTransaction(model::Operation(
-                static_cast<model::FundType>(transaction.fund_type_origin()),
-                static_cast<model::FundType>(transaction.fund_type_destination()), transaction.amount()));
+//    m_transferMoneyController->doTransaction(model::Operation(
+//                static_cast<model::FundType>(transaction.fund_type_origin()),
+//                static_cast<model::FundType>(transaction.fund_type_destination()), transaction.amount()));
 }
 
 void BackDDSView::initTransactionUseCase()
@@ -113,9 +96,9 @@ void BackDDSView::receivedTopicWithdraw(Withdraw withdraw)
 
     try{
 
-        m_withdrawMoneyController->withdraw(model::Operation(model::FundType::NONE,
-                                                             static_cast<model::FundType>(withdraw.fund_type()),
-                                                             withdraw.amount()));
+//        m_withdrawMoneyController->withdraw(model::Operation(model::FundType::NONE,
+//                                                             static_cast<model::FundType>(withdraw.fund_type()),
+//                                                             withdraw.amount()));
     }
     catch (std::logic_error e)
     {
@@ -129,6 +112,13 @@ void BackDDSView::readingTopicWithdraw()
     {
         m_readerWithdraw.wait(m_wait);
     }
+}
+
+void BackDDSView::deleteThread(std::shared_ptr<std::thread> thread)
+{
+    thread->join();
+    thread.reset();
+    thread = nullptr;
 }
 
 }

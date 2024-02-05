@@ -10,15 +10,15 @@ namespace dds
 namespace operations
 {
 
-FrontDDSView::FrontDDSView(std::shared_ptr<model::AllFunds> allFunds,
+FrontDDSView::FrontDDSView(std::shared_ptr<viewModel::dds::operations::DDSViewModel> ddsViewModel,
                            unsigned int domain_id,
                            unsigned int sample_count) :
-    m_allFunds(allFunds),
-    m_ddsViewModel(std::make_shared<frontend::viewModel::dds::operations::DDSViewModel>(allFunds)),
+    m_ddsViewModel(ddsViewModel),
     m_domain_id(domain_id),
     m_sample_count(sample_count),
     m_participant(std::make_shared<::dds::domain::DomainParticipant>(domain_id)),
     m_publisher(std::make_shared<::dds::pub::Publisher>(*m_participant)),
+    m_writerSelectFund(m_participant, m_publisher, SELECT_FUND_TOPIC),
     m_writerDeposit(m_participant, m_publisher, DEPOSIT_TOPIC),
     m_writerWithdraw(m_participant, m_publisher, WITHDRAW_TOPIC),
     m_writerTransfer(m_participant, m_publisher, TRANSACTION_TOPIC),
@@ -32,7 +32,7 @@ FrontDDSView::FrontDDSView(std::shared_ptr<model::AllFunds> allFunds,
 
 void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
 {
-    writeDeposit(static_cast<FundType>(signal.getFundType()), signal.getAmount());
+    writeDeposit(signal.getAmount());
 }
 
 void FrontDDSView::update(viewModel::signal::WithdrawnMoneySignal signal)
@@ -45,14 +45,19 @@ void FrontDDSView::update(viewModel::signal::TransferedMoneySignal signal)
     writeTransaction(static_cast<FundType>(signal.getOriginFundType()), static_cast<FundType>(signal.getDestinationFundType()), signal.getAmount());
 }
 
-const Deposit FrontDDSView::writeDeposit(const FundType &fund_type, int16_t amount)
+void FrontDDSView::update(viewModel::ui::operations::signal::SelectFundSignal signal)
 {
-    Deposit sampleDeposit(fund_type, amount);
+    writeSelectFund(static_cast<FundType>(signal.getFundType()));
+}
+
+const Deposit FrontDDSView::writeDeposit(int16_t amount)
+{
+    Deposit sampleDeposit(amount);
 
     m_writerDeposit.write(sampleDeposit);
 
     std::cout << "topic sended: " << std::endl
-              << "\t[fundType: " << sampleDeposit.fund_type() << ", amount: " << sampleDeposit.amount() << "]" << std::endl;
+              << "\t[amount:" << sampleDeposit.amount() << "]" << std::endl;
 
     return sampleDeposit;
 }
@@ -72,13 +77,17 @@ const Transaction FrontDDSView::writeTransaction(const FundType &originFundType,
     return sampleTransaction;
 }
 
+const SelectFund FrontDDSView::writeSelectFund(FundType fundType)
+{
+
+}
+
 void FrontDDSView::configureFundData(FundData fundData)
 {
     std::cout << "FundData topic recieved: " << std::endl;
     std::cout << "\t" << fundData << std::endl;
-    //TODO: ¿Que sentido tiene que updateModel contenga 3 variables?
-    m_ddsViewModel->updateModel(model::Operation(
-                                    model::FundType::NONE, static_cast<model::FundType>(fundData.fund_type()), fundData.amount()));
+
+    m_ddsViewModel->updateModel(static_cast<model::FundType>(fundData.fund_type()), fundData.amount());
 }
 
 void FrontDDSView::initReaderFundData()

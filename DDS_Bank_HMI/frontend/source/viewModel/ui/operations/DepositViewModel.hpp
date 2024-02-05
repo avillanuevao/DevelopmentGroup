@@ -4,11 +4,8 @@
 #include <memory>
 
 #include <model/source/FundType.hpp>
-#include <model/source/signal/MoneyDepositedSignal.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
-#include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
-#include <frontend/source/viewModel/signal/MoneyDepositedSignal.hpp>
 
 namespace frontend
 {
@@ -20,14 +17,11 @@ namespace operations
 {
 
 class DepositViewModel:
-        public utils::designPattern::SignalPublisher<viewModel::signal::DepositMoneySignal>,
-        public utils::designPattern::SignalSubscriber<model::signal::MoneyDepositedSignal>,
-        public utils::designPattern::SignalPublisher<viewModel::signal::MoneyDepositedSignal>
+        public utils::designPattern::SignalPublisher<viewModel::signal::DepositMoneySignal>
 {
     public:
         DepositViewModel();
-        void depositMoney(model::FundType fundType, int amount);
-        void update(model::signal::MoneyDepositedSignal signal);
+        void depositMoney(int amount);
 };
 
 }

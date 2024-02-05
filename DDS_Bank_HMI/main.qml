@@ -53,6 +53,11 @@ Window {
             }
         }
 
+        Visualize
+        {
+            id: visualize
+            visible: true
+        }
 
         Deposit
         {

@@ -2,40 +2,70 @@
 
 namespace model {
 
-AllFunds::AllFunds()
+AllFunds::AllFunds(FundType actualFund):
+    m_actualFund(actualFund)
 {
     //TODO: Eliminar la inicialización a 0
-    m_funds.insert(std::make_pair<model::FundType, Fund>(
-                       model::FundType::SAVINGS, model::Fund(model::FundType::SAVINGS, 0)));
-    m_funds.insert(std::make_pair<model::FundType, Fund>(
-                       model::FundType::HOUSING, model::Fund(model::FundType::HOUSING, 0)));
+    initFund(model::FundType::SAVINGS);
+    initFund(model::FundType::HOUSING);
 }
 
-void AllFunds::increaseAmount(model::FundType fundType, int amount)
+std::shared_ptr<model::FundInterface> model::AllFunds::getFund(model::FundType fundType)
+{
+    return m_funds.find(fundType)->second;
+}
+
+std::shared_ptr<FundInterface> AllFunds::getActualFund()
+{
+    return getFund(m_actualFund);
+}
+
+std::shared_ptr<model::FundInterface> model::AllFunds::getFund(model::FundType fundType) const
+{
+    return m_funds.find(fundType)->second;
+}
+
+std::shared_ptr<FundInterface> AllFunds::getActualFund() const
+{
+    return getFund(m_actualFund);
+}
+
+void AllFunds::initFund(model::FundType fundType)
+{
+    m_funds[fundType] = std::make_shared<model::Fund>(model::Fund(fundType, 0));
+}
+
+void AllFunds::notifySubscriber(FundType fundType, int amount)
+{
+    model::signal::UpdatedFundSignal signalUpdatedModel(fundType, getActualFund()->getAmount());
+    notifySubscribers(signalUpdatedModel);
+}
+
+void AllFunds::increaseAmount(int amount)
 {
     try
     {
-        m_funds.find(fundType)->second.increaseAmount(amount);
+        getActualFund()->increaseAmount(amount);
     }  catch (const std::logic_error& e)
     {
         throw e;
     }
-    model::signal::MoneyDepositedSignal signal =
-            model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>::notifySubscribers(signal);
+
+    notifySubscriber(m_actualFund, getActualFund()->getAmount());
 }
 
-void AllFunds::transferAmount(FundType originFundType, FundType destinationFundType, int amount)
+void AllFunds::transferAmount(FundType destinationFundType, int amount)
 {
-    int originFundTypeInitAmount = m_funds.find(originFundType)->second.getAmount();
+    int amountFundTypeOrigin = getActualFund()->getAmount();
 
-    if(!(originFundTypeInitAmount >= amount))
+    if(!(amountFundTypeOrigin >= amount))
     {
         throw std::logic_error("Amount to transfer cant be bigger than the amount in the fund");
     }
+
     try
     {
-        m_funds.find(originFundType)->second.decreaseAmount(amount);
+        getActualFund()->decreaseAmount(amount);
     }  catch (const std::logic_error& e)
     {
         throw e;
@@ -43,64 +73,57 @@ void AllFunds::transferAmount(FundType originFundType, FundType destinationFundT
 
     try
     {
-        m_funds.find(destinationFundType)->second.increaseAmount(amount);
+        getFund(destinationFundType)->increaseAmount(amount);
     }  catch (const std::logic_error& e)
     {
         throw e;
     }
 
-    model::signal::MoneyTransferedSignal signalOriginData =
-            model::signal::MoneyTransferedSignal(originFundType,
-                                                 m_funds.find(originFundType)->second.getAmount());
-    model::signal::MoneyTransferedSignal signalDestinationData =
-            model::signal::MoneyTransferedSignal(destinationFundType,
-                                                 m_funds.find(destinationFundType)->second.getAmount());
-
-    utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::notifySubscribers(signalOriginData);
-    utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::notifySubscribers(signalDestinationData);
+    notifySubscriber(m_actualFund, getActualFund()->getAmount());
+    notifySubscriber(destinationFundType, getFund(destinationFundType)->getAmount());
 
 }
 
-void AllFunds::decreaseAmount(FundType fundType, int amount)
+void AllFunds::decreaseAmount(int amount)
 {
     try
     {
-        m_funds.find(fundType)->second.decreaseAmount(amount);
-    }  catch (const std::logic_error& e)
-    {
-        throw e;
-    }
-    model::signal::MoneyWithdrawnSignal signal =
-            model::signal::MoneyWithdrawnSignal(fundType, m_funds.find(fundType)->second.getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>::notifySubscribers(signal);
-}
-
-int AllFunds::getAmount(model::FundType fundType) const
-{
-    return m_funds.find(fundType)->second.getAmount();
-}
-
-void AllFunds::setAmount(model::FundType fundType, int newAmount)
-{
-    std::cout << "setAmount: " << std::endl
-              << "\t[fundType: " << static_cast<int>(fundType) << ", amount: " << newAmount << "]" << std::endl;
-    try
-    {
-        m_funds.find(fundType)->second.setAmount(newAmount);
+        getActualFund()->decreaseAmount(amount);
     }  catch (const std::logic_error& e)
     {
         throw e;
     }
 
-    model::signal::MoneyDepositedSignal signalDeposit =
-            model::signal::MoneyDepositedSignal(fundType, m_funds.find(fundType)->second.getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>::notifySubscribers(signalDeposit);
-    model::signal::MoneyWithdrawnSignal signalWithdrawn =
-            model::signal::MoneyWithdrawnSignal(fundType, m_funds.find(fundType)->second.getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>::notifySubscribers(signalWithdrawn);
-    model::signal::MoneyTransferedSignal signalTransfer =
-            model::signal::MoneyTransferedSignal(fundType, m_funds.find(fundType)->second.getAmount());
-    utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>::notifySubscribers(signalTransfer);
+    notifySubscriber(m_actualFund, getActualFund()->getAmount());
+}
+
+
+int AllFunds::getAmount() const
+{
+    return getActualFund()->getAmount();
+}
+
+FundType AllFunds::getFundType() const
+{
+    return m_actualFund;
+}
+
+
+void AllFunds::setAmount(int newAmount)
+{
+    try
+    {
+        getActualFund()->setAmount(newAmount);
+    }  catch (const std::logic_error& e)
+    {
+        throw e;
+    }
+    notifySubscriber(m_actualFund, getActualFund()->getAmount());
+}
+
+void AllFunds::setFundType(FundType fundType)
+{
+    m_actualFund = fundType;
 }
 
 }

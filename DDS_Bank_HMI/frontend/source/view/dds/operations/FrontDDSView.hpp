@@ -18,6 +18,7 @@
 #include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
 #include <frontend/source/viewModel/signal/WithdrawnMoneySignal.hpp>
 #include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/SelectFundSignal.hpp>
 
 namespace frontend
 {
@@ -31,32 +32,35 @@ class FrontDDSView :
 
         public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
         public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFundSignal>
 {
     public:
-        FrontDDSView(std::shared_ptr<model::AllFunds> allFunds,
+        FrontDDSView(std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel,
                      unsigned int domain_id,
                      unsigned int sample_count);
 
         void update(viewModel::signal::DepositMoneySignal signal);
         void update(viewModel::signal::WithdrawnMoneySignal signal);
         void update(frontend::viewModel::signal::TransferedMoneySignal signal);
+        void update(frontend::viewModel::ui::operations::signal::SelectFundSignal signal);
 
     private:
-        const Deposit writeDeposit(const FundType& fund_type, int16_t amount);
+        const Deposit writeDeposit(int16_t amount);
+        const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
         const Transaction writeTransaction(const FundType& originFundType, const FundType& destinationFundType, int16_t amount);
+        const SelectFund writeSelectFund(FundType fundType);
         void configureFundData(FundData fundData);
         void initReaderFundData();
 
-        const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
 
-        const std::shared_ptr<model::AllFunds> m_allFunds;
+        std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> m_ddsViewModel;
         unsigned int m_domain_id;
         unsigned int m_sample_count;
 
-        std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> m_ddsViewModel;
         std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
         std::shared_ptr<::dds::pub::Publisher> m_publisher;
+        utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
         utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
         utils::dds::DDSDataWriter<Transaction> m_writerTransfer;

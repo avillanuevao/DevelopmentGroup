@@ -3,38 +3,44 @@
 
 #include <map>
 #include <stdexcept>
+#include <memory>
 
 #include <Fund.hpp>
 #include <FundType.hpp>
-#include <signal/MoneyDepositedSignal.hpp>
-#include <signal/MoneyWithdrawnSignal.hpp>
-#include <signal/MoneyTransferedSignal.hpp>
-#include <designPattern/SignalPublisher.hpp>
-
-#include <model/source/AllFundsDDSInterface.hpp>
+#include <FundInterface.hpp>
+#include <FundTransferAmountInterface.hpp>
 
 namespace model
 {
 
-    class AllFunds :
-            public model::AllFundsDDSInterface,
-            public utils::designPattern::SignalPublisher<model::signal::MoneyDepositedSignal>,
-            public utils::designPattern::SignalPublisher<model::signal::MoneyWithdrawnSignal>,
-            public utils::designPattern::SignalPublisher<model::signal::MoneyTransferedSignal>
-    {
+class AllFunds :
+        public model::FundInterface,
+        public model::FundTransferAmountInterface
+{
     public:
-        AllFunds();
+        AllFunds(model::FundType actualFund);
 
-        void increaseAmount(model::FundType fundType, int amount) noexcept(false);
-        void decreaseAmount(model::FundType fundType, int amount) noexcept(false);
-        void transferAmount(model::FundType originFundType, model::FundType destinationFundType, int amount);
-        int getAmount(model::FundType fundType) const;
-        void setAmount(FundType fundType, int amount) override;
+        void increaseAmount(int amount) override;
+        void decreaseAmount(int amount) override;
+        void transferAmount(model::FundType fundTypeDestination, int amount) override;
+
+        int getAmount() const override;
+        model::FundType getFundType() const override;
+        void setAmount(int amount) override;
+        void setFundType(model::FundType fundType) override;
 
     private:
-        std::map<model::FundType, Fund> m_funds;
+        std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund);
+        std::shared_ptr<model::FundInterface> getActualFund();
+        std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund) const;
+        std::shared_ptr<model::FundInterface> getActualFund() const;
+        void initFund(FundType fundType);
+        void notifySubscriber(model::FundType fundType, int amount);
 
-    };
+        std::map<model::FundType, std::shared_ptr<model::FundInterface>> m_funds;
+        model::FundType m_actualFund;
+
+};
 
 }
 

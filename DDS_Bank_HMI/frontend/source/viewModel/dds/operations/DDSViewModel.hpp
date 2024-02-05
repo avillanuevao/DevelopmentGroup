@@ -3,8 +3,7 @@
 
 #include <memory>
 
-#include <model/source/AllFundsDDSInterface.hpp>
-#include <model/source/Operation.hpp>
+#include <model/source/FundSetAmountInterface.hpp>
 
 namespace frontend
 {
@@ -18,12 +17,12 @@ namespace operations
 class DDSViewModel
 {
     public:
-        DDSViewModel(std::shared_ptr<model::AllFundsDDSInterface> allFunds);
+        DDSViewModel(std::shared_ptr<model::FundSetAmountInterface> fund);
 
-        void updateModel(model::Operation operation);
+        void updateModel(model::FundType fundType, int amount);
 
     private:
-        std::shared_ptr<model::AllFundsDDSInterface> m_allFunds;
+        std::shared_ptr<model::FundSetAmountInterface> m_fund;
 
 };
 

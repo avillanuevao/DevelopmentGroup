@@ -6,27 +6,11 @@ import QtQuick.Layouts 1.12
 ColumnLayout
 {
     id: visualizeColumnLayout
-    ComboBox
-    {
-        id: visualizeFundTypeComboBox
-        model: ListModel
-        {
-            ListElement {text: "Savings"}
-            ListElement {text: "Housing"}
-        }
-
-        onCurrentIndexChanged:
-        {
-            //                depositMoneyView.setFundType(fundTypeCB.currentIndex)
-            //                console.log("Indice seleccionado: ", fundTypeCB.currentIndex);
-            //                displayT.text = depositMoneyView.getAmountFromFund()
-        }
-    }
 
     Text
     {
         id: visualizeAmount
-        objectName: "displayT"
+        objectName: "visualizeAmount"
         text: "Hola"
         //text: depositMoneyView.getAmountFromFund()
     }

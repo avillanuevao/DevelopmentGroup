@@ -1,3 +1,4 @@
+const string SELECT_FUND_TOPIC = "SelectFund";
 const string DEPOSIT_TOPIC = "Deposit";
 const string WITHDRAW_TOPIC = "Withdraw";
 const string TRANSACTION_TOPIC = "Transaction";
@@ -10,11 +11,16 @@ enum FundType
     HOUSING
 };
 
+//Topic
+struct SelectFund
+{
+    @key	
+    FundType fund_type;
+};
+
 //Topic 
 struct Deposit 
 {
-    @key
-    FundType fund_type;
     int16 amount;
 };
 
@@ -42,7 +48,6 @@ struct FundData
     FundType fund_type;
     int16 amount;
 };
-
 
 
 

@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bank_1860237937_hpp
-#define bank_1860237937_hpp
+#ifndef bank_1860238016_hpp
+#define bank_1860238016_hpp
 
 #include <iosfwd>
 
@@ -57,6 +57,8 @@ or consult the Code Generator User's Manual.
 #define NDDSUSERDllExport __declspec(dllexport)
 #endif
 
+static const std::string SELECT_FUND_TOPIC = "SelectFund";
+
 static const std::string DEPOSIT_TOPIC = "Deposit";
 
 static const std::string WITHDRAW_TOPIC = "Withdraw";
@@ -71,23 +73,22 @@ enum class FundType {
 
 NDDSUSERDllExport std::ostream& operator << (std::ostream& o,const FundType& sample);
 
-class NDDSUSERDllExport Deposit {
+class NDDSUSERDllExport SelectFund {
   public:
-    Deposit();
+    SelectFund();
 
-    Deposit(
-        const FundType& fund_type,
-        int16_t amount);
+    explicit SelectFund(
+        const FundType& fund_type);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
-    Deposit (Deposit&&) = default;
-    Deposit& operator=(Deposit&&) = default;
-    Deposit& operator=(const Deposit&) = default;
-    Deposit(const Deposit&) = default;
+    SelectFund (SelectFund&&) = default;
+    SelectFund& operator=(SelectFund&&) = default;
+    SelectFund& operator=(const SelectFund&) = default;
+    SelectFund(const SelectFund&) = default;
     #else
-    Deposit(Deposit&& other_) OMG_NOEXCEPT;  
-    Deposit& operator=(Deposit&&  other_) OMG_NOEXCEPT;
+    SelectFund(SelectFund&& other_) OMG_NOEXCEPT;  
+    SelectFund& operator=(SelectFund&&  other_) OMG_NOEXCEPT;
     #endif
     #endif 
 
@@ -106,6 +107,44 @@ class NDDSUSERDllExport Deposit {
     void fund_type(FundType&& value) {
         m_fund_type_ = std::move(value);
     }
+
+    bool operator == (const SelectFund& other_) const;
+    bool operator != (const SelectFund& other_) const;
+
+    void swap(SelectFund& other_) OMG_NOEXCEPT ;
+
+  private:
+
+    FundType m_fund_type_;
+
+};
+
+inline void swap(SelectFund& a, SelectFund& b)  OMG_NOEXCEPT 
+{
+    a.swap(b);
+}
+
+NDDSUSERDllExport std::ostream& operator<<(std::ostream& o, const SelectFund& sample);
+
+class NDDSUSERDllExport Deposit {
+  public:
+    Deposit();
+
+    explicit Deposit(
+        int16_t amount);
+
+    #ifdef RTI_CXX11_RVALUE_REFERENCES
+    #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+    Deposit (Deposit&&) = default;
+    Deposit& operator=(Deposit&&) = default;
+    Deposit& operator=(const Deposit&) = default;
+    Deposit(const Deposit&) = default;
+    #else
+    Deposit(Deposit&& other_) OMG_NOEXCEPT;  
+    Deposit& operator=(Deposit&&  other_) OMG_NOEXCEPT;
+    #endif
+    #endif 
+
     int16_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
@@ -125,7 +164,6 @@ class NDDSUSERDllExport Deposit {
 
   private:
 
-    FundType m_fund_type_;
     int16_t m_amount_;
 
 };
@@ -362,6 +400,42 @@ namespace dds {
     namespace topic {
 
         template<>
+        struct topic_type_name< SelectFund > {
+            NDDSUSERDllExport static std::string value() {
+                return "SelectFund";
+            }
+        };
+
+        template<>
+        struct is_topic_type< SelectFund > : public ::dds::core::true_type {};
+
+        template<>
+        struct topic_type_support< SelectFund > {
+            NDDSUSERDllExport 
+            static void register_type(
+                ::dds::domain::DomainParticipant& participant,
+                const std::string & type_name);
+
+            NDDSUSERDllExport 
+            static std::vector<char>& to_cdr_buffer(
+                std::vector<char>& buffer, 
+                const SelectFund& sample,
+                ::dds::core::policy::DataRepresentationId representation 
+                = ::dds::core::policy::DataRepresentation::auto_id());
+
+            NDDSUSERDllExport 
+            static void from_cdr_buffer(SelectFund& sample, const std::vector<char>& buffer);
+            NDDSUSERDllExport 
+            static void reset_sample(SelectFund& sample);
+
+            NDDSUSERDllExport 
+            static void allocate_sample(SelectFund& sample, int, int);
+
+            static const ::rti::topic::TypePluginKind::type type_plugin_kind = 
+            ::rti::topic::TypePluginKind::STL;
+        };
+
+        template<>
         struct topic_type_name< Deposit > {
             NDDSUSERDllExport static std::string value() {
                 return "Deposit";
@@ -532,6 +606,20 @@ namespace rti {
 
         #ifndef NDDS_STANDALONE_TYPE
         template<>
+        struct dynamic_type< SelectFund > {
+            typedef ::dds::core::xtypes::StructType type;
+            NDDSUSERDllExport static const ::dds::core::xtypes::StructType& get();
+        };
+        #endif
+
+        template <>
+        struct extensibility< SelectFund > {
+            static const ::dds::core::xtypes::ExtensibilityKind::type kind =
+            ::dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
+        };
+
+        #ifndef NDDS_STANDALONE_TYPE
+        template<>
         struct dynamic_type< Deposit > {
             typedef ::dds::core::xtypes::StructType type;
             NDDSUSERDllExport static const ::dds::core::xtypes::StructType& get();
@@ -596,5 +684,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // bank_1860237937_hpp
+#endif // bank_1860238016_hpp
 
