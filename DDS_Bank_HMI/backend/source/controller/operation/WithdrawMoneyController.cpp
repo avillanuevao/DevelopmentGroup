@@ -7,31 +7,37 @@ namespace controller
 namespace operation
 {
 
-WithdrawMoneyController::WithdrawMoneyController(std::shared_ptr<model::AllFunds> allFunds):
-    m_allFunds(allFunds)
+WithdrawMoneyController::WithdrawMoneyController(std::shared_ptr<model::FundDecreaseAmountInterface> fundDecrease,
+                                                 std::shared_ptr<model::FundDecreaseAmountByFundTypeInterface> fundDecreaseByFundType,
+                                                 std::shared_ptr<model::FundGetParametersInterface> fundGetAmount,
+                                                 std::shared_ptr<model::FundGetAmountByFundTypeInterface> fundGetAmountByFundType):
+    m_fundDecrease(fundDecrease),
+    m_fundDecreaseByFundType(fundDecreaseByFundType),
+    m_fundGetAmount(fundGetAmount),
+    m_fundGetAmountByFundType(fundGetAmountByFundType)
 {
 
 }
 
-void WithdrawMoneyController::withdraw(model::Operation withdraw)
+void WithdrawMoneyController::withdraw(int amount)
 {
-//    //TODO: si no hay suficiente dinero saco de SAVINGS, si no hay en SAVINGS no lo hago
-//    int amountFund = m_allFunds->getAmount(withdraw.getFundTypeDestination());
-//    int amountSavings = m_allFunds->getAmount(model::FundType::SAVINGS);
-//    int withdrawn = withdraw.getAmount();
 
-//    if((amountFund - withdrawn) > 0)
-//    {
-//        m_allFunds->decreaseAmount(withdraw.getFundTypeDestination(), withdraw.getAmount());
-//    }
-//    else if ((amountSavings - withdrawn) > 0)
-//    {
-//        m_allFunds->decreaseAmount(model::FundType::SAVINGS, withdraw.getAmount());
-//    }
-//    else
-//    {
-//        throw std::logic_error("Amount in SAVINGS fund not enough");
-//    }
+    //TODO: si no hay suficiente dinero saco de SAVINGS, si no hay en SAVINGS no lo hago
+    int amountFund = m_fundGetAmount->getAmount();
+    int amountSavings = m_fundGetAmountByFundType->getAmount(model::FundType::SAVINGS);
+
+    if((amountFund - amount) >= 0)
+    {
+        m_fundDecrease->decreaseAmount(amount);
+    }
+    else if ((amountSavings - amount) > 0)
+    {
+        m_fundDecreaseByFundType->decreaseAmount(model::FundType::SAVINGS, amount);
+    }
+    else
+    {
+        throw std::logic_error("Amount in SAVINGS fund not enough");
+    }
 }
 
 }

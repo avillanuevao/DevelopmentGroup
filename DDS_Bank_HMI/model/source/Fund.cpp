@@ -24,7 +24,8 @@ void Fund::decreaseAmount(int amount)
         throw std::logic_error("Amount must be positive");
     }
 
-    try {
+    try
+    {
         setAmount(m_amount - amount);
     }  catch (std::logic_error e) {
         throw std::logic_error("Not enough money");

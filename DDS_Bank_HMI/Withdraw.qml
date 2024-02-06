@@ -1,56 +1,33 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.12
-//TO
+
 ColumnLayout
 {
-//    id: columnLayoutW
+    id: columnLayoutWithdraw
 
-//    ComboBox
-//    {
-//        id: fundTypeCBW
-//        model: ListModel
-//        {
-//            ListElement {text: "Savings"}
-//            ListElement {text: "Housing"}
-//        }
+    TextField
+    {
+        id: amountWithdraw
+        placeholderText: "Amount withdraw"
 
-//        onCurrentIndexChanged:
-//        {
-//            withdrawMoneyView.setFundType(fundTypeCBW.currentIndex)
-//            console.log("Indice seleccionado: ", fundTypeCBW.currentIndex);
-//            displayTW.text = withdrawMoneyView.getAmountFromFund()
-//        }
-//    }
+        validator: RegExpValidator{ regExp: /^\d+$/ }
+        onTextChanged:
+        {
 
-//    TextField
-//    {
-//        id: amountW
-//        placeholderText: "Amount withdraw"
+            console.log(amountWithdraw.text)
+        }
+    }
 
-//        validator: RegExpValidator{ regExp: /^\d+$/ }
-//        onTextChanged:
-//        {
+    Button
+    {
+        id: acceptBW
+        text: "Accept"
 
-//            console.log(amountW.text)
-//        }
-//    }
-
-//    Button
-//    {
-//        id: acceptBW
-//        text: "Accept"
-
-//        onClicked:
-//        {
-//            withdrawMoneyView.setAmountToWithdraw(amountW.text)
-//            withdrawMoneyView.withdrawMoney()
-//        }
-//    }
-
-//    Text {
-//        id: displayTW
-//        objectName: "displayTW"
-//        text: withdrawMoneyView.getAmountFromFund()
-//    }
+        onClicked:
+        {
+            withdrawMoneyView.setAmountToWithdraw(amountWithdraw.text)
+            withdrawMoneyView.withdrawMoney()
+        }
+    }
 }

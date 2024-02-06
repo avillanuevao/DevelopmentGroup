@@ -1,8 +1,13 @@
 #ifndef BACKEND_CONTROLLER_OPERATION_WITHDRAWMONEYCONTROLLER_HPP
 #define BACKEND_CONTROLLER_OPERATION_WITHDRAWMONEYCONTROLLER_HPP
 
-#include <model/source/AllFunds.hpp>
-#include <model/source/Operation.hpp>
+#include <memory>
+
+#include <model/source/FundDecreaseAmountInterface.hpp>
+#include <model/source/FundDecreaseAmountByFundTypeInterface.hpp>
+#include <model/source/FundGetParametersInterface.hpp>
+#include <model/source/FundGetAmountByFundTypeInterface.hpp>
+
 
 namespace backend
 {
@@ -14,11 +19,18 @@ namespace operation
 class WithdrawMoneyController
 {
     public:
-        WithdrawMoneyController(std::shared_ptr<model::AllFunds> allFunds);
-        void withdraw(model::Operation withdraw) noexcept(false);
+        WithdrawMoneyController(std::shared_ptr<model::FundDecreaseAmountInterface> fundDecrease,
+                                std::shared_ptr<model::FundDecreaseAmountByFundTypeInterface> fundDecreaseByFundType,
+                                std::shared_ptr<model::FundGetParametersInterface> fundGetAmount,
+                                std::shared_ptr<model::FundGetAmountByFundTypeInterface> fundGetAmountByFundType);
+
+        void withdraw(int amount);
 
     private:
-        std::shared_ptr<model::AllFunds> m_allFunds;
+        std::shared_ptr<model::FundDecreaseAmountInterface> m_fundDecrease;
+        std::shared_ptr<model::FundDecreaseAmountByFundTypeInterface> m_fundDecreaseByFundType;
+        std::shared_ptr<model::FundGetParametersInterface> m_fundGetAmount;
+        std::shared_ptr<model::FundGetAmountByFundTypeInterface> m_fundGetAmountByFundType;
 
 };
 

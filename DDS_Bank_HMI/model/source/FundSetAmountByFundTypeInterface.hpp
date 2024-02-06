@@ -11,7 +11,7 @@ class FundSetAmountByFundTypeInterface
     public:
         FundSetAmountByFundTypeInterface() = default;
 
-        virtual void setAmountByFundType(model::FundType fundType, int amount) = 0;
+        virtual void setAmount(model::FundType fundType, int amount) = 0;
 };
 
 }

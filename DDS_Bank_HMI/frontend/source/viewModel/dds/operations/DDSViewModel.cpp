@@ -26,7 +26,7 @@ void DDSViewModel::updateFundType(model::FundType fundType)
 
 void DDSViewModel::updateAmount(model::FundType fundType, int amount)
 {
-    m_fundSetAmountByFundType->setAmountByFundType(fundType, amount);
+    m_fundSetAmountByFundType->setAmount(fundType, amount);
 }
 
 }

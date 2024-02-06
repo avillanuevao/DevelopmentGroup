@@ -10,43 +10,6 @@ AllFunds::AllFunds(FundType actualFund):
     initFund(model::FundType::HOUSING);
 }
 
-std::shared_ptr<model::FundInterface> model::AllFunds::getFund(model::FundType fundType)
-{
-    return m_funds.find(fundType)->second;
-}
-
-std::shared_ptr<FundInterface> AllFunds::getActualFund()
-{
-    return getFund(m_actualFund);
-}
-
-std::shared_ptr<model::FundInterface> model::AllFunds::getFund(model::FundType fundType) const
-{
-    return m_funds.find(fundType)->second;
-}
-
-std::shared_ptr<FundInterface> AllFunds::getActualFund() const
-{
-    return getFund(m_actualFund);
-}
-
-void AllFunds::initFund(model::FundType fundType)
-{
-    m_funds[fundType] = std::make_shared<model::Fund>(model::Fund(fundType, 0));
-}
-
-void AllFunds::notifySubscribersFund(FundType fundType, int amount)
-{
-    model::signal::UpdatedFundSignal signalUpdatedModel(fundType, amount);
-    utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::notifySubscribers(signalUpdatedModel);
-}
-
-void AllFunds::notifySubscribersFundType(FundType fundType)
-{
-    model::signal::UpdatedFundTypeSignal signalUpdatedFundType(fundType);
-    utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>::notifySubscribers(signalUpdatedFundType);
-}
-
 void AllFunds::increaseAmount(int amount)
 {
     try
@@ -60,13 +23,33 @@ void AllFunds::increaseAmount(int amount)
     notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
 }
 
-void AllFunds::transferAmount(FundType destinationFundType, int amount)
+void AllFunds::decreaseAmount(int amount)
 {
-    if(destinationFundType == m_actualFund)
+    try
     {
-        throw std::logic_error("Fund destination cannot be the same as fund origin");
+        getActualFund()->decreaseAmount(amount);
+    }  catch (const std::logic_error& e)
+    {
+        throw e;
     }
 
+    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
+}
+
+void AllFunds::decreaseAmount(FundType fundType, int amount)
+{
+    try
+    {
+        getFund(fundType)->decreaseAmount(amount);
+    }  catch (std::logic_error e) {
+        throw e;
+    }
+
+    notifySubscribersFund(fundType, getFund(fundType)->getAmount());
+}
+
+void AllFunds::transferAmount(FundType destinationFundType, int amount)
+{
     int amountFundTypeOrigin = getActualFund()->getAmount();
 
     if(!(amountFundTypeOrigin >= amount))
@@ -95,30 +78,20 @@ void AllFunds::transferAmount(FundType destinationFundType, int amount)
 
 }
 
-void AllFunds::decreaseAmount(int amount)
-{
-    try
-    {
-        getActualFund()->decreaseAmount(amount);
-    }  catch (const std::logic_error& e)
-    {
-        throw e;
-    }
-
-    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
-}
-
-
 int AllFunds::getAmount() const
 {
     return getActualFund()->getAmount();
+}
+
+int AllFunds::getAmount(FundType fundType) const
+{
+    return getFund(fundType)->getAmount();
 }
 
 FundType AllFunds::getFundType() const
 {
     return m_actualFund;
 }
-
 
 void AllFunds::setAmount(int newAmount)
 {
@@ -132,9 +105,15 @@ void AllFunds::setAmount(int newAmount)
     notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
 }
 
-void AllFunds::setAmountByFundType(FundType fundType, int amount)
+void AllFunds::setAmount(FundType fundType, int amount)
 {
-    getFund(fundType)->setAmount(amount);
+    try
+    {
+        getFund(fundType)->setAmount(amount);
+    }  catch (const std::logic_error& e)
+    {
+        throw e;
+    }
 
     notifySubscribersFund(fundType, getFund(fundType)->getAmount());
 }
@@ -146,6 +125,41 @@ void AllFunds::setFundType(FundType fundType)
     notifySubscribersFundType(m_actualFund);
 }
 
+std::shared_ptr<model::FundInterface> model::AllFunds::getFund(model::FundType fundType)
+{
+    return m_funds.find(fundType)->second;
 }
 
+std::shared_ptr<model::FundInterface> model::AllFunds::getFund(model::FundType fundType) const
+{
+    return m_funds.find(fundType)->second;
+}
 
+std::shared_ptr<FundInterface> AllFunds::getActualFund()
+{
+    return getFund(m_actualFund);
+}
+
+std::shared_ptr<FundInterface> AllFunds::getActualFund() const
+{
+    return getFund(m_actualFund);
+}
+
+void AllFunds::initFund(model::FundType fundType)
+{
+    m_funds[fundType] = std::make_shared<model::Fund>(model::Fund(fundType, 0));
+}
+
+void AllFunds::notifySubscribersFund(FundType fundType, int amount)
+{
+    model::signal::UpdatedFundSignal signalUpdatedModel(fundType, amount);
+    utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::notifySubscribers(signalUpdatedModel);
+}
+
+void AllFunds::notifySubscribersFundType(FundType fundType)
+{
+    model::signal::UpdatedFundTypeSignal signalUpdatedFundType(fundType);
+    utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>::notifySubscribers(signalUpdatedFundType);
+}
+
+}
