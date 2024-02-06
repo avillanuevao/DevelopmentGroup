@@ -12,11 +12,6 @@ ColumnLayout
         placeholderText: "Amount deposit"
 
         validator: RegExpValidator{ regExp: /^\d+$/ }
-        onTextChanged:
-        {
-
-            console.log(amount.text)
-        }
     }
 
     Button

@@ -9,13 +9,15 @@
 #include <FundType.hpp>
 #include <FundInterface.hpp>
 #include <FundTransferAmountInterface.hpp>
+#include <FundSetAmountByFundTypeInterface.hpp>
 
 namespace model
 {
 
 class AllFunds :
         public model::FundInterface,
-        public model::FundTransferAmountInterface
+        public model::FundTransferAmountInterface,
+        public model::FundSetAmountByFundTypeInterface
 {
     public:
         AllFunds(model::FundType actualFund);
@@ -27,6 +29,7 @@ class AllFunds :
         int getAmount() const override;
         model::FundType getFundType() const override;
         void setAmount(int amount) override;
+        void setAmountByFundType(model::FundType fundType, int amount) override;
         void setFundType(model::FundType fundType) override;
 
     private:
@@ -35,7 +38,8 @@ class AllFunds :
         std::shared_ptr<model::FundInterface> getFund(model::FundType  m_actualFund) const;
         std::shared_ptr<model::FundInterface> getActualFund() const;
         void initFund(FundType fundType);
-        void notifySubscriber(model::FundType fundType, int amount);
+        void notifySubscribersFund(model::FundType fundType, int amount);
+        void notifySubscribersFundType(model::FundType fundType);
 
         std::map<model::FundType, std::shared_ptr<model::FundInterface>> m_funds;
         model::FundType m_actualFund;

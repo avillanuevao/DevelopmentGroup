@@ -2,6 +2,7 @@
 #define FRONTEND_VIEW_UI_OPERATIONS_SELECTFUNDVIEW_HPP
 
 #include <QObject>
+#include <QQmlApplicationEngine>
 #include <memory>
 
 #include <model/source/FundType.hpp>
@@ -22,13 +23,17 @@ class SelectFundView :
     Q_OBJECT
 
     public:
-        SelectFundView(std::shared_ptr<frontend::viewModel::ui::operations::SelectFundViewModel> selectFundViewModel);
+        SelectFundView(std::shared_ptr<frontend::viewModel::ui::operations::SelectFundViewModel> selectFundViewModel,
+                       QQmlApplicationEngine &engine,
+                       QObject *parent = nullptr);
 
     public slots:
         void setFundType(int fundType);
 
     private:
         std::shared_ptr<frontend::viewModel::ui::operations::SelectFundViewModel> m_selectFundViewModel;
+        QQmlApplicationEngine& m_engine;
+        QObject* m_parent;
 };
 
 }

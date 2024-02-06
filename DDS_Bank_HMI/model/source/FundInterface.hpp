@@ -4,12 +4,12 @@
 #include <FundType.hpp>
 #include <FundIncreaseAmountInterface.hpp>
 #include <FundDecreaseAmountInterface.hpp>
-#include <FundSetFundTypeInterface.hpp>
-#include <FundSetAmountInterface.hpp>
-#include <FundGetParameterInterface.hpp>
+#include <FundSetParameterInterface.hpp>
+#include <FundGetParametersInterface.hpp>
 
 #include <designPattern/SignalPublisher.hpp>
 #include <signal/UpdatedFundSignal.hpp>
+#include <signal/UpdatedFundTypeSignal.hpp>
 
 namespace model
 {
@@ -17,10 +17,10 @@ namespace model
 class FundInterface :
         public model::FundIncreaseAmountInterface,
         public model::FundDecreaseAmountInterface,
-        public model::FundSetAmountInterface,
-        public model::FundSetFundTypeInterface,
-        public model::FundGetParameterInterface,
-        public utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>
+        public model::FundSetParameterInterface,
+        public model::FundGetParametersInterface,
+        public utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>,
+        public utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>
 
 {
     public:

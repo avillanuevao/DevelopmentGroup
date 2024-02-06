@@ -1,4 +1,5 @@
 const string SELECT_FUND_TOPIC = "SelectFund";
+const string SELECT_FUND_TOPIC_ACK = "SelectFundAck";
 const string DEPOSIT_TOPIC = "Deposit";
 const string WITHDRAW_TOPIC = "Withdraw";
 const string TRANSACTION_TOPIC = "Transaction";
@@ -18,6 +19,13 @@ struct SelectFund
     FundType fund_type;
 };
 
+//Topic
+struct SelectFundAck
+{
+    @key    
+    FundType fund_type;
+};
+
 //Topic 
 struct Deposit 
 {
@@ -27,8 +35,6 @@ struct Deposit
 //Topic
 struct Withdraw 
 {
-    @key
-    FundType fund_type;
     int16 amount;
 };
 
@@ -36,7 +42,6 @@ struct Withdraw
 struct Transaction 
 {
     @key
-    FundType fund_type_origin;
     FundType fund_type_destination;
     int16 amount;
 };

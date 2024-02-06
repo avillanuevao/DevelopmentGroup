@@ -13,19 +13,12 @@ namespace signal
 class TransferedMoneySignal
 {
     public:
-        TransferedMoneySignal(model::FundType originFundType, model::FundType destinationFundType, int amount);
-
-        model::FundType getOriginFundType() const;
-        void setOriginFundType(model::FundType newOriginFundType);
+        TransferedMoneySignal(model::FundType destinationFundType, int amount);
 
         model::FundType getDestinationFundType() const;
-        void setDestinationFundType(model::FundType newDestinationFundType);
-
         int getAmount() const;
-        void setAmount(int newAmount);
 
 private:
-        model::FundType m_originFundType;
         model::FundType m_destinationFundType;
         int m_amount;
 

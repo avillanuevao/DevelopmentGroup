@@ -7,16 +7,19 @@ namespace  controller
 namespace  operation
 {
 
-TransferMoneyController::TransferMoneyController(std::shared_ptr<model::AllFunds> allFunds) :
-    m_allFunds(allFunds)
+TransferMoneyController::TransferMoneyController(std::shared_ptr<model::FundTransferAmountInterface> fund):
+    m_fund(fund)
 {
 
 }
 
-void TransferMoneyController::doTransaction(model::Operation transaction)
+void TransferMoneyController::transfer(model::FundType destinationFundType, int amount)
 {
-//    m_allFunds->transferAmount(
-//                transaction.getFundTypeOrigin(), transaction.getFundTypeDestination(), transaction.getAmount());
+    try {
+        m_fund->transferAmount(destinationFundType, amount);
+    }  catch (std::logic_error e) {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 }
