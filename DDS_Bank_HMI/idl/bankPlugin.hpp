@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bankPlugin_1860238142_h
-#define bankPlugin_1860238142_h
+#ifndef bankPlugin_1860238078_h
+#define bankPlugin_1860238078_h
 
 #include "bank.hpp"
 
@@ -638,29 +638,10 @@ DepositPlugin_new(void);
 NDDSUSERDllExport extern void
 DepositPlugin_delete(struct PRESTypePlugin *);
 
-/* The type used to store keys for instances of type struct
-* AnotherSimple.
-*
-* By default, this type is struct Withdraw
-* itself. However, if for some reason this choice is not practical for your
-* system (e.g. if sizeof(struct Withdraw)
-* is very large), you may redefine this typedef in terms of another type of
-* your choosing. HOWEVER, if you define the KeyHolder type to be something
-* other than struct AnotherSimple, the
-* following restriction applies: the key of struct
-* Withdraw must consist of a
-* single field of your redefined KeyHolder type and that field must be the
-* first field in struct Withdraw.
-*/
-typedef  class Withdraw WithdrawKeyHolder;
-
 #define WithdrawPlugin_get_sample PRESTypePluginDefaultEndpointData_getSample
 
 #define WithdrawPlugin_get_buffer PRESTypePluginDefaultEndpointData_getBuffer 
 #define WithdrawPlugin_return_buffer PRESTypePluginDefaultEndpointData_returnBuffer
-
-#define WithdrawPlugin_get_key PRESTypePluginDefaultEndpointData_getKey 
-#define WithdrawPlugin_return_key PRESTypePluginDefaultEndpointData_returnKey
 
 #define WithdrawPlugin_create_sample PRESTypePluginDefaultEndpointData_createSample 
 #define WithdrawPlugin_destroy_sample PRESTypePluginDefaultEndpointData_deleteSample 
@@ -702,20 +683,6 @@ WithdrawPluginSupport_print_data(
     const Withdraw *sample,
     const char *desc,
     unsigned int indent);
-
-NDDSUSERDllExport extern Withdraw*
-WithdrawPluginSupport_create_key_ex(RTIBool allocate_pointers);
-
-NDDSUSERDllExport extern Withdraw*
-WithdrawPluginSupport_create_key(void);
-
-NDDSUSERDllExport extern void 
-WithdrawPluginSupport_destroy_key_ex(
-    WithdrawKeyHolder *key,RTIBool deallocate_pointers);
-
-NDDSUSERDllExport extern void 
-WithdrawPluginSupport_destroy_key(
-    WithdrawKeyHolder *key);
 
 /* ----------------------------------------------------------------------------
 Callback functions:
@@ -819,26 +786,6 @@ WithdrawPlugin_deserialize_key(
     RTIBool deserialize_encapsulation,
     RTIBool deserialize_key,
     void *endpoint_plugin_qos);
-
-NDDSUSERDllExport extern RTIBool 
-WithdrawPlugin_instance_to_key(
-    PRESTypePluginEndpointData endpoint_data,
-    WithdrawKeyHolder *key, 
-    const Withdraw *instance);
-
-NDDSUSERDllExport extern RTIBool 
-WithdrawPlugin_key_to_instance(
-    PRESTypePluginEndpointData endpoint_data,
-    Withdraw *instance, 
-    const WithdrawKeyHolder *key);
-
-NDDSUSERDllExport extern RTIBool 
-WithdrawPlugin_serialized_sample_to_keyhash(
-    PRESTypePluginEndpointData endpoint_data,
-    struct RTICdrStream *stream, 
-    DDS_KeyHash_t *keyhash,
-    RTIBool deserialize_encapsulation,
-    void *endpoint_plugin_qos); 
 
 /* Plugin Functions */
 NDDSUSERDllExport extern struct PRESTypePlugin*
@@ -1272,5 +1219,5 @@ FundDataPlugin_delete(struct PRESTypePlugin *);
 #define NDDSUSERDllExport
 #endif
 
-#endif /* bankPlugin_1860238142_h */
+#endif /* bankPlugin_1860238078_h */
 

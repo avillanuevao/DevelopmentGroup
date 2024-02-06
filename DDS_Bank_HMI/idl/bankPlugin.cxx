@@ -2071,19 +2071,6 @@ WithdrawPluginSupport_copy_data(
     return RTI_TRUE;
 }
 
-Withdraw *
-WithdrawPluginSupport_create_key(void)
-{
-    return WithdrawPluginSupport_create_data();
-}
-
-void 
-WithdrawPluginSupport_destroy_key(
-    WithdrawKeyHolder *key) 
-{
-    WithdrawPluginSupport_destroy_data(key);
-}
-
 /* ----------------------------------------------------------------------------
 Callback functions:
 * ---------------------------------------------------------------------------- */
@@ -2165,9 +2152,6 @@ WithdrawPlugin_on_endpoint_attached(
         PRESTypePluginEndpointData epd = NULL;
         unsigned int serializedSampleMaxSize = 0;
 
-        unsigned int serializedKeyMaxSize = 0;
-        unsigned int serializedKeyMaxSizeV2 = 0;
-
         if (top_level_registration) {} /* To avoid warnings */
         if (containerPluginContext) {} /* To avoid warnings */
 
@@ -2182,30 +2166,11 @@ WithdrawPlugin_on_endpoint_attached(
             WithdrawPluginSupport_create_data,
             (PRESTypePluginDefaultEndpointDataDestroySampleFunction)
             WithdrawPluginSupport_destroy_data,
-            (PRESTypePluginDefaultEndpointDataCreateKeyFunction)
-            WithdrawPluginSupport_create_key ,                (PRESTypePluginDefaultEndpointDataDestroyKeyFunction)
-            WithdrawPluginSupport_destroy_key);
+            NULL , NULL );
 
         if (epd == NULL) {
             return NULL;
         } 
-
-        serializedKeyMaxSize =  WithdrawPlugin_get_serialized_key_max_size(
-            epd,RTI_FALSE,RTI_CDR_ENCAPSULATION_ID_CDR_BE,0);
-        serializedKeyMaxSizeV2 = WithdrawPlugin_get_serialized_key_max_size_for_keyhash(
-            epd,
-            RTI_CDR_ENCAPSULATION_ID_CDR2_BE,
-            0);
-
-        if(!PRESTypePluginDefaultEndpointData_createMD5StreamWithInfo(
-            epd,
-            endpoint_info,
-            serializedKeyMaxSize,
-            serializedKeyMaxSizeV2))  
-        {
-            PRESTypePluginDefaultEndpointData_delete(epd);
-            return NULL;
-        }
 
         if (endpoint_info->endpointKind == PRES_TYPEPLUGIN_ENDPOINT_WRITER) {
             serializedSampleMaxSize = WithdrawPlugin_get_serialized_sample_max_size(
@@ -2434,7 +2399,7 @@ Key Management functions:
 PRESTypePluginKeyKind 
 WithdrawPlugin_get_key_kind(void)
 {
-    return PRES_TYPEPLUGIN_USER_KEY;
+    return PRES_TYPEPLUGIN_NO_KEY;
 }
 
 RTIBool WithdrawPlugin_deserialize_key(
@@ -2508,70 +2473,6 @@ WithdrawPlugin_get_serialized_key_max_size_for_keyhash(
     return size;
 }
 
-RTIBool 
-WithdrawPlugin_instance_to_key(
-    PRESTypePluginEndpointData endpoint_data,
-    WithdrawKeyHolder *dst, 
-    const Withdraw *src)
-{
-    try {
-        if (endpoint_data) {} /* To avoid warnings */   
-
-        dst->fund_type() = src->fund_type();
-        return RTI_TRUE;
-    } catch (...) {
-        return RTI_FALSE;
-    }    
-}
-
-RTIBool 
-WithdrawPlugin_key_to_instance(
-    PRESTypePluginEndpointData endpoint_data,
-    Withdraw *dst, const
-    WithdrawKeyHolder *src)
-{
-    try {
-        if (endpoint_data) {} /* To avoid warnings */   
-        dst->fund_type() = src->fund_type();
-        return RTI_TRUE;
-    } catch (...) {
-        return RTI_FALSE;
-    }    
-}
-
-RTIBool 
-WithdrawPlugin_serialized_sample_to_keyhash(
-    PRESTypePluginEndpointData endpoint_data,
-    struct RTICdrStream *stream, 
-    DDS_KeyHash_t *keyhash,
-    RTIBool deserialize_encapsulation,
-    void *endpoint_plugin_qos)
-{
-    Withdraw * sample = NULL;
-    sample = (Withdraw *)
-    PRESTypePluginDefaultEndpointData_getTempSample(endpoint_data);
-    if (sample == NULL) {
-        return RTI_FALSE;
-    }
-    if (!PRESTypePlugin_interpretedSerializedSampleToKey(
-        endpoint_data,
-        sample,
-        stream, 
-        deserialize_encapsulation, 
-        RTI_TRUE,
-        endpoint_plugin_qos)) {
-        return RTI_FALSE;
-    }
-    if (!PRESTypePlugin_interpretedInstanceToKeyHash(
-        endpoint_data,
-        keyhash,
-        sample,
-        RTICdrStream_getEncapsulationKind(stream))) {
-        return RTI_FALSE;
-    }
-    return RTI_TRUE;   
-}
-
 /* ------------------------------------------------------------------------
 * Plug-in Installation Methods
 * ------------------------------------------------------------------------ */
@@ -2634,40 +2535,19 @@ struct PRESTypePlugin *WithdrawPlugin_new(void)
     (PRESTypePluginGetKeyKindFunction)
     WithdrawPlugin_get_key_kind;
 
-    plugin->getSerializedKeyMaxSizeFnc =   
-    (PRESTypePluginGetSerializedKeyMaxSizeFunction)
-    WithdrawPlugin_get_serialized_key_max_size;
-    plugin->serializeKeyFnc =
-    (PRESTypePluginSerializeKeyFunction)
-    PRESTypePlugin_interpretedSerializeKey;
-    plugin->deserializeKeyFnc =
-    (PRESTypePluginDeserializeKeyFunction)
-    WithdrawPlugin_deserialize_key;
-    plugin->deserializeKeySampleFnc =
-    (PRESTypePluginDeserializeKeySampleFunction)
-    PRESTypePlugin_interpretedDeserializeKey;
-
-    plugin-> instanceToKeyHashFnc = 
-    (PRESTypePluginInstanceToKeyHashFunction)
-    PRESTypePlugin_interpretedInstanceToKeyHash;
-    plugin->serializedSampleToKeyHashFnc = 
-    (PRESTypePluginSerializedSampleToKeyHashFunction)
-    WithdrawPlugin_serialized_sample_to_keyhash;
-
-    plugin->getKeyFnc =
-    (PRESTypePluginGetKeyFunction)
-    WithdrawPlugin_get_key;
-    plugin->returnKeyFnc =
-    (PRESTypePluginReturnKeyFunction)
-    WithdrawPlugin_return_key;
-
-    plugin->instanceToKeyFnc =
-    (PRESTypePluginInstanceToKeyFunction)
-    WithdrawPlugin_instance_to_key;
-    plugin->keyToInstanceFnc =
-    (PRESTypePluginKeyToInstanceFunction)
-    WithdrawPlugin_key_to_instance;
-    plugin->serializedKeyToKeyHashFnc = NULL; /* Not supported yet */
+    /* These functions are only used for keyed types. As this is not a keyed
+    type they are all set to NULL
+    */
+    plugin->serializeKeyFnc = NULL ;    
+    plugin->deserializeKeyFnc = NULL;  
+    plugin->getKeyFnc = NULL;
+    plugin->returnKeyFnc = NULL;
+    plugin->instanceToKeyFnc = NULL;
+    plugin->keyToInstanceFnc = NULL;
+    plugin->getSerializedKeyMaxSizeFnc = NULL;
+    plugin->instanceToKeyHashFnc = NULL;
+    plugin->serializedSampleToKeyHashFnc = NULL;
+    plugin->serializedKeyToKeyHashFnc = NULL;    
     #ifdef NDDS_STANDALONE_TYPE
     plugin->typeCode = NULL; 
     #else
@@ -3194,7 +3074,7 @@ TransactionPlugin_instance_to_key(
     try {
         if (endpoint_data) {} /* To avoid warnings */   
 
-        dst->fund_type_origin() = src->fund_type_origin();
+        dst->fund_type_destination() = src->fund_type_destination();
         return RTI_TRUE;
     } catch (...) {
         return RTI_FALSE;
@@ -3209,7 +3089,7 @@ TransactionPlugin_key_to_instance(
 {
     try {
         if (endpoint_data) {} /* To avoid warnings */   
-        dst->fund_type_origin() = src->fund_type_origin();
+        dst->fund_type_destination() = src->fund_type_destination();
         return RTI_TRUE;
     } catch (...) {
         return RTI_FALSE;

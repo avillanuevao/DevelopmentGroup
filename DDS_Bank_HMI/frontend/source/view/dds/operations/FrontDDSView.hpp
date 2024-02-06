@@ -16,9 +16,9 @@
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <frontend/source/viewModel/dds/operations/DDSViewModel.hpp>
 #include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
-#include <frontend/source/viewModel/signal/WithdrawnMoneySignal.hpp>
 #include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/SelectFundSignal.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/WithdrawnMoneySignal.hpp>
 
 namespace frontend
 {
@@ -32,7 +32,7 @@ class FrontDDSView :
         public utils::dds::DDSView,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFundSignal>,
         public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
-        public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal>,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>
 {
     public:
@@ -42,13 +42,13 @@ class FrontDDSView :
 
         void update(frontend::viewModel::ui::operations::signal::SelectFundSignal signal);
         void update(frontend::viewModel::signal::DepositMoneySignal signal);
-        void update(frontend::viewModel::signal::WithdrawnMoneySignal signal);
+        void update(frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal signal);
         void update(frontend::viewModel::signal::TransferedMoneySignal signal);
 
     private:
         void writeSelectFund(FundType fundType);
         void writeDeposit(int16_t amount);
-        const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
+        void writeWithdraw(int16_t amount);
         const Transaction writeTransaction(const FundType& originFundType, const FundType& destinationFundType, int16_t amount);
 
         void receivedTopicSelectFundAck(SelectFundAck selectFundAck);
@@ -62,7 +62,7 @@ class FrontDDSView :
 
         utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
-//        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
+        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
 //        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
         utils::dds::DDSDataReader<SelectFundAck> m_readerSelectFundAck;
         utils::dds::DDSDataReader<FundData> m_readerFundData;

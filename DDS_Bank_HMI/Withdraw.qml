@@ -6,23 +6,6 @@ ColumnLayout
 {
     id: columnLayoutW
 
-    ComboBox
-    {
-        id: fundTypeCBW
-        model: ListModel
-        {
-            ListElement {text: "Savings"}
-            ListElement {text: "Housing"}
-        }
-
-        onCurrentIndexChanged:
-        {
-            withdrawMoneyView.setFundType(fundTypeCBW.currentIndex)
-            console.log("Indice seleccionado: ", fundTypeCBW.currentIndex);
-            displayTW.text = withdrawMoneyView.getAmountFromFund()
-        }
-    }
-
     TextField
     {
         id: amountW
@@ -46,11 +29,5 @@ ColumnLayout
             withdrawMoneyView.setAmountToWithdraw(amountW.text)
             withdrawMoneyView.withdrawMoney()
         }
-    }
-
-    Text {
-        id: displayTW
-        objectName: "displayTW"
-        text: withdrawMoneyView.getAmountFromFund()
     }
 }

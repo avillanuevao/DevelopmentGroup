@@ -11,20 +11,22 @@ namespace dds
 namespace operations
 {
 
-DDSViewModel::DDSViewModel(std::shared_ptr<model::FundSetParameterInterface> fund):
-    m_fund(fund)
+DDSViewModel::DDSViewModel(std::shared_ptr<model::FundSetParameterInterface> fundSetParameter,
+                           std::shared_ptr<model::FundSetAmountByFundTypeInterface> fundSetAmountByFundType):
+    m_fundSetParameter(fundSetParameter),
+    m_fundSetAmountByFundType(fundSetAmountByFundType)
 {
 
-}
-
-void DDSViewModel::updateAmount(int amount)
-{
-    m_fund->setAmount(amount);
 }
 
 void DDSViewModel::updateFundType(model::FundType fundType)
 {
-    m_fund->setFundType(fundType);
+    m_fundSetParameter->setFundType(fundType);
+}
+
+void DDSViewModel::updateAmountByFundType(model::FundType fundType, int amount)
+{
+    m_fundSetAmountByFundType->setAmount(fundType, amount);
 }
 
 }

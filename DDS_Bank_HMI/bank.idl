@@ -35,8 +35,6 @@ struct Deposit
 //Topic
 struct Withdraw 
 {
-    @key
-    FundType fund_type;
     int16 amount;
 };
 
@@ -44,7 +42,6 @@ struct Withdraw
 struct Transaction 
 {
     @key
-    FundType fund_type_origin;
     FundType fund_type_destination;
     int16 amount;
 };

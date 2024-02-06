@@ -34,7 +34,7 @@ class DDSDataReader
 
         void wait(::dds::core::Duration seconds)
         {
-            std::cout << "esperando..." << std::endl;
+            //std::cout << "esperando..." << std::endl;
             ::dds::core::cond::WaitSet waitset;
             waitset += m_statusCondition;
             waitset.dispatch(seconds);

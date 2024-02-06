@@ -30,6 +30,8 @@ class VisualizeFundIncludeView :
     private:
         std::shared_ptr<viewModel::ui::visualization::VisualizeFundViewModel> m_visualizeFundViewModel;
 
+        model::FundType m_fundTypeActual;
+
 };
 
 }

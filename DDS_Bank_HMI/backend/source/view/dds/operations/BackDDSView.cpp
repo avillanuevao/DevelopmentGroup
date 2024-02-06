@@ -13,11 +13,12 @@ namespace operations
 BackDDSView::BackDDSView(unsigned int domainId,
                          unsigned int sampleCount,
                          std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                         std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController):
+                         std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
+                         std::shared_ptr<controller::operation::WithdrawMoneyController> withdrawMoneyController):
     utils::dds::DDSView(domainId, sampleCount),
     m_selectFundController(selectFundController),
     m_depositMoneyController(depositMoneyController),
-    //m_withdrawMoneyController(new backend::controller::operation::WithdrawMoneyController(m_allFunds)),
+    m_withdrawMoneyController(withdrawMoneyController),
     //m_transferMoneyController(new backend::controller::operation::TransferMoneyController(m_allFunds)),
     m_readerSelectFund(m_participant, m_subscriber, SELECT_FUND_TOPIC, std::bind(&BackDDSView::receivedTopicSelectFund, this, std::placeholders::_1)),
     m_readerDeposit(m_participant, m_subscriber, DEPOSIT_TOPIC, std::bind(&BackDDSView::receivedTopicDeposit, this, std::placeholders::_1)),
@@ -32,7 +33,7 @@ BackDDSView::BackDDSView(unsigned int domainId,
 
     m_threadsForReading[SELECT_FUND_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicSelectFund);
     m_threadsForReading[DEPOSIT_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicDeposit);
-//    m_threadsForReading[WITHDRAW_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicWithdraw);
+    m_threadsForReading[WITHDRAW_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicWithdraw);
 //    m_threadsForReading[TRANSACTION_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicTransaction);
 }
 
@@ -86,6 +87,30 @@ void BackDDSView::readingTopicDeposit()
     }
 }
 
+void BackDDSView::receivedTopicWithdraw(Withdraw withdraw)
+{
+    std::cout << "Withdraw topic received: " << std::endl;
+    std::cout << "\t" << withdraw << std::endl;
+
+    try
+    {
+
+        m_withdrawMoneyController->withdraw(withdraw.amount());
+    }
+    catch (std::logic_error e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+}
+
+void BackDDSView::readingTopicWithdraw()
+{
+    while(!utils::so::shutdown_requested)
+    {
+        m_readerWithdraw.wait(m_wait);
+    }
+}
+
 void BackDDSView::receivedTopicTransaction(Transaction transaction)
 {
     std::cout << "Data obtenido transaccion: " << std::endl;
@@ -125,31 +150,6 @@ void BackDDSView::writeSelectFundAck(const FundType &fundType)
 std::thread BackDDSView::initReadingTopicThread(void (backend::view::dds::operations::BackDDSView::*function)())
 {
     return std::thread(function, this);
-}
-
-void BackDDSView::receivedTopicWithdraw(Withdraw withdraw)
-{
-    std::cout << "Withdraw topic received: " << std::endl;
-    std::cout << "\t" << withdraw << std::endl;
-
-    try{
-
-//        m_withdrawMoneyController->withdraw(model::Operation(model::FundType::NONE,
-//                                                             static_cast<model::FundType>(withdraw.fund_type()),
-//                                                             withdraw.amount()));
-    }
-    catch (std::logic_error e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-}
-
-void BackDDSView::readingTopicWithdraw()
-{
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerWithdraw.wait(m_wait);
-    }
 }
 
 }

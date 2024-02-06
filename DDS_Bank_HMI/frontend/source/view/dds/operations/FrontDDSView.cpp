@@ -17,7 +17,7 @@ FrontDDSView::FrontDDSView(unsigned int domainId,
     m_ddsViewModel(ddsViewModel),
     m_writerSelectFund(m_participant, m_publisher, SELECT_FUND_TOPIC),
     m_writerDeposit(m_participant, m_publisher, DEPOSIT_TOPIC),
-//    m_writerWithdraw(m_participant, m_publisher, WITHDRAW_TOPIC),
+    m_writerWithdraw(m_participant, m_publisher, WITHDRAW_TOPIC),
 //    m_writerTransfer(m_participant, m_publisher, TRANSACTION_TOPIC),
     m_readerSelectFundAck(m_participant, m_subscriber, SELECT_FUND_TOPIC_ACK, std::bind(&FrontDDSView::receivedTopicSelectFundAck, this, std::placeholders::_1)),
     m_readerFundData(m_participant, m_subscriber, FUND_DATA_TOPIC, std::bind(&FrontDDSView::receivedTopicFundData, this, std::placeholders::_1))
@@ -33,9 +33,9 @@ void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
     writeDeposit(signal.getAmount());
 }
 
-void FrontDDSView::update(viewModel::signal::WithdrawnMoneySignal signal)
+void FrontDDSView::update(viewModel::ui::operations::signal::WithdrawnMoneySignal signal)
 {
-    writeWithdraw(static_cast<FundType>(signal.getFundType()), signal.getAmount());
+    writeWithdraw(signal.getAmount());
 }
 
 void FrontDDSView::update(viewModel::signal::TransferedMoneySignal signal)
@@ -56,6 +56,16 @@ void FrontDDSView::writeDeposit(int16_t amount)
 
     std::cout << "sample Deposit sended: " << std::endl
               << "\t[amount:" << sampleDeposit.amount() << "]" << std::endl;
+}
+
+void FrontDDSView::writeWithdraw(int16_t amount)
+{
+    Withdraw sampleWithdraw(amount);
+
+    m_writerWithdraw.write(sampleWithdraw);
+
+    std::cout << "sample Withdraw sended:  "
+              << "\t[amount:" << sampleWithdraw.amount() << "]" << std::endl;
 }
 
 const Transaction FrontDDSView::writeTransaction(const FundType &originFundType, const FundType &destinationFundType, int16_t amount)
@@ -106,7 +116,7 @@ void FrontDDSView::receivedTopicFundData(FundData fundData)
     std::cout << "FundData topic recieved: " << std::endl;
     std::cout << "\t" << fundData << std::endl;
 
-    m_ddsViewModel->updateAmount(fundData.amount());
+    m_ddsViewModel->updateAmountByFundType(static_cast<model::FundType>(fundData.fund_type()), fundData.amount());
 }
 
 void FrontDDSView::readingTopicFundData()
@@ -120,20 +130,6 @@ void FrontDDSView::readingTopicFundData()
 std::thread FrontDDSView::initReadingTopicThread(void (frontend::view::dds::operations::FrontDDSView::*function)())
 {
     return std::thread(function, this);
-}
-
-const Withdraw FrontDDSView::writeWithdraw(const FundType &fundType, int16_t amount)
-{
-//    Withdraw sampleWithdraw(fundType, amount);
-
-//    m_writerWithdraw.write(sampleWithdraw);
-//    std::cout << "withdraw topic sended: "
-//              << static_cast<int>(sampleWithdraw.fund_type())
-//              << " "
-//              << sampleWithdraw.amount()
-//              << std::endl;
-
-//    return sampleWithdraw;
 }
 
 }
