@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <model/source/AllFunds.hpp>
+#include <view/ui/operations/SelectFundView.hpp>
 #include <view/ui/operations/DepositMoneyView.hpp>
 #include <view/ui/operations/WithdrawMoneyView.hpp>
 #include <view/ui/operations/TransferMoneyView.hpp>

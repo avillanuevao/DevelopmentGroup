@@ -41,7 +41,7 @@ class BackDDSView :
                     unsigned int sampleCount,
                     std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
                     std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
-                    std::shared_ptr<backend::controller::operation::WithdrawMoneyController> withdrawMoneyController);
+                    std::shared_ptr<backend::controller::operation::WithdrawMoneyController> withdrawMoneyController,
                     std::shared_ptr<backend::controller::operation::TransferMoneyController> transferMoneyController);
         ~BackDDSView();
 

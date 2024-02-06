@@ -7,8 +7,9 @@ namespace controller
 namespace operation
 {
 
-WithdrawMoneyController::WithdrawMoneyController(std::shared_ptr<model::FundDecreaseAmountInterface> fundDecrease, std::shared_ptr<model::FundDecreaseAmountByFundTypeInterface> fundDecreaseByFundType,
-                                                 std::shared_ptr<model::FundGetAmountInterface> fundGetAmount,
+WithdrawMoneyController::WithdrawMoneyController(std::shared_ptr<model::FundDecreaseAmountInterface> fundDecrease,
+                                                 std::shared_ptr<model::FundDecreaseAmountByFundTypeInterface> fundDecreaseByFundType,
+                                                 std::shared_ptr<model::FundGetParametersInterface> fundGetAmount,
                                                  std::shared_ptr<model::FundGetAmountByFundTypeInterface> fundGetAmountByFundType):
     m_fundDecrease(fundDecrease),
     m_fundDecreaseByFundType(fundDecreaseByFundType),

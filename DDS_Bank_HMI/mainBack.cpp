@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     std::shared_ptr<BackDDSView>backDDSView(new BackDDSView(0,2,
                                                             selectFundController,
                                                             depositMoneyController,
-                                                            withdrawMoneyController));
+                                                            withdrawMoneyController,
                                                             transferMoneyController));
 
     allFunds->utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::addSubscriber(backDDSView);

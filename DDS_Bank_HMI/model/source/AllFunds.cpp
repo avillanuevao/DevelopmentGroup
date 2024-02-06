@@ -50,11 +50,6 @@ void AllFunds::decreaseAmount(FundType fundType, int amount)
 
 void AllFunds::transferAmount(FundType destinationFundType, int amount)
 {
-    if(destinationFundType == m_actualFund)
-    {
-        throw std::logic_error("Fund destination cannot be the same as fund origin");
-    }
-
     int amountFundTypeOrigin = getActualFund()->getAmount();
 
     if(!(amountFundTypeOrigin >= amount))
@@ -168,5 +163,3 @@ void AllFunds::notifySubscribersFundType(FundType fundType)
 }
 
 }
-
-

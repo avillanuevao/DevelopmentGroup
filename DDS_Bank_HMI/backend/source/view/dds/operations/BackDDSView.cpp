@@ -14,7 +14,7 @@ BackDDSView::BackDDSView(unsigned int domainId,
                          unsigned int sampleCount,
                          std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
                          std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
-                         std::shared_ptr<controller::operation::WithdrawMoneyController> withdrawMoneyController):
+                         std::shared_ptr<controller::operation::WithdrawMoneyController> withdrawMoneyController,
                          std::shared_ptr<controller::operation::TransferMoneyController> transferMoneyController):
     utils::dds::DDSView(domainId, sampleCount),
     m_selectFundController(selectFundController),

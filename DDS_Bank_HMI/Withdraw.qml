@@ -1,32 +1,32 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.12
-//TO
+
 ColumnLayout
 {
-//    id: columnLayoutW
+    id: columnLayoutWithdraw
 
     TextField
     {
-        id: amountW
+        id: amountWithdraw
         placeholderText: "Amount withdraw"
 
-//        validator: RegExpValidator{ regExp: /^\d+$/ }
-//        onTextChanged:
-//        {
+        validator: RegExpValidator{ regExp: /^\d+$/ }
+        onTextChanged:
+        {
 
-//            console.log(amountW.text)
-//        }
-//    }
+            console.log(amountWithdraw.text)
+        }
+    }
 
-//    Button
-//    {
-//        id: acceptBW
-//        text: "Accept"
+    Button
+    {
+        id: acceptBW
+        text: "Accept"
 
         onClicked:
         {
-            withdrawMoneyView.setAmountToWithdraw(amountW.text)
+            withdrawMoneyView.setAmountToWithdraw(amountWithdraw.text)
             withdrawMoneyView.withdrawMoney()
         }
     }
