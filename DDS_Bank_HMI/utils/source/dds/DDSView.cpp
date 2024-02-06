@@ -13,7 +13,7 @@ DDSView::DDSView(unsigned int domainId,
     m_publisher(std::make_shared<::dds::pub::Publisher>(*m_participant)),
     m_subscriber(std::make_shared<::dds::sub::Subscriber>(*m_participant))
 {
-
+    m_wait = ::dds::core::Duration(1);
 }
 
 }

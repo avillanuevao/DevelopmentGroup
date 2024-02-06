@@ -10,26 +10,22 @@ namespace dds
 namespace operations
 {
 
-FrontDDSView::FrontDDSView(std::shared_ptr<viewModel::dds::operations::DDSViewModel> ddsViewModel,
-                           unsigned int domain_id,
-                           unsigned int sample_count) :
+FrontDDSView::FrontDDSView(unsigned int domainId,
+                           unsigned int sampleCount,
+                           std::shared_ptr<viewModel::dds::operations::DDSViewModel> ddsViewModel) :
+    utils::dds::DDSView(domainId, sampleCount),
     m_ddsViewModel(ddsViewModel),
-    m_domain_id(domain_id),
-    m_sample_count(sample_count),
-    m_participant(std::make_shared<::dds::domain::DomainParticipant>(domain_id)),
-    m_publisher(std::make_shared<::dds::pub::Publisher>(*m_participant)),
     m_writerSelectFund(m_participant, m_publisher, SELECT_FUND_TOPIC),
     m_writerDeposit(m_participant, m_publisher, DEPOSIT_TOPIC),
 //    m_writerWithdraw(m_participant, m_publisher, WITHDRAW_TOPIC),
 //    m_writerTransfer(m_participant, m_publisher, TRANSACTION_TOPIC),
-    m_subscriber(std::make_shared<::dds::sub::Subscriber>(*m_participant)),
     m_readerSelectFundAck(m_participant, m_subscriber, SELECT_FUND_TOPIC_ACK, std::bind(&FrontDDSView::receivedTopicSelectFundAck, this, std::placeholders::_1)),
     m_readerFundData(m_participant, m_subscriber, FUND_DATA_TOPIC, std::bind(&FrontDDSView::receivedTopicFundData, this, std::placeholders::_1))
 {
     utils::so::setup_signal_handlers();
-    m_wait = ::dds::core::Duration(1);
-    m_threadSelectFundAck = initReadingTopicThread(&FrontDDSView::readingTopicSelectFundAck);
-    m_threadFundData = initReadingTopicThread(&FrontDDSView::readingTopicFundData);
+
+    m_threadsForReading[SELECT_FUND_TOPIC_ACK] = initReadingTopicThread(&FrontDDSView::readingTopicSelectFundAck);
+    m_threadsForReading[FUND_DATA_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicFundData);
 }
 
 void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
@@ -80,8 +76,6 @@ const Transaction FrontDDSView::writeTransaction(const FundType &originFundType,
 void FrontDDSView::writeSelectFund(FundType fundType)
 {
     SelectFund sampleSelectFund(fundType);
-
-    std::cout << "Hasta aqui llego" << std::endl;
 
     m_writerSelectFund.write(sampleSelectFund);
 

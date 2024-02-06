@@ -2,6 +2,7 @@
 #define BACKEND_CONTROLLER_OPERATION_DEPOSITMONEYCONTROLLER_HPP
 
 #include <memory>
+#include <limits>
 
 #include <model/source/FundIncreaseAmountInterface.hpp>
 #include <model/source/Operation.hpp>

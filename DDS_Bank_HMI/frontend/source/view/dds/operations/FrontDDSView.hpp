@@ -10,7 +10,7 @@
 #include <rti/config/Logger.hpp>
 
 #include <idl/bank.hpp>
-#include <model/source/AllFunds.hpp>
+#include <utils/source/dds/DDSView.hpp>
 #include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
@@ -29,15 +29,16 @@ namespace dds
 namespace operations
 {
 class FrontDDSView :
+        public utils::dds::DDSView,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFundSignal>,
         public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
         public utils::designPattern::SignalSubscriber<viewModel::signal::WithdrawnMoneySignal>,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>
 {
     public:
-        FrontDDSView(std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel,
-                     unsigned int domain_id,
-                     unsigned int sample_count);
+        FrontDDSView(unsigned int domainId,
+                     unsigned int sampleCount,
+                     std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel);
 
         void update(frontend::viewModel::ui::operations::signal::SelectFundSignal signal);
         void update(frontend::viewModel::signal::DepositMoneySignal signal);
@@ -58,21 +59,13 @@ class FrontDDSView :
         std::thread initReadingTopicThread(void (frontend::view::dds::operations::FrontDDSView::*function)());
 
         std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> m_ddsViewModel;
-        unsigned int m_domain_id;
-        unsigned int m_sample_count;
 
-        std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
-        std::shared_ptr<::dds::pub::Publisher> m_publisher;
         utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
 //        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
 //        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
-        std::shared_ptr<::dds::sub::Subscriber> m_subscriber;
         utils::dds::DDSDataReader<SelectFundAck> m_readerSelectFundAck;
         utils::dds::DDSDataReader<FundData> m_readerFundData;
-        std::thread m_threadSelectFundAck;
-        std::thread m_threadFundData;
-        ::dds::core::Duration m_wait;
 };
 
 }

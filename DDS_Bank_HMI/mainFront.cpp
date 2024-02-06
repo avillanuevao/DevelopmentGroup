@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     std::shared_ptr<SelectFundViewModel> selectFundViewModel(new SelectFundViewModel());
 
     std::shared_ptr<DepositMoneyView> depositMoneyView (new DepositMoneyView(depositViewModel, engine));
-    std::shared_ptr<FrontDDSView> frontDDSView (new FrontDDSView(ddsViewModel, 0, 2));
+    std::shared_ptr<FrontDDSView> frontDDSView (new FrontDDSView(0, 2, ddsViewModel));
     std::shared_ptr<VisualizeFundIncludeView> visualizeFundIncludeView (new VisualizeFundIncludeView(visualizeFundViewModel));
     std::shared_ptr<VisualizeFundView> visualizeFundView (new VisualizeFundView(engine));
     std::shared_ptr<SelectFundView> selectFundView(new SelectFundView(selectFundViewModel, engine));
