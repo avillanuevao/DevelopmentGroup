@@ -9,13 +9,15 @@
 #include <FundType.hpp>
 #include <FundInterface.hpp>
 #include <FundTransferAmountInterface.hpp>
+#include <FundSetAmountByFundTypeInterface.hpp>
 
 namespace model
 {
 
 class AllFunds :
         public model::FundInterface,
-        public model::FundTransferAmountInterface
+        public model::FundTransferAmountInterface,
+        public model::FundSetAmountByFundTypeInterface
 {
     public:
         AllFunds(model::FundType actualFund);
@@ -25,8 +27,9 @@ class AllFunds :
         void transferAmount(model::FundType fundTypeDestination, int amount) override;
 
         int getAmount() const override;
-        model::FundType getFundType() const;
+        model::FundType getFundType() const override;
         void setAmount(int amount) override;
+        void setAmountByFundType(model::FundType fundType, int amount) override;
         void setFundType(model::FundType fundType) override;
 
     private:

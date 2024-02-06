@@ -5,7 +5,7 @@
 #include <FundIncreaseAmountInterface.hpp>
 #include <FundDecreaseAmountInterface.hpp>
 #include <FundSetParameterInterface.hpp>
-#include <FundGetAmountInterface.hpp>
+#include <FundGetParametersInterface.hpp>
 
 #include <designPattern/SignalPublisher.hpp>
 #include <signal/UpdatedFundSignal.hpp>
@@ -18,7 +18,7 @@ class FundInterface :
         public model::FundIncreaseAmountInterface,
         public model::FundDecreaseAmountInterface,
         public model::FundSetParameterInterface,
-        public model::FundGetAmountInterface,
+        public model::FundGetParametersInterface,
         public utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>,
         public utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>
 

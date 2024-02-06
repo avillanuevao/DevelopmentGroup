@@ -37,7 +37,7 @@ void AllFunds::initFund(model::FundType fundType)
 
 void AllFunds::notifySubscribersFund(FundType fundType, int amount)
 {
-    model::signal::UpdatedFundSignal signalUpdatedModel(fundType, getActualFund()->getAmount());
+    model::signal::UpdatedFundSignal signalUpdatedModel(fundType, amount);
     utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::notifySubscribers(signalUpdatedModel);
 }
 
@@ -62,6 +62,11 @@ void AllFunds::increaseAmount(int amount)
 
 void AllFunds::transferAmount(FundType destinationFundType, int amount)
 {
+    if(destinationFundType == m_actualFund)
+    {
+        throw std::logic_error("Fund destination cannot be the same as fund origin");
+    }
+
     int amountFundTypeOrigin = getActualFund()->getAmount();
 
     if(!(amountFundTypeOrigin >= amount))
@@ -125,6 +130,13 @@ void AllFunds::setAmount(int newAmount)
         throw e;
     }
     notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
+}
+
+void AllFunds::setAmountByFundType(FundType fundType, int amount)
+{
+    getFund(fundType)->setAmount(amount);
+
+    notifySubscribersFund(fundType, getFund(fundType)->getAmount());
 }
 
 void AllFunds::setFundType(FundType fundType)

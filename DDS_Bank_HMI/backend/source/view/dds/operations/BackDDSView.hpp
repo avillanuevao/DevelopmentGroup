@@ -40,7 +40,8 @@ class BackDDSView :
         BackDDSView(unsigned int domainId,
                     unsigned int sampleCount,
                     std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                    std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController);
+                    std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
+                    std::shared_ptr<backend::controller::operation::TransferMoneyController> transferMoneyController);
         ~BackDDSView();
 
         void update(model::signal::UpdatedFundSignal signal);
@@ -63,7 +64,7 @@ class BackDDSView :
         std::shared_ptr<backend::controller::operation::SelectFundController> m_selectFundController;
         std::shared_ptr<backend::controller::operation::DepositMoneyController> m_depositMoneyController;
         //std::unique_ptr<backend::controller::operation::WithdrawMoneyController> m_withdrawMoneyController;
-        //std::unique_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
+        std::shared_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
 
         utils::dds::DDSDataReader<SelectFund> m_readerSelectFund;
         utils::dds::DDSDataReader<Deposit> m_readerDeposit;

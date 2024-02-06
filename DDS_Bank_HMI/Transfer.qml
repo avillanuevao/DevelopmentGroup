@@ -6,39 +6,24 @@ ColumnLayout
 {
     id: columnLayoutTransfer
 
+    property alias fundsModel: fundTypeDestinationTransferComboBox.model
+
     RowLayout
     {
-        ComboBox
+        Text
         {
-            id: fundTypeOriginTransferComboBox
-            model: ListModel
-            {
-                ListElement {text: "Savings"}
-                ListElement {text: "Housing"}
-            }
-
-            onCurrentIndexChanged:
-            {
-                transferMoneyView.setOriginFundType(fundTypeOriginTransferComboBox.currentIndex);
-                //            depositMoneyView.setFundType(fundTypeCB.currentIndex)
-                //            console.log("Indice seleccionado: ", fundTypeCB.currentIndex);
-                //            displayT.text = depositMoneyView.getAmountFromFund()
-            }
+            id: destinationTransfer
+            text: qsTr("Destination Transfer: ")
         }
 
         ComboBox
         {
-            id: fundTypeDestinyTransferComboBox
-            model: ListModel
-            {
-                ListElement {text: "Savings"}
-                ListElement {text: "Housing"}
-            }
+            id: fundTypeDestinationTransferComboBox
 
             onCurrentIndexChanged:
             {
-                transferMoneyView.setDestinationFundType(fundTypeDestinyTransferComboBox.currentIndex);
-             }
+                transferMoneyView.setDestinationFundType(fundTypeDestinationTransferComboBox.currentIndex);
+            }
         }
     }
 
@@ -59,11 +44,5 @@ ColumnLayout
             transferMoneyView.setAmountToTransfer(amountTransferTextField.text)
             transferMoneyView.transferMoney();
         }
-    }
-
-    Text {
-        objectName: "displayTransferText"
-        id: displayTransferText
-        text: transferMoneyView.getAmountFromOriginFund();
     }
 }

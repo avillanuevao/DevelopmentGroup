@@ -49,7 +49,7 @@ class FrontDDSView :
         void writeSelectFund(FundType fundType);
         void writeDeposit(int16_t amount);
         const Withdraw writeWithdraw(const FundType& fundType, int16_t amount);
-        const Transaction writeTransaction(const FundType& originFundType, const FundType& destinationFundType, int16_t amount);
+        void writeTransaction(const FundType& destinationFundType, int16_t amount);
 
         void receivedTopicSelectFundAck(SelectFundAck selectFundAck);
         void readingTopicSelectFundAck();
@@ -63,7 +63,7 @@ class FrontDDSView :
         utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
 //        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
-//        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
+        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
         utils::dds::DDSDataReader<SelectFundAck> m_readerSelectFundAck;
         utils::dds::DDSDataReader<FundData> m_readerFundData;
 };

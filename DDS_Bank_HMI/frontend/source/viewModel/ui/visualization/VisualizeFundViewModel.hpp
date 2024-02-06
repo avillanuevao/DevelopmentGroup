@@ -2,7 +2,7 @@
 #define FRONTEND_VIEWMODEL_UI_VISUALIZATION_VISUALIZEFUNDVIEWMODEL_HPP
 
 #include <model/source/FundType.hpp>
-#include <model/source/FundGetAmountInterface.hpp>
+#include <model/source/FundGetParametersInterface.hpp>
 #include <frontend/source/viewModel/ui/visualization/signal/VisualizeFundSignal.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
 
@@ -19,13 +19,13 @@ class VisualizeFundViewModel :
         public utils::designPattern::SignalPublisher<frontend::viewModel::ui::visualization::signal::VisualizeFundSignal>
 {
     public:
-        VisualizeFundViewModel(std::shared_ptr<model::FundGetAmountInterface> fund);
+        VisualizeFundViewModel(std::shared_ptr<model::FundGetParametersInterface> fund);
 
         void updateView();
-        void updateView(int amount);
+        void updateView(model::FundType fundType, int amount);
 
     private:
-        std::shared_ptr<model::FundGetAmountInterface> m_fund;
+        std::shared_ptr<model::FundGetParametersInterface> m_fund;
 };
 
 }

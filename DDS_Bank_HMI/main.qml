@@ -10,6 +10,13 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
+    ListModel
+    {
+        id: allFundsModel
+        ListElement { text: "Savings" }
+        ListElement { text: "Housing" }
+    }
+
     ColumnLayout
     {
         RowLayout
@@ -56,6 +63,7 @@ Window {
         SelectFund
         {
             id: selectFund
+            fundsModel: allFundsModel
             visible: true
         }
 
@@ -80,6 +88,7 @@ Window {
         Transfer
         {
             id: transfer
+            fundsModel: allFundsModel
             visible: false
         }
     }

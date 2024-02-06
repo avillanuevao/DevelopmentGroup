@@ -13,12 +13,13 @@ namespace operations
 BackDDSView::BackDDSView(unsigned int domainId,
                          unsigned int sampleCount,
                          std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                         std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController):
+                         std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
+                         std::shared_ptr<controller::operation::TransferMoneyController> transferMoneyController):
     utils::dds::DDSView(domainId, sampleCount),
     m_selectFundController(selectFundController),
     m_depositMoneyController(depositMoneyController),
     //m_withdrawMoneyController(new backend::controller::operation::WithdrawMoneyController(m_allFunds)),
-    //m_transferMoneyController(new backend::controller::operation::TransferMoneyController(m_allFunds)),
+    m_transferMoneyController(transferMoneyController),
     m_readerSelectFund(m_participant, m_subscriber, SELECT_FUND_TOPIC, std::bind(&BackDDSView::receivedTopicSelectFund, this, std::placeholders::_1)),
     m_readerDeposit(m_participant, m_subscriber, DEPOSIT_TOPIC, std::bind(&BackDDSView::receivedTopicDeposit, this, std::placeholders::_1)),
     m_readerWithdraw(m_participant, m_subscriber, WITHDRAW_TOPIC, std::bind(&BackDDSView::receivedTopicWithdraw, this, std::placeholders::_1)),
@@ -33,7 +34,7 @@ BackDDSView::BackDDSView(unsigned int domainId,
     m_threadsForReading[SELECT_FUND_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicSelectFund);
     m_threadsForReading[DEPOSIT_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicDeposit);
 //    m_threadsForReading[WITHDRAW_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicWithdraw);
-//    m_threadsForReading[TRANSACTION_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicTransaction);
+    m_threadsForReading[TRANSACTION_TOPIC] = initReadingTopicThread(&BackDDSView::readingTopicTransaction);
 }
 
 BackDDSView::~BackDDSView()
@@ -88,12 +89,12 @@ void BackDDSView::readingTopicDeposit()
 
 void BackDDSView::receivedTopicTransaction(Transaction transaction)
 {
-    std::cout << "Data obtenido transaccion: " << std::endl;
+    std::cout << "Transaction topic received: " << std::endl;
     std::cout << "\t" << transaction << std::endl;
 
-//    m_transferMoneyController->doTransaction(model::Operation(
-//                static_cast<model::FundType>(transaction.fund_type_origin()),
-//                static_cast<model::FundType>(transaction.fund_type_destination()), transaction.amount()));
+    model::FundType modelFundType(static_cast<model::FundType>(transaction.fund_type_destination()));
+
+    m_transferMoneyController->transfer(modelFundType, transaction.amount());
 }
 
 void BackDDSView::readingTopicTransaction()

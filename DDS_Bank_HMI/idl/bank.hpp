@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bank_1860238142_hpp
-#define bank_1860238142_hpp
+#ifndef bank_1860238078_hpp
+#define bank_1860238078_hpp
 
 #include <iosfwd>
 
@@ -234,8 +234,7 @@ class NDDSUSERDllExport Withdraw {
   public:
     Withdraw();
 
-    Withdraw(
-        const FundType& fund_type,
+    explicit Withdraw(
         int16_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
@@ -250,21 +249,6 @@ class NDDSUSERDllExport Withdraw {
     #endif
     #endif 
 
-    FundType& fund_type() OMG_NOEXCEPT {
-        return m_fund_type_;
-    }
-
-    const FundType& fund_type() const OMG_NOEXCEPT {
-        return m_fund_type_;
-    }
-
-    void fund_type(const FundType& value) {
-        m_fund_type_ = value;
-    }
-
-    void fund_type(FundType&& value) {
-        m_fund_type_ = std::move(value);
-    }
     int16_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
@@ -284,7 +268,6 @@ class NDDSUSERDllExport Withdraw {
 
   private:
 
-    FundType m_fund_type_;
     int16_t m_amount_;
 
 };
@@ -301,7 +284,6 @@ class NDDSUSERDllExport Transaction {
     Transaction();
 
     Transaction(
-        const FundType& fund_type_origin,
         const FundType& fund_type_destination,
         int16_t amount);
 
@@ -317,21 +299,6 @@ class NDDSUSERDllExport Transaction {
     #endif
     #endif 
 
-    FundType& fund_type_origin() OMG_NOEXCEPT {
-        return m_fund_type_origin_;
-    }
-
-    const FundType& fund_type_origin() const OMG_NOEXCEPT {
-        return m_fund_type_origin_;
-    }
-
-    void fund_type_origin(const FundType& value) {
-        m_fund_type_origin_ = value;
-    }
-
-    void fund_type_origin(FundType&& value) {
-        m_fund_type_origin_ = std::move(value);
-    }
     FundType& fund_type_destination() OMG_NOEXCEPT {
         return m_fund_type_destination_;
     }
@@ -366,7 +333,6 @@ class NDDSUSERDllExport Transaction {
 
   private:
 
-    FundType m_fund_type_origin_;
     FundType m_fund_type_destination_;
     int16_t m_amount_;
 
@@ -789,5 +755,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // bank_1860238142_hpp
+#endif // bank_1860238078_hpp
 

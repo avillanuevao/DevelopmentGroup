@@ -4,53 +4,53 @@ import QtQuick.Layouts 1.12
 //TO
 ColumnLayout
 {
-    id: columnLayoutW
+//    id: columnLayoutW
 
-    ComboBox
-    {
-        id: fundTypeCBW
-        model: ListModel
-        {
-            ListElement {text: "Savings"}
-            ListElement {text: "Housing"}
-        }
+//    ComboBox
+//    {
+//        id: fundTypeCBW
+//        model: ListModel
+//        {
+//            ListElement {text: "Savings"}
+//            ListElement {text: "Housing"}
+//        }
 
-        onCurrentIndexChanged:
-        {
-            withdrawMoneyView.setFundType(fundTypeCBW.currentIndex)
-            console.log("Indice seleccionado: ", fundTypeCBW.currentIndex);
-            displayTW.text = withdrawMoneyView.getAmountFromFund()
-        }
-    }
+//        onCurrentIndexChanged:
+//        {
+//            withdrawMoneyView.setFundType(fundTypeCBW.currentIndex)
+//            console.log("Indice seleccionado: ", fundTypeCBW.currentIndex);
+//            displayTW.text = withdrawMoneyView.getAmountFromFund()
+//        }
+//    }
 
-    TextField
-    {
-        id: amountW
-        placeholderText: "Amount withdraw"
+//    TextField
+//    {
+//        id: amountW
+//        placeholderText: "Amount withdraw"
 
-        validator: RegExpValidator{ regExp: /^\d+$/ }
-        onTextChanged:
-        {
+//        validator: RegExpValidator{ regExp: /^\d+$/ }
+//        onTextChanged:
+//        {
 
-            console.log(amountW.text)
-        }
-    }
+//            console.log(amountW.text)
+//        }
+//    }
 
-    Button
-    {
-        id: acceptBW
-        text: "Accept"
+//    Button
+//    {
+//        id: acceptBW
+//        text: "Accept"
 
-        onClicked:
-        {
-            withdrawMoneyView.setAmountToWithdraw(amountW.text)
-            withdrawMoneyView.withdrawMoney()
-        }
-    }
+//        onClicked:
+//        {
+//            withdrawMoneyView.setAmountToWithdraw(amountW.text)
+//            withdrawMoneyView.withdrawMoney()
+//        }
+//    }
 
-    Text {
-        id: displayTW
-        objectName: "displayTW"
-        text: withdrawMoneyView.getAmountFromFund()
-    }
+//    Text {
+//        id: displayTW
+//        objectName: "displayTW"
+//        text: withdrawMoneyView.getAmountFromFund()
+//    }
 }
