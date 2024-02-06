@@ -4,25 +4,25 @@ import QtQuick.Layouts 1.12
 //TO
 ColumnLayout
 {
-    id: columnLayoutW
+//    id: columnLayoutW
 
     TextField
     {
         id: amountW
         placeholderText: "Amount withdraw"
 
-        validator: RegExpValidator{ regExp: /^\d+$/ }
-        onTextChanged:
-        {
+//        validator: RegExpValidator{ regExp: /^\d+$/ }
+//        onTextChanged:
+//        {
 
-            console.log(amountW.text)
-        }
-    }
+//            console.log(amountW.text)
+//        }
+//    }
 
-    Button
-    {
-        id: acceptBW
-        text: "Accept"
+//    Button
+//    {
+//        id: acceptBW
+//        text: "Accept"
 
         onClicked:
         {

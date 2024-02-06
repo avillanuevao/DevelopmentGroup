@@ -33,8 +33,7 @@ class AllFunds :
 
         int getAmount(model::FundType fundType) const override;
         int getAmount() const override;
-        model::FundType getFundType() const;
-
+        model::FundType getFundType() const override;
         void setAmount(int amount) override;
         void setAmount(model::FundType fundType, int amount);
         void setFundType(model::FundType fundType) override;

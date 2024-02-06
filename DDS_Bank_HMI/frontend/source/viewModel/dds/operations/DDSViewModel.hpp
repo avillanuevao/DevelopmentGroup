@@ -22,11 +22,12 @@ class DDSViewModel
                      std::shared_ptr<model::FundSetAmountByFundTypeInterface> fundSetAmountByFundType);
 
         void updateFundType(model::FundType fundType);
-        void updateAmountByFundType(model::FundType fundType, int amount);
+        void updateAmount(model::FundType fundType, int amount);
 
     private:
         std::shared_ptr<model::FundSetParameterInterface> m_fundSetParameter;
         std::shared_ptr<model::FundSetAmountByFundTypeInterface> m_fundSetAmountByFundType;
+
 };
 
 }

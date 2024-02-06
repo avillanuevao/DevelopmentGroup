@@ -3,8 +3,7 @@
 
 #include <memory>
 
-#include <model/source/AllFunds.hpp>
-#include <model/source/Operation.hpp>
+#include <model/source/FundTransferAmountInterface.hpp>
 
 namespace  backend
 {
@@ -17,12 +16,12 @@ namespace  operation
 class TransferMoneyController
 {
     public:
-        TransferMoneyController(std::shared_ptr<model::AllFunds> allFunds);
+        TransferMoneyController(std::shared_ptr<model::FundTransferAmountInterface> fund);
 
-        void doTransaction(model::Operation transaction);
+        void transfer(model::FundType destinationFundType, int amount);
 
     private:
-        std::shared_ptr<model::AllFunds> m_allFunds;
+        std::shared_ptr<model::FundTransferAmountInterface> m_fund;
 };
 
 }

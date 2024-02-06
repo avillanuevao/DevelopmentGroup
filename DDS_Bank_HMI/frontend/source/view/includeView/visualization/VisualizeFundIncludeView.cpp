@@ -17,10 +17,7 @@ VisualizeFundIncludeView::VisualizeFundIncludeView(std::shared_ptr<viewModel::ui
 
 void VisualizeFundIncludeView::update(model::signal::UpdatedFundSignal signal)
 {
-    if(signal.getFundType() == m_fundTypeActual)
-    {
-        m_visualizeFundViewModel->updateView(signal.getAmount());
-    }
+    m_visualizeFundViewModel->updateView(signal.getFundType(), signal.getAmount());
 }
 
 void VisualizeFundIncludeView::update(model::signal::UpdatedFundTypeSignal signal)

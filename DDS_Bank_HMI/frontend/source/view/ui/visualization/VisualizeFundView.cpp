@@ -18,7 +18,8 @@ VisualizeFundView::VisualizeFundView(QQmlApplicationEngine &engine, QObject *par
 
 void VisualizeFundView::update(viewModel::ui::visualization::signal::VisualizeFundSignal signal)
 {
-    updateAmountQML(signal.getAmount());
+    QMetaObject::invokeMethod(this, "updateAmountQML",
+                                  Qt::QueuedConnection, Q_ARG(QVariant, signal.getAmount()));
 }
 
 void VisualizeFundView::updateAmountQML(const QVariant &newAmount)
