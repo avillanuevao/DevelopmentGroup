@@ -1,5 +1,5 @@
-#ifndef MODEL_FUNDINTERFACE_HPP
-#define MODEL_FUNDINTERFACE_HPP
+#ifndef MODEL_OPERATIONS_FUNDINTERFACE_HPP
+#define MODEL_OPERATIONS_FUNDINTERFACE_HPP
 
 #include <operations/FundType.hpp>
 #include <operations/FundIncreaseAmountInterface.hpp>
@@ -34,4 +34,4 @@ class FundInterface :
 
 }
 
-#endif // FUNDINTERFACE_HPP
+#endif // MODEL_OPERATIONS_FUNDINTERFACE_HPP

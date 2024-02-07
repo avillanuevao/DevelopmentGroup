@@ -1,6 +1,7 @@
 #include "AllFunds.hpp"
 
-namespace model {
+namespace model
+{
 namespace operations
 {
 
@@ -25,29 +26,39 @@ void AllFunds::increaseAmount(int amount)
     notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
 }
 
-void AllFunds::decreaseAmount(int amount)
+void AllFunds::decreaseAmount(int amountToDecrease)
 {
+    int amountActualFund = getAmount();
+    int amountSavingsFund = getAmount(model::operations::FundType::SAVINGS);
+    int amountRest = amountToDecrease - amountActualFund;
+    bool isEnoughAmountInActualFund = (amountActualFund - amountToDecrease) >= 0;
+    bool isEnoughAmountInSavingsFund = (amountSavingsFund - amountRest) >= 0;
+    bool isActualFundSavingsFund = m_actualFund == model::operations::FundType::SAVINGS;
+
     try
     {
-        getActualFund()->decreaseAmount(amount);
-    }  catch (const std::logic_error& e)
+        if(isEnoughAmountInActualFund)
+        {
+            getActualFund()->decreaseAmount(amountToDecrease);
+        }
+        else if(isEnoughAmountInSavingsFund && !isActualFundSavingsFund)
+        {
+            getActualFund()->decreaseAmount(amountActualFund);
+            getFund(model::operations::FundType::SAVINGS)->decreaseAmount(amountRest);
+
+            notifySubscribersFund(model::operations::FundType::SAVINGS, getFund(model::operations::FundType::SAVINGS)->getAmount());
+        }
+        else
+        {
+            throw std::logic_error("Amount in SAVINGS fund not enough");
+        }
+    }
+    catch (const std::logic_error& e)
     {
         throw e;
     }
 
     notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
-}
-
-void AllFunds::decreaseAmount(FundType fundType, int amount)
-{
-    try
-    {
-        getFund(fundType)->decreaseAmount(amount);
-    }  catch (std::logic_error e) {
-        throw e;
-    }
-
-    notifySubscribersFund(fundType, getFund(fundType)->getAmount());
 }
 
 void AllFunds::transferAmount(FundType destinationFundType, int amount)

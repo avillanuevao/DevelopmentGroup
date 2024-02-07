@@ -29,13 +29,13 @@ struct SelectFundAck
 //Topic 
 struct Deposit 
 {
-    int16 amount;
+    uint32 amount;
 };
 
 //Topic
 struct Withdraw 
 {
-    int16 amount;
+    uint32 amount;
 };
 
 //Topic 
@@ -43,7 +43,7 @@ struct Transaction
 {
     @key
     FundType fund_type_destination;
-    int16 amount;
+    uint32 amount;
 };
 
 //Topic
@@ -51,7 +51,7 @@ struct FundData
 {
     @key
     FundType fund_type;
-    int16 amount;
+    uint32 amount;
 };
 
 

@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<SelectFundController> selectFundController(new SelectFundController(allFunds));
     std::shared_ptr<DepositMoneyController> depositMoneyController(new DepositMoneyController(allFunds));
-    std::shared_ptr<WithdrawMoneyController> withdrawMoneyController(new WithdrawMoneyController(allFunds, allFunds, allFunds, allFunds));
+    std::shared_ptr<WithdrawMoneyController> withdrawMoneyController(new WithdrawMoneyController(allFunds));
     std::shared_ptr<TransferMoneyController> transferMoneyController(new TransferMoneyController(allFunds));
 
 

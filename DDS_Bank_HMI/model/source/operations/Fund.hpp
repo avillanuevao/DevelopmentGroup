@@ -1,5 +1,5 @@
-#ifndef FUND_HPP
-#define FUND_HPP
+#ifndef MODEL_OPERATIONS_FUND_HPP
+#define MODEL_OPERATIONS_FUND_HPP
 
 #include <stdexcept>
 
@@ -32,4 +32,4 @@ class Fund:
 }
 }
 
-#endif // FUND_HPP
+#endif // MODEL_OPERATIONS_FUND_HPP

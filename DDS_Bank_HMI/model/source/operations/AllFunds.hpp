@@ -1,5 +1,5 @@
-#ifndef DEPOSITMODEL_HPP
-#define DEPOSITMODEL_HPP
+#ifndef MODEL_OPERATIONS_ALLFUNDS_HPP
+#define MODEL_OPERATIONS_ALLFUNDS_HPP
 
 #include <map>
 #include <stdexcept>
@@ -10,7 +10,6 @@
 #include <operations/FundInterface.hpp>
 #include <operations/FundTransferAmountInterface.hpp>
 #include <operations/FundGetAmountByFundTypeInterface.hpp>
-#include <operations/FundDecreaseAmountByFundTypeInterface.hpp>
 #include <operations/FundSetAmountByFundTypeInterface.hpp>
 
 namespace model
@@ -22,7 +21,6 @@ class AllFunds :
         public model::operations::FundInterface,
         public model::operations::FundTransferAmountInterface,
         public model::operations::FundGetAmountByFundTypeInterface,
-        public model::operations::FundDecreaseAmountByFundTypeInterface,
         public model::operations::FundSetAmountByFundTypeInterface
 {
     public:
@@ -30,14 +28,13 @@ class AllFunds :
 
         void increaseAmount(int amount) override;
         void decreaseAmount(int amount) override;
-        void decreaseAmount(model::operations::FundType fundType, int amount);
         void transferAmount(model::operations::FundType fundTypeDestination, int amount) override;
 
         int getAmount(model::operations::FundType fundType) const override;
         int getAmount() const override;
         model::operations::FundType getFundType() const override;
         void setAmount(int amount) override;
-        void setAmount(model::operations::FundType fundType, int amount);
+        void setAmount(model::operations::FundType fundType, int amount) override;
         void setFundType(model::operations::FundType fundType) override;
 
     private:
@@ -57,4 +54,4 @@ class AllFunds :
 }
 }
 
-#endif // DEPOSITMODEL_HPP
+#endif // MODEL_OPERATIONS_ALLFUNDS_HPP

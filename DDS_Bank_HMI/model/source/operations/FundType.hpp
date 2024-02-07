@@ -1,5 +1,5 @@
-#ifndef FUNDTYPE_H
-#define FUNDTYPE_H
+#ifndef MODEL_OPERATIONS_FUNDTYPE_H
+#define MODEL_OPERATIONS_FUNDTYPE_H
 
 #include <iostream>
 
@@ -16,4 +16,4 @@ enum class FundType {
 }
 }
 
-#endif // FUNDTYPE_H
+#endif // MODEL_OPERATIONS_FUNDTYPE_H

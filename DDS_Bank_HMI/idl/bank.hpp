@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bank_1860238078_hpp
-#define bank_1860238078_hpp
+#ifndef bank_1860238082_hpp
+#define bank_1860238082_hpp
 
 #include <iosfwd>
 
@@ -186,7 +186,7 @@ class NDDSUSERDllExport Deposit {
     Deposit();
 
     explicit Deposit(
-        int16_t amount);
+        uint32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -200,15 +200,15 @@ class NDDSUSERDllExport Deposit {
     #endif
     #endif 
 
-    int16_t& amount() OMG_NOEXCEPT {
+    uint32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const int16_t& amount() const OMG_NOEXCEPT {
+    const uint32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(int16_t value) {
+    void amount(uint32_t value) {
         m_amount_ = value;
     }
 
@@ -219,7 +219,7 @@ class NDDSUSERDllExport Deposit {
 
   private:
 
-    int16_t m_amount_;
+    uint32_t m_amount_;
 
 };
 
@@ -235,7 +235,7 @@ class NDDSUSERDllExport Withdraw {
     Withdraw();
 
     explicit Withdraw(
-        int16_t amount);
+        uint32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -249,15 +249,15 @@ class NDDSUSERDllExport Withdraw {
     #endif
     #endif 
 
-    int16_t& amount() OMG_NOEXCEPT {
+    uint32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const int16_t& amount() const OMG_NOEXCEPT {
+    const uint32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(int16_t value) {
+    void amount(uint32_t value) {
         m_amount_ = value;
     }
 
@@ -268,7 +268,7 @@ class NDDSUSERDllExport Withdraw {
 
   private:
 
-    int16_t m_amount_;
+    uint32_t m_amount_;
 
 };
 
@@ -285,7 +285,7 @@ class NDDSUSERDllExport Transaction {
 
     Transaction(
         const FundType& fund_type_destination,
-        int16_t amount);
+        uint32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -314,15 +314,15 @@ class NDDSUSERDllExport Transaction {
     void fund_type_destination(FundType&& value) {
         m_fund_type_destination_ = std::move(value);
     }
-    int16_t& amount() OMG_NOEXCEPT {
+    uint32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const int16_t& amount() const OMG_NOEXCEPT {
+    const uint32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(int16_t value) {
+    void amount(uint32_t value) {
         m_amount_ = value;
     }
 
@@ -334,7 +334,7 @@ class NDDSUSERDllExport Transaction {
   private:
 
     FundType m_fund_type_destination_;
-    int16_t m_amount_;
+    uint32_t m_amount_;
 
 };
 
@@ -351,7 +351,7 @@ class NDDSUSERDllExport FundData {
 
     FundData(
         const FundType& fund_type,
-        int16_t amount);
+        uint32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -380,15 +380,15 @@ class NDDSUSERDllExport FundData {
     void fund_type(FundType&& value) {
         m_fund_type_ = std::move(value);
     }
-    int16_t& amount() OMG_NOEXCEPT {
+    uint32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const int16_t& amount() const OMG_NOEXCEPT {
+    const uint32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(int16_t value) {
+    void amount(uint32_t value) {
         m_amount_ = value;
     }
 
@@ -400,7 +400,7 @@ class NDDSUSERDllExport FundData {
   private:
 
     FundType m_fund_type_;
-    int16_t m_amount_;
+    uint32_t m_amount_;
 
 };
 
@@ -755,5 +755,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // bank_1860238078_hpp
+#endif // bank_1860238082_hpp
 
