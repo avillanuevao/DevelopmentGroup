@@ -15,12 +15,12 @@
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
-#include <model/source/signal/UpdatedFundSignal.hpp>
-#include <model/source/signal/UpdatedFundTypeSignal.hpp>
-#include <backend/source/controller/operation/SelectFundController.hpp>
-#include <backend/source/controller/operation/DepositMoneyController.hpp>
-#include <backend/source/controller/operation/WithdrawMoneyController.hpp>
-#include <backend/source/controller/operation/TransferMoneyController.hpp>
+#include <model/source/operations/signal/UpdatedFundSignal.hpp>
+#include <model/source/operations/signal/UpdatedFundTypeSignal.hpp>
+#include <backend/source/controller/operations/SelectFundController.hpp>
+#include <backend/source/controller/operations/DepositMoneyController.hpp>
+#include <backend/source/controller/operations/WithdrawMoneyController.hpp>
+#include <backend/source/controller/operations/TransferMoneyController.hpp>
 
 namespace backend
 {
@@ -33,20 +33,20 @@ namespace operations
 
 class BackDDSView :
         public utils::dds::DDSView,
-        public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundSignal>,
-        public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundTypeSignal>
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundSignal>,
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundTypeSignal>
 {
     public:
         BackDDSView(unsigned int domainId,
                     unsigned int sampleCount,
-                    std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                    std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
-                    std::shared_ptr<backend::controller::operation::WithdrawMoneyController> withdrawMoneyController,
-                    std::shared_ptr<backend::controller::operation::TransferMoneyController> transferMoneyController);
+                    std::shared_ptr<backend::controller::operations::SelectFundController> selectFundController,
+                    std::shared_ptr<backend::controller::operations::DepositMoneyController> depositMoneyController,
+                    std::shared_ptr<backend::controller::operations::WithdrawMoneyController> withdrawMoneyController,
+                    std::shared_ptr<backend::controller::operations::TransferMoneyController> transferMoneyController);
         ~BackDDSView();
 
-        void update(model::signal::UpdatedFundSignal signal);
-        void update(model::signal::UpdatedFundTypeSignal signal);
+        void update(model::operations::signal::UpdatedFundSignal signal);
+        void update(model::operations::signal::UpdatedFundTypeSignal signal);
 
     private:
         void receivedTopicSelectFund(SelectFund selectFund);
@@ -62,10 +62,10 @@ class BackDDSView :
 
         std::thread initReadingTopicThread(void (backend::view::dds::operations::BackDDSView::*function)());
 
-        std::shared_ptr<backend::controller::operation::SelectFundController> m_selectFundController;
-        std::shared_ptr<backend::controller::operation::DepositMoneyController> m_depositMoneyController;
-        std::shared_ptr<backend::controller::operation::WithdrawMoneyController> m_withdrawMoneyController;
-        std::shared_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
+        std::shared_ptr<backend::controller::operations::SelectFundController> m_selectFundController;
+        std::shared_ptr<backend::controller::operations::DepositMoneyController> m_depositMoneyController;
+        std::shared_ptr<backend::controller::operations::WithdrawMoneyController> m_withdrawMoneyController;
+        std::shared_ptr<backend::controller::operations::TransferMoneyController> m_transferMoneyController;
 
         utils::dds::DDSDataReader<SelectFund> m_readerSelectFund;
         utils::dds::DDSDataReader<Deposit> m_readerDeposit;

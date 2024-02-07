@@ -4,8 +4,8 @@
 #include <memory>
 
 #include <utils/source/designPattern/SignalPublisher.hpp>
-#include <model/source/FundType.hpp>
-#include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
+#include <model/source/operations/FundType.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/TransferedMoneySignal.hpp>
 
 namespace frontend
 {
@@ -17,14 +17,14 @@ namespace operations
 {
 
 class TransferViewModel :
-        public utils::designPattern::SignalPublisher<frontend::viewModel::signal::TransferedMoneySignal>
+        public utils::designPattern::SignalPublisher<viewModel::ui::operations::signal::TransferedMoneySignal>
 
 
 {
     public:
         TransferViewModel();
 
-        void transferMoney(model::FundType destinationFundType, int amount);
+        void transferMoney(model::operations::FundType destinationFundType, int amount);
 };
 
 }

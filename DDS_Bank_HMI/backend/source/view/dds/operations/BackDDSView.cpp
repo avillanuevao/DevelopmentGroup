@@ -12,10 +12,10 @@ namespace operations
 
 BackDDSView::BackDDSView(unsigned int domainId,
                          unsigned int sampleCount,
-                         std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                         std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
-                         std::shared_ptr<controller::operation::WithdrawMoneyController> withdrawMoneyController,
-                         std::shared_ptr<controller::operation::TransferMoneyController> transferMoneyController):
+                         std::shared_ptr<backend::controller::operations::SelectFundController> selectFundController,
+                         std::shared_ptr<backend::controller::operations::DepositMoneyController> depositMoneyController,
+                         std::shared_ptr<backend::controller::operations::WithdrawMoneyController> withdrawMoneyController,
+                         std::shared_ptr<backend::controller::operations::TransferMoneyController> transferMoneyController):
     utils::dds::DDSView(domainId, sampleCount),
     m_selectFundController(selectFundController),
     m_depositMoneyController(depositMoneyController),
@@ -42,14 +42,14 @@ BackDDSView::~BackDDSView()
 {
 }
 
-void BackDDSView::update(model::signal::UpdatedFundSignal signal)
+void BackDDSView::update(model::operations::signal::UpdatedFundSignal signal)
 {
     FundType ddsFundType(static_cast<FundType>(signal.getFundType()));
 
     writeFundData(ddsFundType, signal.getAmount());
 }
 
-void BackDDSView::update(model::signal::UpdatedFundTypeSignal signal)
+void BackDDSView::update(model::operations::signal::UpdatedFundTypeSignal signal)
 {
     FundType ddsFundType(static_cast<FundType>(signal.getFundType()));
 
@@ -61,7 +61,7 @@ void BackDDSView::receivedTopicSelectFund(SelectFund selectFund)
     std::cout << "SelectFund topic received: " << std::endl;
     std::cout << "\t" << selectFund << std::endl;
 
-    model::FundType modelFundType (static_cast<model::FundType>(selectFund.fund_type()));
+    model::operations::FundType modelFundType (static_cast<model::operations::FundType>(selectFund.fund_type()));
     m_selectFundController->selectFundType(modelFundType);
 }
 
@@ -117,7 +117,7 @@ void BackDDSView::receivedTopicTransaction(Transaction transaction)
     std::cout << "Transaction topic received: " << std::endl;
     std::cout << "\t" << transaction << std::endl;
 
-    model::FundType modelFundType(static_cast<model::FundType>(transaction.fund_type_destination()));
+    model::operations::FundType modelFundType(static_cast<model::operations::FundType>(transaction.fund_type_destination()));
 
     m_transferMoneyController->transfer(modelFundType, transaction.amount());
 }

@@ -11,18 +11,18 @@ namespace operations
 namespace signal
 {
 
-SelectFundSignal::SelectFundSignal(model::FundType fundType) :
+SelectFundSignal::SelectFundSignal(model::operations::FundType fundType) :
     m_fundType(fundType)
 {
 
 }
 
-model::FundType SelectFundSignal::getFundType() const
+model::operations::FundType SelectFundSignal::getFundType() const
 {
     return m_fundType;
 }
 
-void SelectFundSignal::setFundType(model::FundType newFundType)
+void SelectFundSignal::setFundType(model::operations::FundType newFundType)
 {
     m_fundType = newFundType;
 }

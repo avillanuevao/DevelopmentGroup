@@ -7,7 +7,7 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <model/source/FundType.hpp>
+#include <model/source/operations/FundType.hpp>
 #include <frontend/source/viewModel/ui/operations/WithdrawViewModel.hpp>
 
 namespace frontend
@@ -24,7 +24,7 @@ class WithdrawMoneyView:
 {
     Q_OBJECT
     public:
-        WithdrawMoneyView(std::shared_ptr<viewModel::ui::operations::WithdrawViewModel> withdrawViewModel,
+        WithdrawMoneyView(std::shared_ptr<frontend::viewModel::ui::operations::WithdrawViewModel> withdrawViewModel,
                           QQmlApplicationEngine &engine,
                           QObject *parent = nullptr);
 
@@ -33,7 +33,7 @@ class WithdrawMoneyView:
         void setAmountToWithdraw(int amount);
 
     private:
-        std::shared_ptr<viewModel::ui::operations::WithdrawViewModel> m_withdrawViewModel;
+        std::shared_ptr<frontend::viewModel::ui::operations::WithdrawViewModel> m_withdrawViewModel;
         QQmlApplicationEngine& m_engine;
         QObject* m_parent;
         int m_amountToWithdraw;

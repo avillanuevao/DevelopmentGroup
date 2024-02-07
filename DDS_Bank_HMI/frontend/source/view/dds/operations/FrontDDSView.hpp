@@ -15,8 +15,8 @@
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <frontend/source/viewModel/dds/operations/DDSViewModel.hpp>
-#include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
-#include <frontend/source/viewModel/signal/TransferedMoneySignal.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/DepositMoneySignal.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/TransferedMoneySignal.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/SelectFundSignal.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/WithdrawnMoneySignal.hpp>
 
@@ -31,9 +31,9 @@ namespace operations
 class FrontDDSView :
         public utils::dds::DDSView,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFundSignal>,
-        public utils::designPattern::SignalSubscriber<viewModel::signal::DepositMoneySignal>,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::DepositMoneySignal>,
         public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal>,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::signal::TransferedMoneySignal>
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::TransferedMoneySignal>
 {
     public:
         FrontDDSView(unsigned int domainId,
@@ -41,9 +41,9 @@ class FrontDDSView :
                      std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel);
 
         void update(frontend::viewModel::ui::operations::signal::SelectFundSignal signal);
-        void update(frontend::viewModel::signal::DepositMoneySignal signal);
+        void update(frontend::viewModel::ui::operations::signal::DepositMoneySignal signal);
         void update(frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal signal);
-        void update(frontend::viewModel::signal::TransferedMoneySignal signal);
+        void update(frontend::viewModel::ui::operations::signal::TransferedMoneySignal signal);
 
     private:
         void writeSelectFund(FundType fundType);
@@ -58,7 +58,7 @@ class FrontDDSView :
 
         std::thread initReadingTopicThread(void (frontend::view::dds::operations::FrontDDSView::*function)());
 
-        std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> m_ddsViewModel;
+        std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> m_ddsviewModel;
 
         utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
         utils::dds::DDSDataWriter<Deposit> m_writerDeposit;

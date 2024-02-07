@@ -16,7 +16,7 @@ DepositViewModel::DepositViewModel()
 
 void DepositViewModel::depositMoney(int amount)
 {
-    viewModel::signal::DepositMoneySignal depositMoneySignal(amount);
+    frontend::viewModel::ui::operations::signal::DepositMoneySignal depositMoneySignal(amount);
     notifySubscribers(depositMoneySignal);
 }
 

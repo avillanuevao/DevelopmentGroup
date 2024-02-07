@@ -12,9 +12,9 @@ namespace operations
 
 FrontDDSView::FrontDDSView(unsigned int domainId,
                            unsigned int sampleCount,
-                           std::shared_ptr<viewModel::dds::operations::DDSViewModel> ddsViewModel) :
+                           std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsviewModel) :
     utils::dds::DDSView(domainId, sampleCount),
-    m_ddsViewModel(ddsViewModel),
+    m_ddsviewModel(ddsviewModel),
     m_writerSelectFund(m_participant, m_publisher, SELECT_FUND_TOPIC),
     m_writerDeposit(m_participant, m_publisher, DEPOSIT_TOPIC),
     m_writerWithdraw(m_participant, m_publisher, WITHDRAW_TOPIC),
@@ -28,7 +28,7 @@ FrontDDSView::FrontDDSView(unsigned int domainId,
     m_threadsForReading[FUND_DATA_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicFundData);
 }
 
-void FrontDDSView::update(viewModel::signal::DepositMoneySignal signal)
+void FrontDDSView::update(frontend::viewModel::ui::operations::signal::DepositMoneySignal signal)
 {
     writeDeposit(signal.getAmount());
 }
@@ -38,7 +38,7 @@ void FrontDDSView::update(viewModel::ui::operations::signal::WithdrawnMoneySigna
     writeWithdraw(signal.getAmount());
 }
 
-void FrontDDSView::update(viewModel::signal::TransferedMoneySignal signal)
+void FrontDDSView::update(frontend::viewModel::ui::operations::signal::TransferedMoneySignal signal)
 {
     writeTransaction(static_cast<FundType>(signal.getDestinationFundType()), signal.getAmount());
 }
@@ -94,9 +94,9 @@ void FrontDDSView::receivedTopicSelectFundAck(SelectFundAck selectFundAck)
     std::cout << "SelectFund topic recieved: " << std::endl;
     std::cout << "\t" << selectFundAck << std::endl;
 
-    model::FundType modelFundType(static_cast<model::FundType>(selectFundAck.fund_type()));
+    model::operations::FundType modelFundType(static_cast<model::operations::FundType>(selectFundAck.fund_type()));
 
-    m_ddsViewModel->updateFundType(modelFundType);
+    m_ddsviewModel->updateFundType(modelFundType);
 }
 
 void FrontDDSView::readingTopicSelectFundAck()
@@ -112,9 +112,9 @@ void FrontDDSView::receivedTopicFundData(FundData fundData)
     std::cout << "FundData topic recieved: " << std::endl;
     std::cout << "\t" << fundData << std::endl;
 
-    model::FundType modelFundType(static_cast<model::FundType>(fundData.fund_type()));
+    model::operations::FundType modelFundType(static_cast<model::operations::FundType>(fundData.fund_type()));
 
-    m_ddsViewModel->updateAmount(modelFundType, fundData.amount());
+    m_ddsviewModel->updateAmount(modelFundType, fundData.amount());
 }
 
 void FrontDDSView::readingTopicFundData()

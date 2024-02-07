@@ -9,7 +9,7 @@ const int AMOUNT01 = 500;
 const int AMOUNT02 = 1000;
 const int AMOUNTNEGATIVE = -2000;
 
-class AllFundsUnitTest : public testing::TestWithParam<model::FundType>
+class AllFundsUnitTest : public testing::TestWithParam<model::operations::FundType>
 {
     public:
         AllFundsUnitTest();
@@ -18,11 +18,11 @@ class AllFundsUnitTest : public testing::TestWithParam<model::FundType>
         virtual void SetUp() override;
         virtual void TearDown() override;
 
-        std::shared_ptr<model::AllFunds> m_allFunds;
-        model::FundType m_fundType;
+        std::shared_ptr<model::operations::AllFunds> m_allFunds;
+        model::operations::FundType m_fundType;
 };
 
-INSTANTIATE_TEST_CASE_P(FundTypes, AllFundsUnitTest, testing::Values(model::FundType::SAVINGS, model::FundType::HOUSING));
+INSTANTIATE_TEST_CASE_P(FundTypes, AllFundsUnitTest, testing::Values(model::operations::FundType::SAVINGS, model::operations::FundType::HOUSING));
 
 
 AllFundsUnitTest::AllFundsUnitTest()
@@ -37,7 +37,7 @@ AllFundsUnitTest::~AllFundsUnitTest()
 
 void AllFundsUnitTest::SetUp()
 {
-    m_allFunds.reset(new model::AllFunds());
+    m_allFunds.reset(new model::operations::AllFunds());
     m_fundType = GetParam();
 }
 

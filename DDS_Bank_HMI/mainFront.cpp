@@ -3,7 +3,7 @@
 #include <QQmlContext>
 #include <memory>
 
-#include <model/source/AllFunds.hpp>
+#include <model/source/operations/AllFunds.hpp>
 #include <view/ui/operations/SelectFundView.hpp>
 #include <view/ui/operations/DepositMoneyView.hpp>
 #include <view/ui/operations/WithdrawMoneyView.hpp>
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    std::shared_ptr<model::AllFunds> allFunds (new model::AllFunds(model::FundType::SAVINGS));
+    std::shared_ptr<model::operations::AllFunds> allFunds (new model::operations::AllFunds(model::operations::FundType::SAVINGS));
 
     std::shared_ptr<DepositViewModel> depositViewModel (new DepositViewModel());
     std::shared_ptr<WithdrawViewModel> withdrawViewModel (new WithdrawViewModel());
@@ -58,8 +58,8 @@ int main(int argc, char *argv[])
     std::shared_ptr<SelectFundView> selectFundView(new SelectFundView(selectFundViewModel, engine));
     std::shared_ptr<TransferMoneyView> transferMoneyView(new TransferMoneyView(transferViewModel, engine));
 
-    allFunds->utils::designPattern::SignalPublisher<model::signal::UpdatedFundTypeSignal>::addSubscriber(visualizeFundIncludeView);
-    allFunds->utils::designPattern::SignalPublisher<model::signal::UpdatedFundSignal>::addSubscriber(visualizeFundIncludeView);
+    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundTypeSignal>::addSubscriber(visualizeFundIncludeView);
+    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundSignal>::addSubscriber(visualizeFundIncludeView);
 
     depositViewModel->addSubscriber(frontDDSView);
     withdrawViewModel->addSubscriber(frontDDSView);

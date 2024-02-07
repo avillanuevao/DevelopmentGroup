@@ -8,7 +8,7 @@
 #include <QQuickItem>
 #include <QQmlComponent>
 
-#include <model/source/FundType.hpp>
+#include <model/source/operations/FundType.hpp>
 #include <frontend/source/viewModel/ui/operations/DepositViewModel.hpp>
 
 namespace frontend

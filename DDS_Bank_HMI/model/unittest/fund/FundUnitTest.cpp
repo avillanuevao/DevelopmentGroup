@@ -8,7 +8,7 @@ const int INITAMOUNT = 1000;
 const int AMOUNT01 = 500;
 const int AMOUNTNEGATIVE = -2000;
 
-class FundUnitTest : public testing::TestWithParam<model::FundType>
+class FundUnitTest : public testing::TestWithParam<model::operations::FundType>
 {
     public:
         FundUnitTest();
@@ -17,12 +17,12 @@ class FundUnitTest : public testing::TestWithParam<model::FundType>
     protected:
         virtual void SetUp() override;
         virtual void TearDown() override;
-        std::shared_ptr<model::Fund> m_fund;
+        std::shared_ptr<model::operations::Fund> m_fund;
     private:
 
 };
 
-INSTANTIATE_TEST_CASE_P(FundTypes, FundUnitTest, testing::Values(model::FundType::SAVINGS, model::FundType::HOUSING));
+INSTANTIATE_TEST_CASE_P(FundTypes, FundUnitTest, testing::Values(model::operations::FundType::SAVINGS, model::operations::FundType::HOUSING));
 
 FundUnitTest::FundUnitTest()
 {
@@ -36,7 +36,7 @@ FundUnitTest::~FundUnitTest()
 
 void FundUnitTest::SetUp()
 {
-    m_fund.reset(new model::Fund(GetParam(), INITAMOUNT));
+    m_fund.reset(new model::operations::Fund(GetParam(), INITAMOUNT));
 }
 
 void FundUnitTest::TearDown()
@@ -50,8 +50,8 @@ void FundUnitTest::TearDown()
  */
 TEST_P(FundUnitTest, getFundTypeOK)
 {
-    model::FundType fundTypeExpected = GetParam();
-    model::FundType fundType = m_fund->getFundType();
+    model::operations::FundType fundTypeExpected = GetParam();
+    model::operations::FundType fundType = m_fund->getFundType();
 
     ASSERT_EQ(fundTypeExpected, fundType);
 }
