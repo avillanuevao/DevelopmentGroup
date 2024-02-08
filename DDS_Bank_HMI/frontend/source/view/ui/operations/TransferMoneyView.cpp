@@ -15,7 +15,8 @@ TransferMoneyView::TransferMoneyView(std::shared_ptr<frontend::viewModel::ui::op
                                      QObject *parent) :
     m_transferViewModel(transferViewModel),
     m_engine(engine),
-    m_parent(parent)
+    m_parent(parent),
+    m_destinationFundType(model::operations::FundType::SAVINGS)
 {
     //TODO: al ser un valor por defecto debería cargarse del caso de uso de inicializar aplicación
     m_amountToTransfer = 0;
@@ -31,9 +32,16 @@ void TransferMoneyView::setAmountToTransfer(int newAmountToTransfer)
     m_amountToTransfer = newAmountToTransfer;
 }
 
-void TransferMoneyView::setDestinationFundType(int newDestinationFundType)
+void TransferMoneyView::setDestinationFundType(QString newDestinationFundType)
 {
-    m_destinationFundType = static_cast<model::operations::FundType>(newDestinationFundType);
+    try
+    {
+        m_destinationFundType = model::operations::FundType::_from_string_nocase(newDestinationFundType.toStdString().c_str());
+    }
+    catch (std::runtime_error e)
+    {
+        e.what();
+    }
 }
 
 }

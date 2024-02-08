@@ -31,6 +31,7 @@ target_include_directories(FRONTEND
     PUBLIC ${PROJECT_SOURCE_DIR}/
     PUBLIC ${PROJECT_SOURCE_DIR}/utils/source
     PUBLIC ${PROJECT_SOURCE_DIR}/model/source
+    PUBLIC ${PROJECT_SOURCE_DIR}/lib
 )
 
 target_compile_definitions(FRONTEND
@@ -40,6 +41,7 @@ target_link_libraries(FRONTEND
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     PUBLIC RTIConnextDDS::cpp2_api
     PUBLIC ${PROJECT_SOURCE_DIR}/model/source/libmodelLib.so
+    PUBLIC ${PROJECT_SOURCE_DIR}/lib/liblibs.so
     PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
     )
 

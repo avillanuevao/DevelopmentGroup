@@ -19,9 +19,18 @@ SelectFundView::SelectFundView(std::shared_ptr<frontend::viewModel::ui::operatio
 
 }
 
-void SelectFundView::setFundType(int fundType)
+void SelectFundView::setFundType(QString fundType)
 {
-    m_selectFundViewModel->selectFund(static_cast<model::operations::FundType>(fundType));
+    try
+    {
+        model::operations::FundType modelFundType(model::operations::FundType::_from_string_nocase(fundType.toStdString().c_str()));
+        m_selectFundViewModel->selectFund(modelFundType);
+    }
+    catch (std::runtime_error e)
+    {
+        e.what();
+    }
+
 }
 
 }

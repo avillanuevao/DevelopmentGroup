@@ -33,7 +33,7 @@ void AllFunds::decreaseAmount(int amountToDecrease)
     int amountRest = amountToDecrease - amountActualFund;
     bool isEnoughAmountInActualFund = (amountActualFund - amountToDecrease) >= 0;
     bool isEnoughAmountInSavingsFund = (amountSavingsFund - amountRest) >= 0;
-    bool isActualFundSavingsFund = m_actualFund == model::operations::FundType::SAVINGS;
+    bool isActualFundSavingsFund = m_actualFund == +model::operations::FundType::SAVINGS;
 
     try
     {
@@ -64,6 +64,11 @@ void AllFunds::decreaseAmount(int amountToDecrease)
 void AllFunds::transferAmount(FundType destinationFundType, int amount)
 {
     int amountFundTypeOrigin = getActualFund()->getAmount();
+
+    if(destinationFundType == +m_actualFund)
+    {
+        throw std::logic_error("Destination fund can not be the same as origin fund");
+    }
 
     if(!(amountFundTypeOrigin >= amount))
     {
