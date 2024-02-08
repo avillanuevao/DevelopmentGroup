@@ -16,5 +16,7 @@ DDSView::DDSView(unsigned int domainId,
     m_wait = ::dds::core::Duration(1);
 }
 
+
+
 }
 }

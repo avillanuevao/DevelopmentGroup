@@ -1,5 +1,4 @@
 #include "FrontDDSView.hpp"
-#include <utils/source/so/Shutdown.hpp>
 
 namespace frontend
 {
@@ -13,19 +12,10 @@ namespace operations
 FrontDDSView::FrontDDSView(unsigned int domainId,
                            unsigned int sampleCount,
                            std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsviewModel) :
-    utils::dds::DDSView(domainId, sampleCount),
-    m_ddsviewModel(ddsviewModel),
-    m_writerSelectFund(m_participant, m_publisher, SELECT_FUND_TOPIC),
-    m_writerDeposit(m_participant, m_publisher, DEPOSIT_TOPIC),
-    m_writerWithdraw(m_participant, m_publisher, WITHDRAW_TOPIC),
-    m_writerTransfer(m_participant, m_publisher, TRANSACTION_TOPIC),
-    m_readerSelectFundAck(m_participant, m_subscriber, SELECT_FUND_TOPIC_ACK, std::bind(&FrontDDSView::receivedTopicSelectFundAck, this, std::placeholders::_1)),
-    m_readerFundData(m_participant, m_subscriber, FUND_DATA_TOPIC, std::bind(&FrontDDSView::receivedTopicFundData, this, std::placeholders::_1))
+    frontend::view::dds::operations::FrontDDSViewFactory(domainId, sampleCount),
+    m_ddsviewModel(ddsviewModel)
 {
-    utils::so::setup_signal_handlers();
 
-    m_threadsForReading[SELECT_FUND_TOPIC_ACK] = initReadingTopicThread(&FrontDDSView::readingTopicSelectFundAck);
-    m_threadsForReading[FUND_DATA_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicFundData);
 }
 
 void FrontDDSView::update(frontend::viewModel::ui::operations::signal::DepositMoneySignal signal)
@@ -99,13 +89,7 @@ void FrontDDSView::receivedTopicSelectFundAck(SelectFundAck selectFundAck)
     m_ddsviewModel->updateFundType(modelFundType);
 }
 
-void FrontDDSView::readingTopicSelectFundAck()
-{
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerSelectFundAck.wait(m_wait);
-    }
-}
+
 
 void FrontDDSView::receivedTopicFundData(FundData fundData)
 {
@@ -117,18 +101,6 @@ void FrontDDSView::receivedTopicFundData(FundData fundData)
     m_ddsviewModel->updateAmount(modelFundType, fundData.amount());
 }
 
-void FrontDDSView::readingTopicFundData()
-{
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerFundData.wait(m_wait);
-    }
-}
-
-std::thread FrontDDSView::initReadingTopicThread(void (frontend::view::dds::operations::FrontDDSView::*function)())
-{
-    return std::thread(function, this);
-}
 
 }
 }

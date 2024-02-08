@@ -8,6 +8,9 @@
 #include <rti/util/util.hpp>
 #include <rti/config/Logger.hpp>
 
+#include <dds/DDSDataWriter.hpp>
+#include <dds/DDSDataReader.hpp>
+
 namespace utils
 {
 namespace dds
@@ -20,6 +23,18 @@ class DDSView
                 unsigned int sampleCount);
 
     protected:
+        template<class TTopic>
+        utils::dds::DDSDataReader<TTopic> createDataReader(const std::string& topicName, std::function<void(TTopic)> function)
+        {
+            return utils::dds::DDSDataReader<TTopic>(m_participant, m_subscriber, topicName, function);
+        }
+
+        template<class TTopic>
+        utils::dds::DDSDataWriter<TTopic> createrDataWriter(const std::string& topicName)
+        {
+            return utils::dds::DDSDataWriter<TTopic>(m_participant, m_publisher, topicName);
+        }
+
         unsigned int m_domainId;
         unsigned int m_sampleCount;
 
