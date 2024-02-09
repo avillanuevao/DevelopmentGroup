@@ -14,7 +14,7 @@ SelectFundViewModel::SelectFundViewModel()
 
 }
 
-void SelectFundViewModel::selectFund(model::FundType fundType)
+void SelectFundViewModel::selectFund(model::operations::FundType fundType)
 {
     frontend::viewModel::ui::operations::signal::SelectFundSignal signal(fundType);
     notifySubscribers(signal);

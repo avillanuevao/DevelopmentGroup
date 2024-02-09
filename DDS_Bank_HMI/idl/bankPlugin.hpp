@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bankPlugin_1860238078_h
-#define bankPlugin_1860238078_h
+#ifndef bankPlugin_1860238082_h
+#define bankPlugin_1860238082_h
 
 #include "bank.hpp"
 
@@ -1219,5 +1219,5 @@ FundDataPlugin_delete(struct PRESTypePlugin *);
 #define NDDSUSERDllExport
 #endif
 
-#endif /* bankPlugin_1860238078_h */
+#endif /* bankPlugin_1860238082_h */
 

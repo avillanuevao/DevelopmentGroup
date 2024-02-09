@@ -9,7 +9,7 @@ namespace ui
 namespace operations
 {
 
-SelectFundView::SelectFundView(std::shared_ptr<viewModel::ui::operations::SelectFundViewModel> selectFundViewModel,
+SelectFundView::SelectFundView(std::shared_ptr<frontend::viewModel::ui::operations::SelectFundViewModel> selectFundViewModel,
                                QQmlApplicationEngine &engine,
                                QObject *parent) :
     m_selectFundViewModel(selectFundViewModel),
@@ -21,7 +21,7 @@ SelectFundView::SelectFundView(std::shared_ptr<viewModel::ui::operations::Select
 
 void SelectFundView::setFundType(int fundType)
 {
-    m_selectFundViewModel->selectFund(static_cast<model::FundType>(fundType));
+    m_selectFundViewModel->selectFund(static_cast<model::operations::FundType>(fundType));
 }
 
 }

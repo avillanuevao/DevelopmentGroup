@@ -10,7 +10,7 @@ namespace ui
 namespace operations
 {
 
-TransferMoneyView::TransferMoneyView(std::shared_ptr<viewModel::ui::operations::TransferViewModel> transferViewModel,
+TransferMoneyView::TransferMoneyView(std::shared_ptr<frontend::viewModel::ui::operations::TransferViewModel> transferViewModel,
                                      QQmlApplicationEngine &engine,
                                      QObject *parent) :
     m_transferViewModel(transferViewModel),
@@ -33,7 +33,7 @@ void TransferMoneyView::setAmountToTransfer(int newAmountToTransfer)
 
 void TransferMoneyView::setDestinationFundType(int newDestinationFundType)
 {
-    m_destinationFundType = static_cast<model::FundType>(newDestinationFundType);
+    m_destinationFundType = static_cast<model::operations::FundType>(newDestinationFundType);
 }
 
 }

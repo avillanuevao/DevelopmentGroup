@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include <model/source/signal/UpdatedFundTypeSignal.hpp>
-#include <model/source/signal/UpdatedFundSignal.hpp>
+#include <model/source/operations/signal/UpdatedFundTypeSignal.hpp>
+#include <model/source/operations/signal/UpdatedFundSignal.hpp>
 #include <frontend/source/viewModel/ui/visualization/VisualizeFundViewModel.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 
@@ -18,19 +18,19 @@ namespace visualization
 {
 
 class VisualizeFundIncludeView :
-        public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundSignal>,
-        public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundTypeSignal>
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundSignal>,
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundTypeSignal>
 {
     public:
         VisualizeFundIncludeView(std::shared_ptr<viewModel::ui::visualization::VisualizeFundViewModel> visualizeFundViewModel);
 
-        void update(model::signal::UpdatedFundSignal signal);
-        void update(model::signal::UpdatedFundTypeSignal signal);
+        void update(model::operations::signal::UpdatedFundSignal signal);
+        void update(model::operations::signal::UpdatedFundTypeSignal signal);
 
     private:
         std::shared_ptr<viewModel::ui::visualization::VisualizeFundViewModel> m_visualizeFundViewModel;
 
-        model::FundType m_fundTypeActual;
+        model::operations::FundType m_fundTypeActual;
 
 };
 

@@ -1,7 +1,7 @@
 #ifndef FRONTEND_VIEWMODEL_UI_OPERATIONS_SIGNAL_SELECTFUNDSIGNAL_HPP
 #define FRONTEND_VIEWMODEL_UI_OPERATIONS_SIGNAL_SELECTFUNDSIGNAL_HPP
 
-#include <model/source/FundType.hpp>
+#include <model/source/operations/FundType.hpp>
 
 namespace frontend
 {
@@ -18,13 +18,13 @@ namespace signal
 class SelectFundSignal
 {
     public:
-        SelectFundSignal(model::FundType fundType);
+        SelectFundSignal(model::operations::FundType fundType);
 
-        model::FundType getFundType() const;
-        void setFundType(model::FundType newFundType);
+        model::operations::FundType getFundType() const;
+        void setFundType(model::operations::FundType newFundType);
 
 private:
-        model::FundType m_fundType;
+        model::operations::FundType m_fundType;
 };
 
 }

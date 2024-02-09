@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include <model/source/FundType.hpp>
+#include <model/source/operations/FundType.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
-#include <frontend/source/viewModel/signal/DepositMoneySignal.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/DepositMoneySignal.hpp>
 
 namespace frontend
 {
@@ -17,7 +17,7 @@ namespace operations
 {
 
 class DepositViewModel:
-        public utils::designPattern::SignalPublisher<viewModel::signal::DepositMoneySignal>
+        public utils::designPattern::SignalPublisher<frontend::viewModel::ui::operations::signal::DepositMoneySignal>
 {
     public:
         DepositViewModel();

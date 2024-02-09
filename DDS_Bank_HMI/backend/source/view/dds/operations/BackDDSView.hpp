@@ -1,5 +1,5 @@
-#ifndef BACKDDSVIEW_HPP
-#define BACKDDSVIEW_HPP
+#ifndef BACKEND_VIEW_DDS_OPERATIONS_BACKDDSVIEW_HPP
+#define BACKEND_VIEW_DDS_OPERATIONS_BACKDDSVIEW_HPP
 
 #include <iostream>
 #include <functional>
@@ -11,16 +11,16 @@
 #include <rti/config/Logger.hpp>
 
 #include <idl/bank.hpp>
-#include <utils/source/dds/DDSView.hpp>
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
-#include <model/source/signal/UpdatedFundSignal.hpp>
-#include <model/source/signal/UpdatedFundTypeSignal.hpp>
-#include <backend/source/controller/operation/SelectFundController.hpp>
-#include <backend/source/controller/operation/DepositMoneyController.hpp>
-#include <backend/source/controller/operation/WithdrawMoneyController.hpp>
-#include <backend/source/controller/operation/TransferMoneyController.hpp>
+#include <model/source/operations/signal/UpdatedFundSignal.hpp>
+#include <model/source/operations/signal/UpdatedFundTypeSignal.hpp>
+#include <backend/source/controller/operations/SelectFundController.hpp>
+#include <backend/source/controller/operations/DepositMoneyController.hpp>
+#include <backend/source/controller/operations/WithdrawMoneyController.hpp>
+#include <backend/source/controller/operations/TransferMoneyController.hpp>
+#include <backend/source/view/dds/operations/BackDDSViewFactory.hpp>
 
 namespace backend
 {
@@ -32,47 +32,34 @@ namespace operations
 {
 
 class BackDDSView :
-        public utils::dds::DDSView,
-        public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundSignal>,
-        public utils::designPattern::SignalSubscriber<model::signal::UpdatedFundTypeSignal>
+        public backend::view::dds::operations::BackDDSViewFactory,
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundSignal>,
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundTypeSignal>
 {
     public:
         BackDDSView(unsigned int domainId,
                     unsigned int sampleCount,
-                    std::shared_ptr<backend::controller::operation::SelectFundController> selectFundController,
-                    std::shared_ptr<backend::controller::operation::DepositMoneyController> depositMoneyController,
-                    std::shared_ptr<backend::controller::operation::WithdrawMoneyController> withdrawMoneyController,
-                    std::shared_ptr<backend::controller::operation::TransferMoneyController> transferMoneyController);
-        ~BackDDSView();
+                    std::shared_ptr<backend::controller::operations::SelectFundController> selectFundController,
+                    std::shared_ptr<backend::controller::operations::DepositMoneyController> depositMoneyController,
+                    std::shared_ptr<backend::controller::operations::WithdrawMoneyController> withdrawMoneyController,
+                    std::shared_ptr<backend::controller::operations::TransferMoneyController> transferMoneyController);
 
-        void update(model::signal::UpdatedFundSignal signal);
-        void update(model::signal::UpdatedFundTypeSignal signal);
+        void update(model::operations::signal::UpdatedFundSignal signal);
+        void update(model::operations::signal::UpdatedFundTypeSignal signal);
 
     private:
-        void receivedTopicSelectFund(SelectFund selectFund);
-        void readingTopicSelectFund();
-        void receivedTopicDeposit(Deposit deposit);
-        void readingTopicDeposit();
-        void receivedTopicWithdraw(Withdraw withdraw);
-        void readingTopicWithdraw();
-        void receivedTopicTransaction(Transaction transaction);
-        void readingTopicTransaction();
         void writeFundData(const FundType &fundType, int16_t amount);
         void writeSelectFundAck(const FundType &fundType);
+        void receivedTopicSelectFund(SelectFund selectFund);
+        void receivedTopicDeposit(Deposit deposit);
+        void receivedTopicWithdraw(Withdraw withdraw);
+        void receivedTopicTransaction(Transaction transaction);
 
-        std::thread initReadingTopicThread(void (backend::view::dds::operations::BackDDSView::*function)());
+        std::shared_ptr<backend::controller::operations::SelectFundController> m_selectFundController;
+        std::shared_ptr<backend::controller::operations::DepositMoneyController> m_depositMoneyController;
+        std::shared_ptr<backend::controller::operations::WithdrawMoneyController> m_withdrawMoneyController;
+        std::shared_ptr<backend::controller::operations::TransferMoneyController> m_transferMoneyController;
 
-        std::shared_ptr<backend::controller::operation::SelectFundController> m_selectFundController;
-        std::shared_ptr<backend::controller::operation::DepositMoneyController> m_depositMoneyController;
-        std::shared_ptr<backend::controller::operation::WithdrawMoneyController> m_withdrawMoneyController;
-        std::shared_ptr<backend::controller::operation::TransferMoneyController> m_transferMoneyController;
-
-        utils::dds::DDSDataReader<SelectFund> m_readerSelectFund;
-        utils::dds::DDSDataReader<Deposit> m_readerDeposit;
-        utils::dds::DDSDataReader<Withdraw> m_readerWithdraw;
-        utils::dds::DDSDataReader<Transaction> m_readerTransaction;
-        utils::dds::DDSDataWriter<SelectFundAck> m_writerSelectFundAck;
-        utils::dds::DDSDataWriter<FundData> m_writerFundData;
 };
 
 }
@@ -80,4 +67,4 @@ class BackDDSView :
 }
 }
 
-#endif // BACKDDSVIEW_HPP
+#endif // BACKEND_VIEW_DDS_OPERATIONS_BACKDDSVIEW_HPP

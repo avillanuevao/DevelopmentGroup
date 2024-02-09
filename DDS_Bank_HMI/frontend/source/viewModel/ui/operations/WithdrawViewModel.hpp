@@ -14,7 +14,7 @@ namespace operations
 {
 
 class WithdrawViewModel:
-        public utils::designPattern::SignalPublisher<frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal>
+        public utils::designPattern::SignalPublisher<viewModel::ui::operations::signal::WithdrawnMoneySignal>
 {
     public:
         WithdrawViewModel();

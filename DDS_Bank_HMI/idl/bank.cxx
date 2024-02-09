@@ -139,11 +139,11 @@ std::ostream& operator << (std::ostream& o,const SelectFundAck& sample)
 // ---- Deposit: 
 
 Deposit::Deposit() :
-    m_amount_ (0)  {
+    m_amount_ (0u)  {
 }   
 
 Deposit::Deposit (
-    int16_t amount)
+    uint32_t amount)
     :
         m_amount_( amount ) {
 }
@@ -190,11 +190,11 @@ std::ostream& operator << (std::ostream& o,const Deposit& sample)
 // ---- Withdraw: 
 
 Withdraw::Withdraw() :
-    m_amount_ (0)  {
+    m_amount_ (0u)  {
 }   
 
 Withdraw::Withdraw (
-    int16_t amount)
+    uint32_t amount)
     :
         m_amount_( amount ) {
 }
@@ -242,12 +242,12 @@ std::ostream& operator << (std::ostream& o,const Withdraw& sample)
 
 Transaction::Transaction() :
     m_fund_type_destination_(FundType::SAVINGS) ,
-    m_amount_ (0)  {
+    m_amount_ (0u)  {
 }   
 
 Transaction::Transaction (
     const FundType& fund_type_destination,
-    int16_t amount)
+    uint32_t amount)
     :
         m_fund_type_destination_( fund_type_destination ),
         m_amount_( amount ) {
@@ -303,12 +303,12 @@ std::ostream& operator << (std::ostream& o,const Transaction& sample)
 
 FundData::FundData() :
     m_fund_type_(FundType::SAVINGS) ,
-    m_amount_ (0)  {
+    m_amount_ (0u)  {
 }   
 
 FundData::FundData (
     const FundType& fund_type,
-    int16_t amount)
+    uint32_t amount)
     :
         m_fund_type_( fund_type ),
         m_amount_( amount ) {
@@ -904,15 +904,15 @@ namespace rti {
 
                 Deposit_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-                Deposit_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_short;
+                Deposit_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
 
                 /* Initialize the values for member annotations. */
-                Deposit_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_SHORT;
-                Deposit_g_tc_members[0]._annotations._defaultValue._u.short_value = 0;
-                Deposit_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_SHORT;
-                Deposit_g_tc_members[0]._annotations._minValue._u.short_value = RTIXCdrShort_MIN;
-                Deposit_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_SHORT;
-                Deposit_g_tc_members[0]._annotations._maxValue._u.short_value = RTIXCdrShort_MAX;
+                Deposit_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
+                Deposit_g_tc_members[0]._annotations._defaultValue._u.ulong_value = 0u;
+                Deposit_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
+                Deposit_g_tc_members[0]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
+                Deposit_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
+                Deposit_g_tc_members[0]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
 
                 Deposit_g_tc._data._sampleAccessInfo = sample_access_info();
                 Deposit_g_tc._data._typePlugin = type_plugin_info();    
@@ -1066,15 +1066,15 @@ namespace rti {
 
                 Withdraw_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-                Withdraw_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_short;
+                Withdraw_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
 
                 /* Initialize the values for member annotations. */
-                Withdraw_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_SHORT;
-                Withdraw_g_tc_members[0]._annotations._defaultValue._u.short_value = 0;
-                Withdraw_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_SHORT;
-                Withdraw_g_tc_members[0]._annotations._minValue._u.short_value = RTIXCdrShort_MIN;
-                Withdraw_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_SHORT;
-                Withdraw_g_tc_members[0]._annotations._maxValue._u.short_value = RTIXCdrShort_MAX;
+                Withdraw_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
+                Withdraw_g_tc_members[0]._annotations._defaultValue._u.ulong_value = 0u;
+                Withdraw_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
+                Withdraw_g_tc_members[0]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
+                Withdraw_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
+                Withdraw_g_tc_members[0]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
 
                 Withdraw_g_tc._data._sampleAccessInfo = sample_access_info();
                 Withdraw_g_tc._data._typePlugin = type_plugin_info();    
@@ -1247,18 +1247,18 @@ namespace rti {
                 Transaction_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
                 Transaction_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&::rti::topic::dynamic_type< FundType>::get().native();
-                Transaction_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_short;
+                Transaction_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
 
                 /* Initialize the values for member annotations. */
                 Transaction_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ENUM;
                 Transaction_g_tc_members[0]._annotations._defaultValue._u.enumerated_value = 0;
 
-                Transaction_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_SHORT;
-                Transaction_g_tc_members[1]._annotations._defaultValue._u.short_value = 0;
-                Transaction_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_SHORT;
-                Transaction_g_tc_members[1]._annotations._minValue._u.short_value = RTIXCdrShort_MIN;
-                Transaction_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_SHORT;
-                Transaction_g_tc_members[1]._annotations._maxValue._u.short_value = RTIXCdrShort_MAX;
+                Transaction_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
+                Transaction_g_tc_members[1]._annotations._defaultValue._u.ulong_value = 0u;
+                Transaction_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
+                Transaction_g_tc_members[1]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
+                Transaction_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
+                Transaction_g_tc_members[1]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
 
                 Transaction_g_tc._data._sampleAccessInfo = sample_access_info();
                 Transaction_g_tc._data._typePlugin = type_plugin_info();    
@@ -1434,18 +1434,18 @@ namespace rti {
                 FundData_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
                 FundData_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&::rti::topic::dynamic_type< FundType>::get().native();
-                FundData_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_short;
+                FundData_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
 
                 /* Initialize the values for member annotations. */
                 FundData_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ENUM;
                 FundData_g_tc_members[0]._annotations._defaultValue._u.enumerated_value = 0;
 
-                FundData_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_SHORT;
-                FundData_g_tc_members[1]._annotations._defaultValue._u.short_value = 0;
-                FundData_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_SHORT;
-                FundData_g_tc_members[1]._annotations._minValue._u.short_value = RTIXCdrShort_MIN;
-                FundData_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_SHORT;
-                FundData_g_tc_members[1]._annotations._maxValue._u.short_value = RTIXCdrShort_MAX;
+                FundData_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
+                FundData_g_tc_members[1]._annotations._defaultValue._u.ulong_value = 0u;
+                FundData_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
+                FundData_g_tc_members[1]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
+                FundData_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
+                FundData_g_tc_members[1]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
 
                 FundData_g_tc._data._sampleAccessInfo = sample_access_info();
                 FundData_g_tc._data._typePlugin = type_plugin_info();    
@@ -1734,7 +1734,7 @@ namespace dds {
 
         void topic_type_support< Deposit >::reset_sample(Deposit& sample) 
         {
-            sample.amount(0);
+            sample.amount(0u);
         }
 
         void topic_type_support< Deposit >::allocate_sample(Deposit& sample, int, int) 
@@ -1798,7 +1798,7 @@ namespace dds {
 
         void topic_type_support< Withdraw >::reset_sample(Withdraw& sample) 
         {
-            sample.amount(0);
+            sample.amount(0u);
         }
 
         void topic_type_support< Withdraw >::allocate_sample(Withdraw& sample, int, int) 
@@ -1863,7 +1863,7 @@ namespace dds {
         void topic_type_support< Transaction >::reset_sample(Transaction& sample) 
         {
             sample.fund_type_destination(FundType::SAVINGS);
-            sample.amount(0);
+            sample.amount(0u);
         }
 
         void topic_type_support< Transaction >::allocate_sample(Transaction& sample, int, int) 
@@ -1928,7 +1928,7 @@ namespace dds {
         void topic_type_support< FundData >::reset_sample(FundData& sample) 
         {
             sample.fund_type(FundType::SAVINGS);
-            sample.amount(0);
+            sample.amount(0u);
         }
 
         void topic_type_support< FundData >::allocate_sample(FundData& sample, int, int) 

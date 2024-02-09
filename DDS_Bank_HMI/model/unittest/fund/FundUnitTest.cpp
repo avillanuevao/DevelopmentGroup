@@ -2,13 +2,13 @@
 
 #include <gtest/gtest.h>
 
-#include <Fund.hpp>
+#include <operations/Fund.hpp>
 
 const int INITAMOUNT = 1000;
 const int AMOUNT01 = 500;
 const int AMOUNTNEGATIVE = -2000;
 
-class FundUnitTest : public testing::TestWithParam<model::FundType>
+class FundUnitTest : public testing::TestWithParam<model::operations::FundType>
 {
     public:
         FundUnitTest();
@@ -17,12 +17,12 @@ class FundUnitTest : public testing::TestWithParam<model::FundType>
     protected:
         virtual void SetUp() override;
         virtual void TearDown() override;
-        std::shared_ptr<model::Fund> m_fund;
+        std::shared_ptr<model::operations::Fund> m_fund;
     private:
 
 };
 
-INSTANTIATE_TEST_CASE_P(FundTypes, FundUnitTest, testing::Values(model::FundType::SAVINGS, model::FundType::HOUSING));
+INSTANTIATE_TEST_CASE_P(FundTypes, FundUnitTest, testing::Values(model::operations::FundType::SAVINGS, model::operations::FundType::HOUSING));
 
 FundUnitTest::FundUnitTest()
 {
@@ -36,7 +36,7 @@ FundUnitTest::~FundUnitTest()
 
 void FundUnitTest::SetUp()
 {
-    m_fund.reset(new model::Fund(GetParam(), INITAMOUNT));
+    m_fund.reset(new model::operations::Fund(GetParam(), INITAMOUNT));
 }
 
 void FundUnitTest::TearDown()
@@ -45,41 +45,22 @@ void FundUnitTest::TearDown()
 }
 
 
-/**
- * @unittest Test of FundUnitTest
- */
-TEST_P(FundUnitTest, getFundTypeOK)
+TEST_P(FundUnitTest, getFundType)
 {
-    model::FundType fundTypeExpected = GetParam();
-    model::FundType fundType = m_fund->getFundType();
+    model::operations::FundType fundTypeExpected = GetParam();
+    model::operations::FundType fundType = m_fund->getFundType();
 
     ASSERT_EQ(fundTypeExpected, fundType);
 }
 
-/**
- * @unittest Test of FundUnitTest
- */
-TEST_P(FundUnitTest, getAmountInitAmountOK)
+TEST_P(FundUnitTest, getAmountInitAmount)
 {
     int amountOutput = m_fund->getAmount();
 
     ASSERT_EQ(INITAMOUNT, amountOutput);
 }
 
-/**
- * @unittest Test of FundUnitTest
- */
-TEST_P(FundUnitTest, getAmountInitAmountNotOK)
-{
-    int amountOutput = m_fund->getAmount();
-
-    ASSERT_NE(AMOUNT01, amountOutput);
-}
-
-/**
- * @unittest Test of FundUnitTest
- */
-TEST_P(FundUnitTest, setAmountOK)
+TEST_P(FundUnitTest, setAmount)
 {
     int amountInput = 2000;
 
@@ -91,17 +72,11 @@ TEST_P(FundUnitTest, setAmountOK)
 
 }
 
-/**
- * @unittest Test of FundUnitTest
- */
 TEST_P(FundUnitTest, setAmountNegative)
 {
     ASSERT_THROW(m_fund->setAmount(AMOUNTNEGATIVE), std::logic_error);
 }
 
-/**
- * @unittest Test of FundUnitTest
- */
 TEST_P(FundUnitTest, increaseAmountOK)
 {
     int amountInput = 2000;
@@ -119,9 +94,6 @@ TEST_P(FundUnitTest, increaseAmountOK)
 
 }
 
-/**
- * @unittest Test of FundUnitTest
- */
 TEST_P(FundUnitTest, increaseAmountNotOK)
 {
     int amountInput = 2000;
@@ -138,11 +110,45 @@ TEST_P(FundUnitTest, increaseAmountNotOK)
     }
 }
 
-/**
- * @unittest Test of FundUnitTest
- */
 TEST_P(FundUnitTest, increaseAmountNegative)
 {
     ASSERT_THROW(m_fund->increaseAmount(AMOUNTNEGATIVE), std::logic_error);
 }
 
+TEST_P(FundUnitTest, decreaseAmountOK)
+{
+    int amountInput = 10;
+    int amountExpected = INITAMOUNT - amountInput;
+
+    for(int i = 0; i < 5; i++)
+    {
+        m_fund->decreaseAmount(amountInput);
+        int amountOutput = m_fund->getAmount();
+
+        ASSERT_EQ(amountExpected, amountOutput);
+
+        amountExpected -= amountInput;
+    }
+
+}
+
+TEST_P(FundUnitTest, decreaseAmountNotOK)
+{
+    int amountInput = 10;
+    int amountNotExpected = INITAMOUNT;
+
+    for(int i = 0; i < 5; i++)
+    {
+        m_fund->decreaseAmount(amountInput);
+        int amountOutput = m_fund->getAmount();
+
+        ASSERT_NE(amountNotExpected, amountOutput);
+
+        amountNotExpected -= amountInput;
+    }
+}
+
+TEST_P(FundUnitTest, decreaseAmountNegative)
+{
+    ASSERT_THROW(m_fund->decreaseAmount(AMOUNTNEGATIVE), std::logic_error);
+}

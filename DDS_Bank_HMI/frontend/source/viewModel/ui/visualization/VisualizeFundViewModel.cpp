@@ -10,13 +10,13 @@ namespace visualization
 {
 
 
-VisualizeFundViewModel::VisualizeFundViewModel(std::shared_ptr<model::FundGetParametersInterface> fund):
+VisualizeFundViewModel::VisualizeFundViewModel(std::shared_ptr<model::operations::FundGetParametersInterface> fund):
     m_fund(fund)
 {
 
 }
 
-void VisualizeFundViewModel::updateView(model::FundType fundType, int amount)
+void VisualizeFundViewModel::updateView(model::operations::FundType fundType, int amount)
 {
     if(fundType == m_fund->getFundType())
     {
@@ -28,7 +28,7 @@ void VisualizeFundViewModel::updateView(model::FundType fundType, int amount)
 void VisualizeFundViewModel::updateView()
 {
     int amount = m_fund->getAmount();
-    model::FundType fundType = m_fund->getFundType();
+    model::operations::FundType fundType = m_fund->getFundType();
     updateView(fundType, amount);
 }
 

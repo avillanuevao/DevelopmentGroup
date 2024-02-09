@@ -8,7 +8,7 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <model/source/FundType.hpp>
+#include <model/source/operations/FundType.hpp>
 #include <frontend/source/viewModel/ui/operations/TransferViewModel.hpp>
 
 namespace frontend
@@ -25,7 +25,7 @@ class TransferMoneyView :
 {
     Q_OBJECT
     public:
-        TransferMoneyView(std::shared_ptr<viewModel::ui::operations::TransferViewModel> transferViewModel,
+        TransferMoneyView(std::shared_ptr<frontend::viewModel::ui::operations::TransferViewModel> transferViewModel,
                           QQmlApplicationEngine &engine,
                           QObject *parent = nullptr);
 
@@ -36,12 +36,12 @@ public slots:
         void setDestinationFundType(int newDestinationFundType);
 
 private:
-        std::shared_ptr<viewModel::ui::operations::TransferViewModel> m_transferViewModel;
+        std::shared_ptr<frontend::viewModel::ui::operations::TransferViewModel> m_transferViewModel;
         QQmlApplicationEngine& m_engine;
         QObject* m_parent;
 
         int m_amountToTransfer;
-        model::FundType m_destinationFundType;
+        model::operations::FundType m_destinationFundType;
 
 };
 
