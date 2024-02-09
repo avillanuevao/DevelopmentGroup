@@ -33,7 +33,7 @@ class SignalPublisher
         {
             for (auto subscriber : m_subscribers)
             {
-                subscriber->update(signal);
+                subscriber->recievedSignal(signal);
             }
         }
 

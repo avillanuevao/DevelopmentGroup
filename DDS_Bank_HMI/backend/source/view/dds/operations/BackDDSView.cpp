@@ -25,14 +25,14 @@ BackDDSView::BackDDSView(unsigned int domainId,
 
 }
 
-void BackDDSView::update(model::operations::signal::UpdatedFundSignal signal)
+void BackDDSView::recievedSignal(model::operations::signal::UpdatedFundSignal signal)
 {
     FundType ddsFundType(static_cast<FundType>(signal.getFundType()));
 
     writeFundData(ddsFundType, signal.getAmount());
 }
 
-void BackDDSView::update(model::operations::signal::UpdatedFundTypeSignal signal)
+void BackDDSView::recievedSignal(model::operations::signal::UpdatedFundTypeSignal signal)
 {
     FundType ddsFundType(static_cast<FundType>(signal.getFundType()));
 

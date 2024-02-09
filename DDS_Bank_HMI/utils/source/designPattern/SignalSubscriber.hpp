@@ -13,7 +13,7 @@ class SignalSubscriber
         SignalSubscriber() = default;
         virtual ~SignalSubscriber(){}
 
-        virtual void update(TSignal signal) = 0;
+        virtual void recievedSignal(TSignal signal) = 0;
 };
 
 }

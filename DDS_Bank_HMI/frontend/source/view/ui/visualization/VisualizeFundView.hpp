@@ -29,7 +29,7 @@ class VisualizeFundView :
         VisualizeFundView(QQmlApplicationEngine &engine,
                           QObject *parent = nullptr);
 
-        void update(frontend::viewModel::ui::visualization::signal::VisualizeFundSignal signal);
+        void recievedSignal(frontend::viewModel::ui::visualization::signal::VisualizeFundSignal signal);
 
     private slots:
         void updateAmountQML(const QVariant& newAmount);

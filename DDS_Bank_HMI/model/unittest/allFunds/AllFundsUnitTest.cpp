@@ -23,14 +23,15 @@ class AllFundsUnitTest : public testing::TestWithParam<std::tuple<model::operati
         std::shared_ptr<model::operations::AllFunds> m_allFunds;
         model::operations::FundType m_actualFundType;
         model::operations::FundType m_otherFundType;
-//        std::vector<model::operations::FundType> m_funds {model::operations::FundType::SAVINGS, model::operations::FundType::HOUSING};
 };
 
 INSTANTIATE_TEST_CASE_P(FundTypesOK, AllFundsUnitTest, testing::Values(
                             std::make_tuple(model::operations::FundType::SAVINGS, model::operations::FundType::HOUSING),
                             std::make_tuple(model::operations::FundType::HOUSING, model::operations::FundType::SAVINGS)));
 
-AllFundsUnitTest::AllFundsUnitTest()
+AllFundsUnitTest::AllFundsUnitTest():
+    m_actualFundType(std::get<0>(GetParam())),
+    m_otherFundType(std::get<1>(GetParam()))
 {
 
 }

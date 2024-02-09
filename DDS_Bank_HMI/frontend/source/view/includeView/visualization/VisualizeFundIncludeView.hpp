@@ -24,8 +24,8 @@ class VisualizeFundIncludeView :
     public:
         VisualizeFundIncludeView(std::shared_ptr<viewModel::ui::visualization::VisualizeFundViewModel> visualizeFundViewModel);
 
-        void update(model::operations::signal::UpdatedFundSignal signal);
-        void update(model::operations::signal::UpdatedFundTypeSignal signal);
+        void recievedSignal(model::operations::signal::UpdatedFundSignal signal);
+        void recievedSignal(model::operations::signal::UpdatedFundTypeSignal signal);
 
     private:
         std::shared_ptr<viewModel::ui::visualization::VisualizeFundViewModel> m_visualizeFundViewModel;
