@@ -17,7 +17,6 @@
 #include <viewModel/ui/operations/TransferViewModel.hpp>
 #include <viewModel/ui/visualization/VisualizeFundViewModel.hpp>
 #include <viewModel/dds/operations/DDSViewModel.hpp>
-#include <lib/enum.hpp>
 
 using FrontDDSView = frontend::view::dds::operations::FrontDDSView;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoneyView;

@@ -9,9 +9,9 @@ ComboBox
 
     property alias fundsModel: selectFundTypeComboBox.model
 
-    onCurrentTextChanged:
+    onCurrentIndexChanged:
     {
-        selectFundView.setFundType(selectFundTypeComboBox.currentText);
+        selectFundView.setFundType(selectFundTypeComboBox.currentIndex);
     }
 }
 

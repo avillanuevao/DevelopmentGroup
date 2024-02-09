@@ -10,10 +10,9 @@ namespace visualization
 {
 
 VisualizeFundIncludeView::VisualizeFundIncludeView(std::shared_ptr<viewModel::ui::visualization::VisualizeFundViewModel> visualizeFundViewModel) :
-    m_visualizeFundViewModel(visualizeFundViewModel),
-    m_fundTypeActual(model::operations::FundType::SAVINGS)
+    m_visualizeFundViewModel(visualizeFundViewModel)
 {
-
+    m_fundTypeActual = model::operations::FundType::SAVINGS;
 }
 
 void VisualizeFundIncludeView::update(model::operations::signal::UpdatedFundSignal signal)

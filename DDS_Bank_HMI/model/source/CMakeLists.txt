@@ -14,5 +14,4 @@ set_target_properties(modelLib PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOU
 # Establece un directorio al target que esta compilado (se le añaden directorios cuando compila, pero no se para que se le añaden)
 target_include_directories(modelLib
     PUBLIC ${PROJECT_SOURCE_DIR}/utils/source
-    PUBLIC ${PROJECT_SOURCE_DIR}/lib
 )
