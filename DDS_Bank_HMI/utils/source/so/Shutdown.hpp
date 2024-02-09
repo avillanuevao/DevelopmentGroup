@@ -1,5 +1,5 @@
-#ifndef SHUTDOWN_HPP
-#define SHUTDOWN_HPP
+#ifndef UTILS_SO_SHUTDOWN_HPP
+#define UTILS_SO_SHUTDOWN_HPP
 
 #include <iostream>
 #include <csignal>
@@ -28,4 +28,4 @@ inline void setup_signal_handlers()
 
 }
 }
-#endif // SHUTDOWN_HPP
+#endif // UTILS_SO_SHUTDOWN_HPP

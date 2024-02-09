@@ -1,5 +1,5 @@
-﻿#ifndef DDSDATAWRITER_HPP
-#define DDSDATAWRITER_HPP
+﻿#ifndef UTILS_DDS_DDSDATAWRITER_HPP
+#define UTILS_DDS_DDSDATAWRITER_HPP
 
 #include <memory>
 
@@ -42,4 +42,4 @@ class DDSDataWriter
 }
 }
 
-#endif // DDSDATAWRITER_HPP
+#endif // UTILS_DDS_DDSDATAWRITER_HPP
