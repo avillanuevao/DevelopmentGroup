@@ -20,9 +20,9 @@ ColumnLayout
         {
             id: fundTypeDestinationTransferComboBox
 
-            onCurrentIndexChanged:
+            onCurrentTextChanged:
             {
-                transferMoneyView.setDestinationFundType(fundTypeDestinationTransferComboBox.currentIndex);
+                transferMoneyView.setDestinationFundType(fundTypeDestinationTransferComboBox.currentText);
             }
         }
     }
