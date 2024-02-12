@@ -27,14 +27,14 @@ BackDDSView::BackDDSView(unsigned int domainId,
 
 void BackDDSView::recievedSignal(model::operations::signal::UpdatedFundSignal signal)
 {
-    FundType ddsFundType(static_cast<FundType>(signal.getFundType()));
+    FundType ddsFundType(static_cast<FundType>(signal.getFundType()._to_index()));
 
     writeFundData(ddsFundType, signal.getAmount());
 }
 
 void BackDDSView::recievedSignal(model::operations::signal::UpdatedFundTypeSignal signal)
 {
-    FundType ddsFundType(static_cast<FundType>(signal.getFundType()));
+    FundType ddsFundType(static_cast<FundType>(signal.getFundType()._to_index()));
 
     writeSelectFundAck(ddsFundType);
 }
@@ -44,7 +44,9 @@ void BackDDSView::receivedTopicSelectFund(SelectFund selectFund)
     std::cout << "SelectFund topic received: " << std::endl;
     std::cout << "\t" << selectFund << std::endl;
 
-    model::operations::FundType modelFundType (static_cast<model::operations::FundType>(selectFund.fund_type()));
+    int ddsFundType = static_cast<int>(selectFund.fund_type());
+    model::operations::FundType modelFundType(model::operations::FundType::_from_index(ddsFundType));
+
     m_selectFundController->selectFundType(modelFundType);
 }
 
@@ -78,7 +80,8 @@ void BackDDSView::receivedTopicTransaction(Transaction transaction)
     std::cout << "Transaction topic received: " << std::endl;
     std::cout << "\t" << transaction << std::endl;
 
-    model::operations::FundType modelFundType(static_cast<model::operations::FundType>(transaction.fund_type_destination()));
+    int ddsFundType = static_cast<int>(transaction.fund_type_destination());
+    model::operations::FundType modelFundType(model::operations::FundType::_from_index(ddsFundType));
 
     m_transferMoneyController->transfer(modelFundType, transaction.amount());
 }
