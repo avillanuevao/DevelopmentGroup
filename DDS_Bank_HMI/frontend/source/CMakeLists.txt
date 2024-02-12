@@ -31,6 +31,7 @@ target_include_directories(FRONTEND
     PUBLIC ${PROJECT_SOURCE_DIR}/
     PUBLIC ${PROJECT_SOURCE_DIR}/utils/source
     PUBLIC ${PROJECT_SOURCE_DIR}/model/source
+    PUBLIC ${PROJECT_SOURCE_DIR}/lib
 )
 
 target_compile_definitions(FRONTEND
@@ -41,6 +42,7 @@ target_link_libraries(FRONTEND
     PUBLIC RTIConnextDDS::cpp2_api
     PUBLIC ${PROJECT_SOURCE_DIR}/model/source/libmodelLib.so
     PUBLIC ${PROJECT_SOURCE_DIR}/utils/libutilsLib.a
+    PUBLIC ${PROJECT_SOURCE_DIR}/lib/liblibs.so
     )
 
 set_target_properties(FRONTEND PROPERTIES

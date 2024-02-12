@@ -1,5 +1,5 @@
-#ifndef SIGNALSUBSCRIBER_HPP
-#define SIGNALSUBSCRIBER_HPP
+#ifndef UTILS_DESIGNPATTERN_SIGNALSUBSCRIBER_HPP
+#define UTILS_DESIGNPATTERN_SIGNALSUBSCRIBER_HPP
 
 namespace utils
 {
@@ -13,10 +13,10 @@ class SignalSubscriber
         SignalSubscriber() = default;
         virtual ~SignalSubscriber(){}
 
-        virtual void update(TSignal signal) = 0;
+        virtual void recievedSignal(TSignal signal) = 0;
 };
 
 }
 }
 
-#endif // SIGNALSUBSCRIBER_HPP
+#endif // UTILS_DESIGNPATTERN_SIGNALSUBSCRIBER_HPP

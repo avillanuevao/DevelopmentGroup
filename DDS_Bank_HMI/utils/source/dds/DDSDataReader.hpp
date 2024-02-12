@@ -1,5 +1,5 @@
-#ifndef DDSDATAREADER_HPP
-#define DDSDATAREADER_HPP
+#ifndef UTILS_DDS_DDSDATAREADER_HPP
+#define UTILS_DDS_DDSDATAREADER_HPP
 
 #include <memory>
 
@@ -67,4 +67,4 @@ class DDSDataReader
 }
 }
 
-#endif // DDSDATAREADER_HPP
+#endif // UTILS_DDS_DDSDATAREADER_HPP

@@ -33,7 +33,7 @@ void AllFunds::decreaseAmount(int amountToDecrease)
     int amountRest = amountToDecrease - amountActualFund;
     bool isEnoughAmountInActualFund = (amountActualFund - amountToDecrease) >= 0;
     bool isEnoughAmountInSavingsFund = (amountSavingsFund - amountRest) >= 0;
-    bool isActualFundSavingsFund = m_actualFund == model::operations::FundType::SAVINGS;
+    bool isActualFundSavingsFund = m_actualFund == +model::operations::FundType::SAVINGS;
 
     try
     {

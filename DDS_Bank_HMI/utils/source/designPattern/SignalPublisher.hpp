@@ -1,5 +1,5 @@
-#ifndef SIGNALPUBLISHER_HPP
-#define SIGNALPUBLISHER_HPP
+#ifndef UTILS_DESIGNPATTERN_SIGNALPUBLISHER_HPP
+#define UTILS_DESIGNPATTERN_SIGNALPUBLISHER_HPP
 
 #include <algorithm>
 #include <vector>
@@ -33,7 +33,7 @@ class SignalPublisher
         {
             for (auto subscriber : m_subscribers)
             {
-                subscriber->update(signal);
+                subscriber->recievedSignal(signal);
             }
         }
 
@@ -43,4 +43,4 @@ class SignalPublisher
 
 }
 }
-#endif // SIGNALPUBLISHER_HPP
+#endif // UTILS_DESIGNPATTERN_SIGNALPUBLISHER_HPP

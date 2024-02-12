@@ -33,10 +33,10 @@ class FrontDDSView :
                      unsigned int sampleCount,
                      std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel);
 
-        void update(frontend::viewModel::ui::operations::signal::SelectFundSignal signal) override;
-        void update(frontend::viewModel::ui::operations::signal::DepositMoneySignal signal) override;
-        void update(frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal signal) override;
-        void update(frontend::viewModel::ui::operations::signal::TransferedMoneySignal signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::SelectFundSignal signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoneySignal signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::TransferedMoneySignal signal) override;
 
     private:
         void writeSelectFund(FundType fundType);

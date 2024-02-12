@@ -44,8 +44,8 @@ class BackDDSView :
                     std::shared_ptr<backend::controller::operations::WithdrawMoneyController> withdrawMoneyController,
                     std::shared_ptr<backend::controller::operations::TransferMoneyController> transferMoneyController);
 
-        void update(model::operations::signal::UpdatedFundSignal signal);
-        void update(model::operations::signal::UpdatedFundTypeSignal signal);
+        void recievedSignal(model::operations::signal::UpdatedFundSignal signal);
+        void recievedSignal(model::operations::signal::UpdatedFundTypeSignal signal);
 
     private:
         void writeFundData(const FundType &fundType, int16_t amount);

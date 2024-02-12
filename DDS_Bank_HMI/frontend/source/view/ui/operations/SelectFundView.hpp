@@ -28,7 +28,7 @@ class SelectFundView :
                        QObject *parent = nullptr);
 
     public slots:
-        void setFundType(int fundType);
+        void setFundType(QString fundType);
 
     private:
         std::shared_ptr<frontend::viewModel::ui::operations::SelectFundViewModel> m_selectFundViewModel;

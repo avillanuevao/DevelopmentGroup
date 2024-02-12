@@ -33,7 +33,7 @@ public slots:
         void transferMoney();
 
         void setAmountToTransfer(int newAmountToTransfer);
-        void setDestinationFundType(int newDestinationFundType);
+        void setDestinationFundType(QString newDestinationFundType);
 
 private:
         std::shared_ptr<frontend::viewModel::ui::operations::TransferViewModel> m_transferViewModel;
