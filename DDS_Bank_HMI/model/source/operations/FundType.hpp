@@ -2,16 +2,17 @@
 #define MODEL_OPERATIONS_FUNDTYPE_H
 
 #include <iostream>
+#include <enum.hpp>
 
-namespace model {
+namespace model
+{
 namespace operations
 {
 
-enum class FundType {
-    SAVINGS,
-    HOUSING,
-    NONE
-};
+BETTER_ENUM(FundType, int,
+            SAVINGS,
+            HOUSING,
+            NONE)
 
 }
 }
