@@ -17,7 +17,11 @@ OperationDualFund::OperationDualFund(model::visualization::OperationType operati
 
 std::string OperationDualFund::toString()
 {
-    return "";
+    std::string sFundOrigin = m_fundType._to_string();
+    std::string sFundDestination = m_destinationFund._to_string();
+    std::string sAmount = std::to_string(m_amount);
+
+    return "The transfer has been completed from the " + sFundOrigin + " fund to the " + sFundDestination + " fund with an amount of " + sAmount + ".";
 }
 
 }

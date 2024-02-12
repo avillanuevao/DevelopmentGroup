@@ -16,6 +16,7 @@ class OperationDualFund:
                           int amount,
                           model::operations::FundType originFund,
                           model::operations::FundType destinationFund);
+
         std::string toString() override;
 
     private:

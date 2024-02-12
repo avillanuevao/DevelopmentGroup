@@ -1,7 +1,7 @@
 #ifndef MODEL_VISUALIZATION_MESSAGETYPE_HPP
 #define MODEL_VISUALIZATION_MESSAGETYPE_HPP
 
-#include <lib/enum.hpp>
+#include <enum.hpp>
 
 namespace model
 {
