@@ -4,11 +4,13 @@ namespace model
 {
 namespace visualization
 {
+namespace message
+{
 
-OperationSingleFund::OperationSingleFund(model::visualization::OperationType operationType,
+OperationSingleFund::OperationSingleFund(model::visualization::message::OperationType operationType,
                                          int amount,
                                          model::operations::FundType fundType):
-    model::visualization::OperationInterface(operationType, amount, fundType)
+    model::visualization::message::OperationInterface(operationType, amount, fundType)
 {
 
 }
@@ -20,11 +22,11 @@ std::string OperationSingleFund::toString()
     std::string completeMessage = "An amount of " + sAmount + " has been ";
 
 
-    if(m_operationType == +model::visualization::OperationType::DEPOSIT)
+    if(m_operationType == +model::visualization::message::OperationType::DEPOSIT)
     {
         completeMessage += " deposited ";
     }
-    else if(m_operationType == +model::visualization::OperationType::WITHDRAW)
+    else if(m_operationType == +model::visualization::message::OperationType::WITHDRAW)
     {
         completeMessage += " withdrawn ";
     }
@@ -38,5 +40,6 @@ std::string OperationSingleFund::toString()
     return completeMessage;
 }
 
+}
 }
 }

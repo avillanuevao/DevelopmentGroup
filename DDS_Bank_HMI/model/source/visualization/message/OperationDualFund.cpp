@@ -4,12 +4,14 @@ namespace model
 {
 namespace visualization
 {
+namespace message
+{
 
-OperationDualFund::OperationDualFund(model::visualization::OperationType operationType,
+OperationDualFund::OperationDualFund(model::visualization::message::OperationType operationType,
                                      int amount,
                                      model::operations::FundType originFund,
                                      model::operations::FundType destinationFund):
-    model::visualization::OperationInterface(operationType, amount, originFund),
+    model::visualization::message::OperationInterface(operationType, amount, originFund),
     m_destinationFund(destinationFund)
 {
 
@@ -24,5 +26,6 @@ std::string OperationDualFund::toString()
     return "The transfer has been completed from the " + sFundOrigin + " fund to the " + sFundDestination + " fund with an amount of " + sAmount + ".";
 }
 
+}
 }
 }

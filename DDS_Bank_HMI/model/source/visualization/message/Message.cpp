@@ -4,14 +4,16 @@ namespace model
 {
 namespace visualization
 {
+namespace message
+{
 
 Message::Message(std::time_t date,
-                 model::visualization::MessageType messageType,
-                 model::visualization::OperationType operationType,
+                 model::visualization::message::MessageType messageType,
+                 model::visualization::message::OperationType operationType,
                  model::operations::FundType fundOrigin,
                  model::operations::FundType fundDestination,
                  int amount):
-    model::visualization::MessageInterface(date, messageType, operationType, fundOrigin, fundDestination, amount)
+    model::visualization::message::MessageInterface(date, messageType, operationType, fundOrigin, fundDestination, amount)
 {
 
 }
@@ -23,7 +25,7 @@ std::string Message::toString()
     return completeMessage;
 }
 
-std::string model::visualization::Message::dateToString()
+std::string Message::dateToString()
 {
     std::stringstream stringStream;
     stringStream << std::put_time(std::localtime(&m_date), "%Y/%m/%d %H:%M");
@@ -31,24 +33,24 @@ std::string model::visualization::Message::dateToString()
     return stringStream.str();
 }
 
-std::string model::visualization::Message::messageTypeToString()
+std::string Message::messageTypeToString()
 {
     std::string completeMessage;
 
     switch (m_messageType)
     {
-        case model::visualization::MessageType::SUCCESS:
+        case model::visualization::message::MessageType::SUCCESS:
         {
             completeMessage += " Operation completed successfully: " + m_operation->toString();
             break;
         }
-        case model::visualization::MessageType::FAILURE:
+        case model::visualization::message::MessageType::FAILURE:
         {
             completeMessage += " The operation could not be completed.";
             // TODO: habría que añadir el porque falla
             break;
         }
-        case model::visualization::MessageType::WARNING:
+        case model::visualization::message::MessageType::WARNING:
         {
             break;
         }
@@ -57,5 +59,6 @@ std::string model::visualization::Message::messageTypeToString()
     return completeMessage;
 }
 
+}
 }
 }

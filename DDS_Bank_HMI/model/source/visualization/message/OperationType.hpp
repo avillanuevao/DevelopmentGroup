@@ -7,12 +7,15 @@ namespace model
 {
 namespace visualization
 {
+namespace message
+{
 
 BETTER_ENUM(OperationType, int,
             DEPOSIT,
             WITHDRAW,
             TRANSFER)
 
+}
 }
 }
 

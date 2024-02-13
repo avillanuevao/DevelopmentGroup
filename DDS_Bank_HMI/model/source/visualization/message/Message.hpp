@@ -4,20 +4,22 @@
 #include <iomanip>
 #include <sstream>
 
-#include <visualization/MessageInterface.hpp>
+#include <visualization/message/MessageInterface.hpp>
 
 namespace model
 {
 namespace visualization
 {
+namespace message
+{
 
 class Message:
-        public model::visualization::MessageInterface
+        public model::visualization::message::MessageInterface
 {
     public:
         Message(std::time_t date,
-                model::visualization::MessageType messageType,
-                model::visualization::OperationType operationType,
+                model::visualization::message::MessageType messageType,
+                model::visualization::message::OperationType operationType,
                 model::operations::FundType fundOrigin,
                 model::operations::FundType fundDestination,
                 int amount);
@@ -29,6 +31,7 @@ class Message:
         std::string messageTypeToString();
 };
 
+}
 }
 }
 
