@@ -1,7 +1,11 @@
 #ifndef MODEL_VISUALIZATION_MESSAGE_ALLMESSAGESINTERFACE_HPP
 #define MODEL_VISUALIZATION_MESSAGE_ALLMESSAGESINTERFACE_HPP
 
-#include<visualization/message/MessageInterface.hpp>
+#include <vector>
+
+#include <visualization/message/MessageInterface.hpp>
+#include <visualization/message/signal/ShowMessageSignal.hpp>
+#include <designPattern/SignalPublisher.hpp>
 
 namespace model
 {
@@ -10,12 +14,17 @@ namespace visualization
 namespace message
 {
 
-class AllMessagesInterface
+class AllMessagesInterface :
+        public utils::designPattern::SignalPublisher<model::visualization::message::signal::ShowMessageSignal>
 {
     public:
-        AllMessagesInterface();
+        AllMessagesInterface() = default;
 
-        virtual void addMessage(model::visualization::MessageInterface newMessage) = 0;
+        virtual void addMessage(model::visualization::message::MessageInterface newMessage) = 0;
+
+    protected:
+        std::vector<model::visualization::message::MessageInterface> m_allMessages;
+
 };
 
 }

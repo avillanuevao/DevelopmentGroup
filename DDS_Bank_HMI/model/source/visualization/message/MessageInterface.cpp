@@ -7,25 +7,29 @@ namespace visualization
 namespace message
 {
 
-MessageInterface::MessageInterface(time_t date,
+MessageInterface::MessageInterface(std::time_t date,
                                    model::visualization::message::MessageType messageType,
-                                   model::visualization::message::OperationType operationType,
-                                   model::operations::FundType fundOrigin,
-                                   model::operations::FundType fundDestination,
-                                   int amount):
+                                   std::vector<model::visualization::language::Literals> literals):
     m_date(date),
-    m_messageType(messageType)
+    m_messageType(messageType),
+    m_literals(literals)
 {
-    if(operationType == +model::visualization::message::OperationType::TRANSFER)
-    {
-        m_operation = std::unique_ptr<model::visualization::message::OperationInterface>(
-                    new model::visualization::message::OperationDualFund(operationType, amount, fundOrigin, fundDestination));
-    }
-    else
-    {
-        m_operation = std::unique_ptr<model::visualization::message::OperationInterface>(
-                    new model::visualization::message::OperationSingleFund(operationType, amount, fundOrigin));
-    }
+
+}
+
+std::time_t MessageInterface::getDate() const
+{
+    return m_date;
+}
+
+const model::visualization::message::MessageType &MessageInterface::getMessageType() const
+{
+    return m_messageType;
+}
+
+const std::vector<model::visualization::language::Literals> &MessageInterface::getLiterals() const
+{
+    return m_literals;
 }
 
 

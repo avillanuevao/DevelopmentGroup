@@ -12,6 +12,13 @@ AllMessages::AllMessages()
 
 }
 
+void AllMessages::addMessage(MessageInterface newMessage)
+{
+    m_allMessages.push_back(newMessage);
+
+    notifySubscribers(newMessage);
+}
+
 }
 }
 }

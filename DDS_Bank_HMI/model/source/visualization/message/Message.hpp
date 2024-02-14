@@ -19,16 +19,7 @@ class Message:
     public:
         Message(std::time_t date,
                 model::visualization::message::MessageType messageType,
-                model::visualization::message::OperationType operationType,
-                model::operations::FundType fundOrigin,
-                model::operations::FundType fundDestination,
-                int amount);
-
-        std::string toString() override;
-
-    private:
-        std::string dateToString();
-        std::string messageTypeToString();
+                std::vector<model::visualization::language::Literals> literals);
 };
 
 }

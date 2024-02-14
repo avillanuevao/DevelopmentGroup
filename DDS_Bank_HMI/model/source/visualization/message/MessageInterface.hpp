@@ -3,12 +3,10 @@
 
 #include <chrono>
 #include <memory>
+#include <vector>
 
 #include <visualization/message/MessageType.hpp>
-#include <visualization/message/OperationType.hpp>
-#include <visualization/message/OperationInterface.hpp>
-#include <visualization/message/OperationSingleFund.hpp>
-#include <visualization/message/OperationDualFund.hpp>
+#include <visualization/language/Literals.hpp>
 
 namespace model
 {
@@ -22,17 +20,17 @@ class MessageInterface
     public:
         MessageInterface(std::time_t date,
                          model::visualization::message::MessageType messageType,
-                         model::visualization::message::OperationType operationType,
-                         model::operations::FundType fundOrigin,
-                         model::operations::FundType fundDestination,
-                         int amount);
+                         std::vector<model::visualization::language::Literals> literals);
 
-        virtual std::string toString() = 0;
+        std::time_t getDate() const;
+        const model::visualization::message::MessageType &getMessageType() const;
+        const std::vector<model::visualization::language::Literals> &getLiterals() const;
 
-    protected:
+protected:
         std::time_t m_date;
         model::visualization::message::MessageType m_messageType;
-        std::unique_ptr<model::visualization::message::OperationInterface> m_operation;
+        std::vector<model::visualization::language::Literals> m_literals;
+
 };
 
 }
