@@ -11,7 +11,8 @@ const int AMOUNT02 = 1000;
 const int AMOUNTBIG = 10000;
 const int AMOUNTNEGATIVE = -2000;
 
-class AllFundsUnitTest : public testing::TestWithParam<std::tuple<model::operations::FundType, model::operations::FundType>>
+class AllFundsUnitTest :
+        public testing::TestWithParam<std::tuple<model::operations::FundType, model::operations::FundType>>
 {
     public:
         AllFundsUnitTest();

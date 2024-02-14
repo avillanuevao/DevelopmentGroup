@@ -21,15 +21,24 @@ std::string LanguageInterface::literalToString(std::vector<model::visualization:
 {
     std::string completeSentence;
 
-    for (model::visualization::language::Literals literal : literals)
+    for (size_t index = 0; index < literals.size(); ++index)
     {
+        model::visualization::language::Literals literal = literals[index];
+
         if (m_literals.find(literal) != m_literals.end())
         {
             completeSentence += literalToString(literal);
-        }
-        else if (m_values.find(literal) != m_values.end())
+        } else if (m_values.find(literal) != m_values.end())
         {
+            if(data.size() == 0)
+            {
+                throw std::logic_error("Data vector missing");
+            }
             completeSentence += data.at(m_values[literal]);
+        }
+        if (index != literals.size() - 1)
+        {
+            completeSentence += " ";
         }
     }
 
