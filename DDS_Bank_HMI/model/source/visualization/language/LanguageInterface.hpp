@@ -16,7 +16,7 @@ namespace language
 class LanguageInterface
 {
     public:
-        LanguageInterface() = default;
+        LanguageInterface();
 
         std::string literalToString(model::visualization::language::Literals literal);
         std::string literalToString(std::vector<model::visualization::language::Literals> literals,
@@ -26,6 +26,11 @@ class LanguageInterface
         virtual void initLiterals() = 0;
 
         std::map<model::visualization::language::Literals, std::string> m_literals;
+
+    private:
+        void initValues();
+
+        std::map<model::visualization::language::Literals, size_t> m_values;
 
 };
 
