@@ -10,8 +10,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the Code Generator User's Manual.
 */
 
-#ifndef bank_1860238082_hpp
-#define bank_1860238082_hpp
+#ifndef bank_1860238290_hpp
+#define bank_1860238290_hpp
 
 #include <iosfwd>
 
@@ -68,12 +68,21 @@ static const std::string WITHDRAW_TOPIC = "Withdraw";
 static const std::string TRANSACTION_TOPIC = "Transaction";
 
 static const std::string FUND_DATA_TOPIC = "FundData";
+
+static const std::string MESSAGE_TOPIC = "Message";
 enum class FundType {
     SAVINGS, 
     HOUSING
 };
 
 NDDSUSERDllExport std::ostream& operator << (std::ostream& o,const FundType& sample);
+enum class MessageType {
+    SUCCESS, 
+    FAILURE, 
+    WARNING
+};
+
+NDDSUSERDllExport std::ostream& operator << (std::ostream& o,const MessageType& sample);
 
 class NDDSUSERDllExport SelectFund {
   public:
@@ -186,7 +195,7 @@ class NDDSUSERDllExport Deposit {
     Deposit();
 
     explicit Deposit(
-        uint32_t amount);
+        int32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -200,15 +209,15 @@ class NDDSUSERDllExport Deposit {
     #endif
     #endif 
 
-    uint32_t& amount() OMG_NOEXCEPT {
+    int32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const uint32_t& amount() const OMG_NOEXCEPT {
+    const int32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(uint32_t value) {
+    void amount(int32_t value) {
         m_amount_ = value;
     }
 
@@ -219,7 +228,7 @@ class NDDSUSERDllExport Deposit {
 
   private:
 
-    uint32_t m_amount_;
+    int32_t m_amount_;
 
 };
 
@@ -235,7 +244,7 @@ class NDDSUSERDllExport Withdraw {
     Withdraw();
 
     explicit Withdraw(
-        uint32_t amount);
+        int32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -249,15 +258,15 @@ class NDDSUSERDllExport Withdraw {
     #endif
     #endif 
 
-    uint32_t& amount() OMG_NOEXCEPT {
+    int32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const uint32_t& amount() const OMG_NOEXCEPT {
+    const int32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(uint32_t value) {
+    void amount(int32_t value) {
         m_amount_ = value;
     }
 
@@ -268,7 +277,7 @@ class NDDSUSERDllExport Withdraw {
 
   private:
 
-    uint32_t m_amount_;
+    int32_t m_amount_;
 
 };
 
@@ -285,7 +294,7 @@ class NDDSUSERDllExport Transaction {
 
     Transaction(
         const FundType& fund_type_destination,
-        uint32_t amount);
+        int32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -314,15 +323,15 @@ class NDDSUSERDllExport Transaction {
     void fund_type_destination(FundType&& value) {
         m_fund_type_destination_ = std::move(value);
     }
-    uint32_t& amount() OMG_NOEXCEPT {
+    int32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const uint32_t& amount() const OMG_NOEXCEPT {
+    const int32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(uint32_t value) {
+    void amount(int32_t value) {
         m_amount_ = value;
     }
 
@@ -334,7 +343,7 @@ class NDDSUSERDllExport Transaction {
   private:
 
     FundType m_fund_type_destination_;
-    uint32_t m_amount_;
+    int32_t m_amount_;
 
 };
 
@@ -351,7 +360,7 @@ class NDDSUSERDllExport FundData {
 
     FundData(
         const FundType& fund_type,
-        uint32_t amount);
+        int32_t amount);
 
     #ifdef RTI_CXX11_RVALUE_REFERENCES
     #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -380,15 +389,15 @@ class NDDSUSERDllExport FundData {
     void fund_type(FundType&& value) {
         m_fund_type_ = std::move(value);
     }
-    uint32_t& amount() OMG_NOEXCEPT {
+    int32_t& amount() OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    const uint32_t& amount() const OMG_NOEXCEPT {
+    const int32_t& amount() const OMG_NOEXCEPT {
         return m_amount_;
     }
 
-    void amount(uint32_t value) {
+    void amount(int32_t value) {
         m_amount_ = value;
     }
 
@@ -400,7 +409,7 @@ class NDDSUSERDllExport FundData {
   private:
 
     FundType m_fund_type_;
-    uint32_t m_amount_;
+    int32_t m_amount_;
 
 };
 
@@ -410,6 +419,115 @@ inline void swap(FundData& a, FundData& b)  OMG_NOEXCEPT
 }
 
 NDDSUSERDllExport std::ostream& operator<<(std::ostream& o, const FundData& sample);
+
+#if (defined(RTI_WIN32) || defined (RTI_WINCE)) && defined(NDDS_USER_DLL_EXPORT)
+// On Windows, dll-export template instantiations of standard types used by
+// other dll-exported types
+template class NDDSUSERDllExport std::allocator< int32_t >;
+template class NDDSUSERDllExport std::vector< int32_t >;
+template class NDDSUSERDllExport std::allocator< std::string >;
+template class NDDSUSERDllExport std::vector< std::string >;
+#endif
+class NDDSUSERDllExport Message {
+  public:
+    Message();
+
+    Message(
+        int64_t date,
+        const MessageType& message_type,
+        const ::rti::core::bounded_sequence< int32_t, 100L >& literals,
+        const ::rti::core::bounded_sequence< std::string, 100L >& data);
+
+    #ifdef RTI_CXX11_RVALUE_REFERENCES
+    #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+    Message (Message&&) = default;
+    Message& operator=(Message&&) = default;
+    Message& operator=(const Message&) = default;
+    Message(const Message&) = default;
+    #else
+    Message(Message&& other_) OMG_NOEXCEPT;  
+    Message& operator=(Message&&  other_) OMG_NOEXCEPT;
+    #endif
+    #endif 
+
+    int64_t& date() OMG_NOEXCEPT {
+        return m_date_;
+    }
+
+    const int64_t& date() const OMG_NOEXCEPT {
+        return m_date_;
+    }
+
+    void date(int64_t value) {
+        m_date_ = value;
+    }
+
+    MessageType& message_type() OMG_NOEXCEPT {
+        return m_message_type_;
+    }
+
+    const MessageType& message_type() const OMG_NOEXCEPT {
+        return m_message_type_;
+    }
+
+    void message_type(const MessageType& value) {
+        m_message_type_ = value;
+    }
+
+    void message_type(MessageType&& value) {
+        m_message_type_ = std::move(value);
+    }
+    ::rti::core::bounded_sequence< int32_t, 100L >& literals() OMG_NOEXCEPT {
+        return m_literals_;
+    }
+
+    const ::rti::core::bounded_sequence< int32_t, 100L >& literals() const OMG_NOEXCEPT {
+        return m_literals_;
+    }
+
+    void literals(const ::rti::core::bounded_sequence< int32_t, 100L >& value) {
+        m_literals_ = value;
+    }
+
+    void literals(::rti::core::bounded_sequence< int32_t, 100L >&& value) {
+        m_literals_ = std::move(value);
+    }
+    ::rti::core::bounded_sequence< std::string, 100L >& data() OMG_NOEXCEPT {
+        return m_data_;
+    }
+
+    const ::rti::core::bounded_sequence< std::string, 100L >& data() const OMG_NOEXCEPT {
+        return m_data_;
+    }
+
+    void data(const ::rti::core::bounded_sequence< std::string, 100L >& value) {
+        m_data_ = value;
+    }
+
+    void data(::rti::core::bounded_sequence< std::string, 100L >&& value) {
+        m_data_ = std::move(value);
+    }
+
+    bool operator == (const Message& other_) const;
+    bool operator != (const Message& other_) const;
+
+    void swap(Message& other_) OMG_NOEXCEPT ;
+
+  private:
+
+    int64_t m_date_;
+    MessageType m_message_type_;
+    ::rti::core::bounded_sequence< int32_t, 100L > m_literals_;
+    ::rti::core::bounded_sequence< std::string, 100L > m_data_;
+
+};
+
+inline void swap(Message& a, Message& b)  OMG_NOEXCEPT 
+{
+    a.swap(b);
+}
+
+NDDSUSERDllExport std::ostream& operator<<(std::ostream& o, const Message& sample);
 
 namespace rti {
     namespace flat {
@@ -636,6 +754,42 @@ namespace dds {
             ::rti::topic::TypePluginKind::STL;
         };
 
+        template<>
+        struct topic_type_name< Message > {
+            NDDSUSERDllExport static std::string value() {
+                return "Message";
+            }
+        };
+
+        template<>
+        struct is_topic_type< Message > : public ::dds::core::true_type {};
+
+        template<>
+        struct topic_type_support< Message > {
+            NDDSUSERDllExport 
+            static void register_type(
+                ::dds::domain::DomainParticipant& participant,
+                const std::string & type_name);
+
+            NDDSUSERDllExport 
+            static std::vector<char>& to_cdr_buffer(
+                std::vector<char>& buffer, 
+                const Message& sample,
+                ::dds::core::policy::DataRepresentationId representation 
+                = ::dds::core::policy::DataRepresentation::auto_id());
+
+            NDDSUSERDllExport 
+            static void from_cdr_buffer(Message& sample, const std::vector<char>& buffer);
+            NDDSUSERDllExport 
+            static void reset_sample(Message& sample);
+
+            NDDSUSERDllExport 
+            static void allocate_sample(Message& sample, int, int);
+
+            static const ::rti::topic::TypePluginKind::type type_plugin_kind = 
+            ::rti::topic::TypePluginKind::STL;
+        };
+
     }
 }
 
@@ -657,6 +811,25 @@ namespace rti {
 
         template <>
         struct extensibility< FundType > {
+            static const ::dds::core::xtypes::ExtensibilityKind::type kind =
+            ::dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
+        };
+
+        #ifndef NDDS_STANDALONE_TYPE
+        template <>
+        struct default_enumerator<MessageType>
+        {
+            static const MessageType value;
+        };
+        template<>
+        struct dynamic_type< MessageType > {
+            typedef ::dds::core::xtypes::EnumType type;
+            NDDSUSERDllExport static const ::dds::core::xtypes::EnumType& get();
+        };
+        #endif
+
+        template <>
+        struct extensibility< MessageType > {
             static const ::dds::core::xtypes::ExtensibilityKind::type kind =
             ::dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
         };
@@ -745,6 +918,20 @@ namespace rti {
             ::dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
         };
 
+        #ifndef NDDS_STANDALONE_TYPE
+        template<>
+        struct dynamic_type< Message > {
+            typedef ::dds::core::xtypes::StructType type;
+            NDDSUSERDllExport static const ::dds::core::xtypes::StructType& get();
+        };
+        #endif
+
+        template <>
+        struct extensibility< Message > {
+            static const ::dds::core::xtypes::ExtensibilityKind::type kind =
+            ::dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
+        };
+
     }
 }
 
@@ -755,5 +942,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // bank_1860238082_hpp
+#endif // bank_1860238290_hpp
 

@@ -9,10 +9,11 @@ namespace message
 
 MessageInterface::MessageInterface(std::time_t date,
                                    model::visualization::message::MessageType messageType,
-                                   std::vector<model::visualization::language::Literals> literals):
+                                   std::vector<model::visualization::language::Literals> literals, std::vector<std::string> data):
     m_date(date),
     m_messageType(messageType),
-    m_literals(literals)
+    m_literals(literals),
+    m_data(data)
 {
 
 }
@@ -30,6 +31,11 @@ const model::visualization::message::MessageType &MessageInterface::getMessageTy
 const std::vector<model::visualization::language::Literals> &MessageInterface::getLiterals() const
 {
     return m_literals;
+}
+
+const std::vector<std::string> &MessageInterface::getData() const
+{
+    return m_data;
 }
 
 

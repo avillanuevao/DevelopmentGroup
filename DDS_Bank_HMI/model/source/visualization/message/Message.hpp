@@ -19,8 +19,10 @@ class Message:
     public:
         Message(std::time_t date,
                 model::visualization::message::MessageType messageType,
-                std::vector<model::visualization::language::Literals> literals);
+                std::vector<model::visualization::language::Literals> literals,
+                std::vector<std::string> data);
 };
+
 
 }
 }
