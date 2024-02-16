@@ -1,11 +1,32 @@
-#ifndef SHOWMESSAGEVIEWMODEL_HPP
-#define SHOWMESSAGEVIEWMODEL_HPP
+#ifndef FRONTEND_VIEWMODEL_UI_VISUALIZATION_SHOWMESSAGEVIEWMODEL_HPP
+#define FRONTEND_VIEWMODEL_UI_VISUALIZATION_SHOWMESSAGEVIEWMODEL_HPP
 
+#include <utils/source/designPattern/SignalSubscriber.hpp>
+#include <utils/source/designPattern/SignalPublisher.hpp>
+#include <model/source/visualization/message/signal/ShowMessageSignal.hpp>
 
-class ShowMessageViewModel
+namespace frontend
 {
-public:
-    ShowMessageViewModel();
+namespace viewModel
+{
+namespace ui
+{
+namespace visualization
+{
+
+class ShowMessageViewModel :
+        public utils::designPattern::SignalSubscriber<model::visualization::message::signal::ShowMessageSignal>
+{
+    public:
+        ShowMessageViewModel();
+
+        void recievedSignal(model::visualization::message::signal::ShowMessageSignal signal);
 };
 
-#endif // SHOWMESSAGEVIEWMODEL_HPP
+}
+}
+}
+}
+
+
+#endif // FRONTEND_VIEWMODEL_UI_VISUALIZATION_SHOWMESSAGEVIEWMODEL_HPP
