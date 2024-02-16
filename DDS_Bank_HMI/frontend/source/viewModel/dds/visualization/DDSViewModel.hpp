@@ -19,10 +19,7 @@ class DDSViewModel
     public:
         DDSViewModel(std::shared_ptr<model::visualization::message::AllMessagesInterface> allMessageInterface);
 
-        void addMessage(std::time_t date,
-                        model::visualization::message::MessageType messageType,
-                        std::vector<model::visualization::language::Literals> literals,
-                        std::vector<std::string> data);
+        void addMessage(model::visualization::message::MessageInterface message);
 
     private:
         std::shared_ptr<model::visualization::message::AllMessagesInterface> m_allMessageInterface;

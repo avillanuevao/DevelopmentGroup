@@ -1,5 +1,5 @@
 #include "FrontDDSView.hpp"
-#include <utils/source/so/Shutdown.hpp>
+//#include <utils/source/so/Shutdown.hpp>
 
 namespace frontend
 {
@@ -25,44 +25,22 @@ void FrontDDSView::receivedTopicMessage(Message messageSample)
     std::cout << "Message topic recieved: " << std::endl;
     std::cout << "\t" << messageSample << std::endl;
 
-    addMessage(messageSample);
+    frontend::view::dds::visualization::MessageAdapter message(messageSample);
+
+    m_ddsViewModel->addMessage(message);
 }
 
 void FrontDDSView::readingTopicMessage()
 {
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerMessage.wait(m_wait);
-    }
+//    while(!utils::so::shutdown_requested)
+//    {
+//    }
+    m_readerMessage.wait(m_wait);
 }
 
 std::thread FrontDDSView::initReadingTopicThread(void (frontend::view::dds::visualization::FrontDDSView::*function)())
 {
     return std::thread(function, this);
-}
-
-std::vector<model::visualization::language::Literals> FrontDDSView::toLiterals(std::vector<int> iLiterals)
-{
-    std::vector<model::visualization::language::Literals> literals;
-
-    for(int elem: iLiterals)
-    {
-        literals.push_back(model::visualization::language::Literals::_from_integral(elem));
-    }
-
-    return literals;
-}
-
-void FrontDDSView::addMessage(Message messageSample)
-{
-    std::time_t date = messageSample.date();
-    int ddsMessageType = static_cast<int>(messageSample.message_type());
-    model::visualization::message::MessageType modelMessageType = model::visualization::message::MessageType::_from_index(ddsMessageType);
-    std::vector<int> iLiterals (messageSample.literals().begin(), messageSample.literals().end());
-    std::vector<model::visualization::language::Literals> literals = toLiterals(iLiterals);
-    std::vector<std::string> data (messageSample.data().begin(), messageSample.data().end());
-
-    m_ddsViewModel->addMessage(date, modelMessageType, literals, data);
 }
 
 }

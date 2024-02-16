@@ -7,6 +7,15 @@ namespace visualization
 namespace message
 {
 
+MessageInterface::MessageInterface(model::visualization::message::MessageInterface const &message):
+    m_date(message.m_date),
+    m_messageType(message.m_messageType),
+    m_literals(message.m_literals),
+    m_data(message.m_data)
+{
+
+}
+
 MessageInterface::MessageInterface(std::time_t date,
                                    model::visualization::message::MessageType messageType,
                                    std::vector<model::visualization::language::Literals> literals, std::vector<std::string> data):
