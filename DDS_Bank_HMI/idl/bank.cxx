@@ -34,6 +34,23 @@ std::ostream& operator << (std::ostream& o,const FundType& sample)
     return o;
 }
 
+std::ostream& operator << (std::ostream& o,const MessageType& sample)
+{
+    ::rti::util::StreamFlagSaver flag_saver (o);
+    switch(sample){
+        case MessageType::SUCCESS:
+        o << "MessageType::SUCCESS" << " ";
+        break;
+        case MessageType::FAILURE:
+        o << "MessageType::FAILURE" << " ";
+        break;
+        case MessageType::WARNING:
+        o << "MessageType::WARNING" << " ";
+        break;
+    }
+    return o;
+}
+
 // ---- SelectFund: 
 
 SelectFund::SelectFund() :
@@ -139,11 +156,11 @@ std::ostream& operator << (std::ostream& o,const SelectFundAck& sample)
 // ---- Deposit: 
 
 Deposit::Deposit() :
-    m_amount_ (0u)  {
+    m_amount_ (0)  {
 }   
 
 Deposit::Deposit (
-    uint32_t amount)
+    int32_t amount)
     :
         m_amount_( amount ) {
 }
@@ -190,11 +207,11 @@ std::ostream& operator << (std::ostream& o,const Deposit& sample)
 // ---- Withdraw: 
 
 Withdraw::Withdraw() :
-    m_amount_ (0u)  {
+    m_amount_ (0)  {
 }   
 
 Withdraw::Withdraw (
-    uint32_t amount)
+    int32_t amount)
     :
         m_amount_( amount ) {
 }
@@ -242,12 +259,12 @@ std::ostream& operator << (std::ostream& o,const Withdraw& sample)
 
 Transaction::Transaction() :
     m_fund_type_destination_(FundType::SAVINGS) ,
-    m_amount_ (0u)  {
+    m_amount_ (0)  {
 }   
 
 Transaction::Transaction (
     const FundType& fund_type_destination,
-    uint32_t amount)
+    int32_t amount)
     :
         m_fund_type_destination_( fund_type_destination ),
         m_amount_( amount ) {
@@ -303,12 +320,12 @@ std::ostream& operator << (std::ostream& o,const Transaction& sample)
 
 FundData::FundData() :
     m_fund_type_(FundType::SAVINGS) ,
-    m_amount_ (0u)  {
+    m_amount_ (0)  {
 }   
 
 FundData::FundData (
     const FundType& fund_type,
-    uint32_t amount)
+    int32_t amount)
     :
         m_fund_type_( fund_type ),
         m_amount_( amount ) {
@@ -356,6 +373,85 @@ std::ostream& operator << (std::ostream& o,const FundData& sample)
     o <<"[";
     o << "fund_type: " << sample.fund_type()<<", ";
     o << "amount: " << sample.amount() ;
+    o <<"]";
+    return o;
+}
+
+// ---- Message: 
+
+Message::Message() :
+    m_date_ (0ll) ,
+    m_message_type_(MessageType::SUCCESS)  {
+}   
+
+Message::Message (
+    int64_t date,
+    const MessageType& message_type,
+    const ::rti::core::bounded_sequence< int32_t, 100L >& literals,
+    const ::rti::core::bounded_sequence< std::string, 100L >& data)
+    :
+        m_date_( date ),
+        m_message_type_( message_type ),
+        m_literals_( literals ),
+        m_data_( data ) {
+}
+
+#ifdef RTI_CXX11_RVALUE_REFERENCES
+#ifdef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+Message::Message(Message&& other_) OMG_NOEXCEPT  :m_date_ (std::move(other_.m_date_))
+,
+m_message_type_ (std::move(other_.m_message_type_))
+,
+m_literals_ (std::move(other_.m_literals_))
+,
+m_data_ (std::move(other_.m_data_))
+{
+} 
+
+Message& Message::operator=(Message&&  other_) OMG_NOEXCEPT {
+    Message tmp(std::move(other_));
+    swap(tmp); 
+    return *this;
+}
+#endif
+#endif   
+
+void Message::swap(Message& other_)  OMG_NOEXCEPT 
+{
+    using std::swap;
+    swap(m_date_, other_.m_date_);
+    swap(m_message_type_, other_.m_message_type_);
+    swap(m_literals_, other_.m_literals_);
+    swap(m_data_, other_.m_data_);
+}  
+
+bool Message::operator == (const Message& other_) const {
+    if (m_date_ != other_.m_date_) {
+        return false;
+    }
+    if (m_message_type_ != other_.m_message_type_) {
+        return false;
+    }
+    if (m_literals_ != other_.m_literals_) {
+        return false;
+    }
+    if (m_data_ != other_.m_data_) {
+        return false;
+    }
+    return true;
+}
+bool Message::operator != (const Message& other_) const {
+    return !this->operator ==(other_);
+}
+
+std::ostream& operator << (std::ostream& o,const Message& sample)
+{
+    ::rti::util::StreamFlagSaver flag_saver (o);
+    o <<"[";
+    o << "date: " << sample.date()<<", ";
+    o << "message_type: " << sample.message_type()<<", ";
+    o << "literals: " << sample.literals()<<", ";
+    o << "data: " << sample.data() ;
     o <<"]";
     return o;
 }
@@ -529,6 +625,191 @@ namespace rti {
             return static_cast<const ::dds::core::xtypes::EnumType&>(
                 ::rti::core::native_conversions::cast_from_native< ::dds::core::xtypes::DynamicType >(
                     *(native_type_code< FundType >::get())));
+        }
+
+        #ifndef NDDS_STANDALONE_TYPE
+        const MessageType default_enumerator<MessageType>::value = MessageType::SUCCESS;
+        template<>
+        struct native_type_code< MessageType > {
+            static DDS_TypeCode * get()
+            {
+                using namespace ::rti::topic::interpreter;
+
+                static RTIBool is_initialized = RTI_FALSE;
+
+                static DDS_TypeCode_Member MessageType_g_tc_members[3]=
+                {
+
+                    {
+                        (char *)"SUCCESS",/* Member name */
+                        {
+                            0, /* Ignored */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        static_cast<int>(MessageType::SUCCESS), 
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }, 
+                    {
+                        (char *)"FAILURE",/* Member name */
+                        {
+                            0, /* Ignored */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        static_cast<int>(MessageType::FAILURE), 
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }, 
+                    {
+                        (char *)"WARNING",/* Member name */
+                        {
+                            0, /* Ignored */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        static_cast<int>(MessageType::WARNING), 
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }
+                };
+
+                static DDS_TypeCode MessageType_g_tc =
+                {{
+                        DDS_TK_ENUM, /* Kind */
+                        DDS_BOOLEAN_FALSE, /* Ignored */
+                        -1, /*Ignored*/
+                        (char *)"MessageType", /* Name */
+                        NULL,     /* Base class type code is assigned later */      
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        3, /* Number of members */
+                        MessageType_g_tc_members, /* Members */
+                        DDS_VM_NONE, /* Type Modifier */
+                        RTICdrTypeCodeAnnotations_INITIALIZER,
+                        DDS_BOOLEAN_TRUE, /* _isCopyable */
+                        NULL, /* _sampleAccessInfo: assigned later */
+                        NULL /* _typePlugin: assigned later */
+                    }}; /* Type code for MessageType*/
+
+                if (is_initialized) {
+                    return &MessageType_g_tc;
+                }
+
+                MessageType_g_tc._data._annotations._allowedDataRepresentationMask = 5;
+
+                /* Initialize the values for annotations. */
+                MessageType_g_tc._data._annotations._defaultValue._d = RTI_XCDR_TK_ENUM;
+                MessageType_g_tc._data._annotations._defaultValue._u.long_value = 0;
+
+                MessageType_g_tc._data._sampleAccessInfo = sample_access_info();
+                MessageType_g_tc._data._typePlugin = type_plugin_info();    
+
+                is_initialized = RTI_TRUE;
+
+                return &MessageType_g_tc;
+            }
+
+            static RTIXCdrSampleAccessInfo * sample_access_info()
+            {
+                static RTIBool is_initialized = RTI_FALSE;
+
+                static RTIXCdrMemberAccessInfo MessageType_g_memberAccessInfos[1] =
+                {RTIXCdrMemberAccessInfo_INITIALIZER};
+
+                static RTIXCdrSampleAccessInfo MessageType_g_sampleAccessInfo = 
+                RTIXCdrSampleAccessInfo_INITIALIZER;
+
+                if (is_initialized) {
+                    return (RTIXCdrSampleAccessInfo*) &MessageType_g_sampleAccessInfo;
+                }
+
+                MessageType_g_memberAccessInfos[0].bindingMemberValueOffset[0] = 0;
+
+                MessageType_g_sampleAccessInfo.memberAccessInfos = 
+                MessageType_g_memberAccessInfos;
+
+                {
+                    size_t candidateTypeSize = sizeof(MessageType);
+
+                    if (candidateTypeSize > RTIXCdrLong_MAX) {
+                        MessageType_g_sampleAccessInfo.typeSize[0] =
+                        RTIXCdrLong_MAX;
+                    } else {
+                        MessageType_g_sampleAccessInfo.typeSize[0] =
+                        (RTIXCdrUnsignedLong) candidateTypeSize;
+                    }
+                }
+
+                MessageType_g_sampleAccessInfo.useGetMemberValueOnlyWithRef =
+                RTI_XCDR_TRUE;
+
+                MessageType_g_sampleAccessInfo.getMemberValuePointerFcn = 
+                interpreter::get_aggregation_value_pointer< MessageType >;
+
+                MessageType_g_sampleAccessInfo.languageBinding = 
+                RTI_XCDR_TYPE_BINDING_CPP_11_STL ;
+
+                is_initialized = RTI_TRUE;
+                return (RTIXCdrSampleAccessInfo*) &MessageType_g_sampleAccessInfo;
+            }
+
+            static RTIXCdrTypePlugin * type_plugin_info()
+            {
+                static RTIXCdrTypePlugin MessageType_g_typePlugin = 
+                {
+                    NULL, /* serialize */
+                    NULL, /* serialize_key */
+                    NULL, /* deserialize_sample */
+                    NULL, /* deserialize_key_sample */
+                    NULL, /* skip */
+                    NULL, /* get_serialized_sample_size */
+                    NULL, /* get_serialized_sample_max_size_ex */
+                    NULL, /* get_serialized_key_max_size_ex */
+                    NULL, /* get_serialized_sample_min_size */
+                    NULL, /* serialized_sample_to_key */
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL
+                };
+
+                return &MessageType_g_typePlugin;
+            }
+        }; // native_type_code
+        #endif
+
+        const ::dds::core::xtypes::EnumType& dynamic_type< MessageType >::get()
+        {
+            return static_cast<const ::dds::core::xtypes::EnumType&>(
+                ::rti::core::native_conversions::cast_from_native< ::dds::core::xtypes::DynamicType >(
+                    *(native_type_code< MessageType >::get())));
         }
 
         #ifndef NDDS_STANDALONE_TYPE
@@ -904,15 +1185,15 @@ namespace rti {
 
                 Deposit_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-                Deposit_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
+                Deposit_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_long;
 
                 /* Initialize the values for member annotations. */
-                Deposit_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
-                Deposit_g_tc_members[0]._annotations._defaultValue._u.ulong_value = 0u;
-                Deposit_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
-                Deposit_g_tc_members[0]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
-                Deposit_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
-                Deposit_g_tc_members[0]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
+                Deposit_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_LONG;
+                Deposit_g_tc_members[0]._annotations._defaultValue._u.long_value = 0;
+                Deposit_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_LONG;
+                Deposit_g_tc_members[0]._annotations._minValue._u.long_value = RTIXCdrLong_MIN;
+                Deposit_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_LONG;
+                Deposit_g_tc_members[0]._annotations._maxValue._u.long_value = RTIXCdrLong_MAX;
 
                 Deposit_g_tc._data._sampleAccessInfo = sample_access_info();
                 Deposit_g_tc._data._typePlugin = type_plugin_info();    
@@ -1066,15 +1347,15 @@ namespace rti {
 
                 Withdraw_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-                Withdraw_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
+                Withdraw_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_long;
 
                 /* Initialize the values for member annotations. */
-                Withdraw_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
-                Withdraw_g_tc_members[0]._annotations._defaultValue._u.ulong_value = 0u;
-                Withdraw_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
-                Withdraw_g_tc_members[0]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
-                Withdraw_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
-                Withdraw_g_tc_members[0]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
+                Withdraw_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_LONG;
+                Withdraw_g_tc_members[0]._annotations._defaultValue._u.long_value = 0;
+                Withdraw_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_LONG;
+                Withdraw_g_tc_members[0]._annotations._minValue._u.long_value = RTIXCdrLong_MIN;
+                Withdraw_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_LONG;
+                Withdraw_g_tc_members[0]._annotations._maxValue._u.long_value = RTIXCdrLong_MAX;
 
                 Withdraw_g_tc._data._sampleAccessInfo = sample_access_info();
                 Withdraw_g_tc._data._typePlugin = type_plugin_info();    
@@ -1247,18 +1528,18 @@ namespace rti {
                 Transaction_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
                 Transaction_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&::rti::topic::dynamic_type< FundType>::get().native();
-                Transaction_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
+                Transaction_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_long;
 
                 /* Initialize the values for member annotations. */
                 Transaction_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ENUM;
                 Transaction_g_tc_members[0]._annotations._defaultValue._u.enumerated_value = 0;
 
-                Transaction_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
-                Transaction_g_tc_members[1]._annotations._defaultValue._u.ulong_value = 0u;
-                Transaction_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
-                Transaction_g_tc_members[1]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
-                Transaction_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
-                Transaction_g_tc_members[1]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
+                Transaction_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_LONG;
+                Transaction_g_tc_members[1]._annotations._defaultValue._u.long_value = 0;
+                Transaction_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_LONG;
+                Transaction_g_tc_members[1]._annotations._minValue._u.long_value = RTIXCdrLong_MIN;
+                Transaction_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_LONG;
+                Transaction_g_tc_members[1]._annotations._maxValue._u.long_value = RTIXCdrLong_MAX;
 
                 Transaction_g_tc._data._sampleAccessInfo = sample_access_info();
                 Transaction_g_tc._data._typePlugin = type_plugin_info();    
@@ -1434,18 +1715,18 @@ namespace rti {
                 FundData_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
                 FundData_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&::rti::topic::dynamic_type< FundType>::get().native();
-                FundData_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
+                FundData_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_long;
 
                 /* Initialize the values for member annotations. */
                 FundData_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ENUM;
                 FundData_g_tc_members[0]._annotations._defaultValue._u.enumerated_value = 0;
 
-                FundData_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
-                FundData_g_tc_members[1]._annotations._defaultValue._u.ulong_value = 0u;
-                FundData_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
-                FundData_g_tc_members[1]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
-                FundData_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
-                FundData_g_tc_members[1]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
+                FundData_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_LONG;
+                FundData_g_tc_members[1]._annotations._defaultValue._u.long_value = 0;
+                FundData_g_tc_members[1]._annotations._minValue._d = RTI_XCDR_TK_LONG;
+                FundData_g_tc_members[1]._annotations._minValue._u.long_value = RTIXCdrLong_MIN;
+                FundData_g_tc_members[1]._annotations._maxValue._d = RTI_XCDR_TK_LONG;
+                FundData_g_tc_members[1]._annotations._maxValue._u.long_value = RTIXCdrLong_MAX;
 
                 FundData_g_tc._data._sampleAccessInfo = sample_access_info();
                 FundData_g_tc._data._typePlugin = type_plugin_info();    
@@ -1543,6 +1824,247 @@ namespace rti {
             return static_cast<const ::dds::core::xtypes::StructType&>(
                 ::rti::core::native_conversions::cast_from_native< ::dds::core::xtypes::DynamicType >(
                     *(native_type_code< FundData >::get())));
+        }
+
+        #ifndef NDDS_STANDALONE_TYPE
+        template<>
+        struct native_type_code< Message > {
+            static DDS_TypeCode * get()
+            {
+                using namespace ::rti::topic::interpreter;
+
+                static RTIBool is_initialized = RTI_FALSE;
+
+                static DDS_TypeCode Message_g_tc_literals_sequence;
+                static DDS_TypeCode Message_g_tc_data_string;
+                static DDS_TypeCode Message_g_tc_data_sequence;
+
+                static DDS_TypeCode_Member Message_g_tc_members[4]=
+                {
+
+                    {
+                        (char *)"date",/* Member name */
+                        {
+                            0,/* Representation ID */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }, 
+                    {
+                        (char *)"message_type",/* Member name */
+                        {
+                            1,/* Representation ID */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }, 
+                    {
+                        (char *)"literals",/* Member name */
+                        {
+                            2,/* Representation ID */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }, 
+                    {
+                        (char *)"data",/* Member name */
+                        {
+                            3,/* Representation ID */
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER
+                    }
+                };
+
+                static DDS_TypeCode Message_g_tc =
+                {{
+                        DDS_TK_STRUCT, /* Kind */
+                        DDS_BOOLEAN_FALSE, /* Ignored */
+                        -1, /*Ignored*/
+                        (char *)"Message", /* Name */
+                        NULL, /* Ignored */      
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        4, /* Number of members */
+                        Message_g_tc_members, /* Members */
+                        DDS_VM_NONE, /* Ignored */
+                        RTICdrTypeCodeAnnotations_INITIALIZER,
+                        DDS_BOOLEAN_TRUE, /* _isCopyable */
+                        NULL, /* _sampleAccessInfo: assigned later */
+                        NULL /* _typePlugin: assigned later */
+                    }}; /* Type code for Message*/
+
+                if (is_initialized) {
+                    return &Message_g_tc;
+                }
+
+                Message_g_tc_literals_sequence = initialize_sequence_typecode< ::rti::core::bounded_sequence< int32_t, 100L > >((100L));
+                Message_g_tc_data_string = initialize_string_typecode((255L));
+                Message_g_tc_data_sequence = initialize_sequence_typecode< ::rti::core::bounded_sequence< std::string, 100L > >((100L));
+
+                Message_g_tc._data._annotations._allowedDataRepresentationMask = 5;
+
+                Message_g_tc_literals_sequence._data._typeCode = (RTICdrTypeCode *)&DDS_g_tc_long;
+                Message_g_tc_data_sequence._data._typeCode = (RTICdrTypeCode *)&Message_g_tc_data_string;
+                Message_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_longlong;
+                Message_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&::rti::topic::dynamic_type< MessageType>::get().native();
+                Message_g_tc_members[2]._representation._typeCode = (RTICdrTypeCode *)& Message_g_tc_literals_sequence;
+                Message_g_tc_members[3]._representation._typeCode = (RTICdrTypeCode *)& Message_g_tc_data_sequence;
+
+                /* Initialize the values for member annotations. */
+                Message_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_LONGLONG;
+                Message_g_tc_members[0]._annotations._defaultValue._u.long_long_value = 0ll;
+                Message_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_LONGLONG;
+                Message_g_tc_members[0]._annotations._minValue._u.long_long_value = RTIXCdrLongLong_MIN;
+                Message_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_LONGLONG;
+                Message_g_tc_members[0]._annotations._maxValue._u.long_long_value = RTIXCdrLongLong_MAX;
+
+                Message_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_ENUM;
+                Message_g_tc_members[1]._annotations._defaultValue._u.enumerated_value = 0;
+
+                Message_g_tc._data._sampleAccessInfo = sample_access_info();
+                Message_g_tc._data._typePlugin = type_plugin_info();    
+
+                is_initialized = RTI_TRUE;
+
+                return &Message_g_tc;
+            }
+
+            static RTIXCdrSampleAccessInfo * sample_access_info()
+            {
+                static RTIBool is_initialized = RTI_FALSE;
+
+                Message *sample;
+
+                static RTIXCdrMemberAccessInfo Message_g_memberAccessInfos[4] =
+                {RTIXCdrMemberAccessInfo_INITIALIZER};
+
+                static RTIXCdrSampleAccessInfo Message_g_sampleAccessInfo = 
+                RTIXCdrSampleAccessInfo_INITIALIZER;
+
+                if (is_initialized) {
+                    return (RTIXCdrSampleAccessInfo*) &Message_g_sampleAccessInfo;
+                }
+
+                RTIXCdrHeap_allocateStruct(
+                    &sample, 
+                    Message);
+                if (sample == NULL) {
+                    return NULL;
+                }
+
+                Message_g_memberAccessInfos[0].bindingMemberValueOffset[0] = 
+                (RTIXCdrUnsignedLong) ((char *)&sample->date() - (char *)sample);
+
+                Message_g_memberAccessInfos[1].bindingMemberValueOffset[0] = 
+                (RTIXCdrUnsignedLong) ((char *)&sample->message_type() - (char *)sample);
+
+                Message_g_memberAccessInfos[2].bindingMemberValueOffset[0] = 
+                (RTIXCdrUnsignedLong) ((char *)&sample->literals() - (char *)sample);
+
+                Message_g_memberAccessInfos[3].bindingMemberValueOffset[0] = 
+                (RTIXCdrUnsignedLong) ((char *)&sample->data() - (char *)sample);
+
+                Message_g_sampleAccessInfo.memberAccessInfos = 
+                Message_g_memberAccessInfos;
+
+                {
+                    size_t candidateTypeSize = sizeof(Message);
+
+                    if (candidateTypeSize > RTIXCdrLong_MAX) {
+                        Message_g_sampleAccessInfo.typeSize[0] =
+                        RTIXCdrLong_MAX;
+                    } else {
+                        Message_g_sampleAccessInfo.typeSize[0] =
+                        (RTIXCdrUnsignedLong) candidateTypeSize;
+                    }
+                }
+
+                Message_g_sampleAccessInfo.useGetMemberValueOnlyWithRef =
+                RTI_XCDR_TRUE;
+
+                Message_g_sampleAccessInfo.getMemberValuePointerFcn = 
+                interpreter::get_aggregation_value_pointer< Message >;
+
+                Message_g_sampleAccessInfo.languageBinding = 
+                RTI_XCDR_TYPE_BINDING_CPP_11_STL ;
+
+                RTIXCdrHeap_freeStruct(sample);
+                is_initialized = RTI_TRUE;
+                return (RTIXCdrSampleAccessInfo*) &Message_g_sampleAccessInfo;
+            }
+
+            static RTIXCdrTypePlugin * type_plugin_info()
+            {
+                static RTIXCdrTypePlugin Message_g_typePlugin = 
+                {
+                    NULL, /* serialize */
+                    NULL, /* serialize_key */
+                    NULL, /* deserialize_sample */
+                    NULL, /* deserialize_key_sample */
+                    NULL, /* skip */
+                    NULL, /* get_serialized_sample_size */
+                    NULL, /* get_serialized_sample_max_size_ex */
+                    NULL, /* get_serialized_key_max_size_ex */
+                    NULL, /* get_serialized_sample_min_size */
+                    NULL, /* serialized_sample_to_key */
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL
+                };
+
+                return &Message_g_typePlugin;
+            }
+        }; // native_type_code
+        #endif
+
+        const ::dds::core::xtypes::StructType& dynamic_type< Message >::get()
+        {
+            return static_cast<const ::dds::core::xtypes::StructType&>(
+                ::rti::core::native_conversions::cast_from_native< ::dds::core::xtypes::DynamicType >(
+                    *(native_type_code< Message >::get())));
         }
 
     }
@@ -1734,7 +2256,7 @@ namespace dds {
 
         void topic_type_support< Deposit >::reset_sample(Deposit& sample) 
         {
-            sample.amount(0u);
+            sample.amount(0);
         }
 
         void topic_type_support< Deposit >::allocate_sample(Deposit& sample, int, int) 
@@ -1798,7 +2320,7 @@ namespace dds {
 
         void topic_type_support< Withdraw >::reset_sample(Withdraw& sample) 
         {
-            sample.amount(0u);
+            sample.amount(0);
         }
 
         void topic_type_support< Withdraw >::allocate_sample(Withdraw& sample, int, int) 
@@ -1863,7 +2385,7 @@ namespace dds {
         void topic_type_support< Transaction >::reset_sample(Transaction& sample) 
         {
             sample.fund_type_destination(FundType::SAVINGS);
-            sample.amount(0u);
+            sample.amount(0);
         }
 
         void topic_type_support< Transaction >::allocate_sample(Transaction& sample, int, int) 
@@ -1928,12 +2450,81 @@ namespace dds {
         void topic_type_support< FundData >::reset_sample(FundData& sample) 
         {
             sample.fund_type(FundType::SAVINGS);
-            sample.amount(0u);
+            sample.amount(0);
         }
 
         void topic_type_support< FundData >::allocate_sample(FundData& sample, int, int) 
         {
             ::rti::topic::allocate_sample(sample.fund_type(),  -1, -1);
+        }
+
+        void topic_type_support< Message >:: register_type(
+            ::dds::domain::DomainParticipant& participant,
+            const std::string& type_name) 
+        {
+
+            ::rti::domain::register_type_plugin(
+                participant,
+                type_name,
+                MessagePlugin_new,
+                MessagePlugin_delete);
+        }
+
+        std::vector<char>& topic_type_support< Message >::to_cdr_buffer(
+            std::vector<char>& buffer, 
+            const Message& sample,
+            ::dds::core::policy::DataRepresentationId representation)
+        {
+            // First get the length of the buffer
+            unsigned int length = 0;
+            RTIBool ok = MessagePlugin_serialize_to_cdr_buffer(
+                NULL, 
+                &length,
+                &sample,
+                representation);
+            ::rti::core::check_return_code(
+                ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+                "Failed to calculate cdr buffer size");
+
+            // Create a vector with that size and copy the cdr buffer into it
+            buffer.resize(length);
+            ok = MessagePlugin_serialize_to_cdr_buffer(
+                &buffer[0], 
+                &length, 
+                &sample,
+                representation);
+            ::rti::core::check_return_code(
+                ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+                "Failed to copy cdr buffer");
+
+            return buffer;
+        }
+
+        void topic_type_support< Message >::from_cdr_buffer(Message& sample, 
+        const std::vector<char>& buffer)
+        {
+
+            RTIBool ok  = MessagePlugin_deserialize_from_cdr_buffer(
+                &sample, 
+                &buffer[0], 
+                static_cast<unsigned int>(buffer.size()));
+            ::rti::core::check_return_code(ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+            "Failed to create Message from cdr buffer");
+        }
+
+        void topic_type_support< Message >::reset_sample(Message& sample) 
+        {
+            sample.date(0ll);
+            sample.message_type(MessageType::SUCCESS);
+            ::rti::topic::reset_sample(sample.literals());
+            ::rti::topic::reset_sample(sample.data());
+        }
+
+        void topic_type_support< Message >::allocate_sample(Message& sample, int, int) 
+        {
+            ::rti::topic::allocate_sample(sample.message_type(),  -1, -1);
+            ::rti::topic::allocate_sample(sample.literals(),  100L, -1);
+            ::rti::topic::allocate_sample(sample.data(),  100L, 255L);
         }
 
     }

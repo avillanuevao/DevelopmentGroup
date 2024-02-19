@@ -4,55 +4,66 @@ const string DEPOSIT_TOPIC = "Deposit";
 const string WITHDRAW_TOPIC = "Withdraw";
 const string TRANSACTION_TOPIC = "Transaction";
 const string FUND_DATA_TOPIC = "FundData";
+const string MESSAGE_TOPIC = "Message";
 
-//Funds types availables
+// Funds types availables
 enum FundType 
 {
     SAVINGS, 
     HOUSING
 };
 
-//Topic
+// Message types availables
+enum MessageType
+{
+    SUCCESS, 
+    FAILURE,
+    WARNING
+};
+
 struct SelectFund
 {
     @key	
     FundType fund_type;
 };
 
-//Topic
 struct SelectFundAck
 {
     @key    
     FundType fund_type;
 };
 
-//Topic 
 struct Deposit 
 {
-    uint32 amount;
+    int32 amount;
 };
 
-//Topic
 struct Withdraw 
 {
-    uint32 amount;
+    int32 amount;
 };
 
-//Topic 
 struct Transaction 
 {
     @key
     FundType fund_type_destination;
-    uint32 amount;
+    int32 amount;
 };
 
-//Topic
 struct FundData 
 {
     @key
     FundType fund_type;
-    uint32 amount;
+    int32 amount;
 };
 
+//Topic
+struct Message
+{
+    int64 date;
+    MessageType message_type;
+    sequence<int32> literals;
+    sequence<string> data;
+};
 
 
