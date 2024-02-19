@@ -4,12 +4,14 @@
 #include <memory>
 
 #include <model/source/operations/AllFunds.hpp>
+#include <model/source/visualization/language/AllLanguages.hpp>
 #include <model/source/visualization/message/AllMessages.hpp>
 #include <view/ui/operations/SelectFundView.hpp>
 #include <view/ui/operations/DepositMoneyView.hpp>
 #include <view/ui/operations/WithdrawMoneyView.hpp>
 #include <view/ui/operations/TransferMoneyView.hpp>
 #include <view/ui/visualization/VisualizeFundView.hpp>
+#include <view/ui/visualization/ShowMessageView.hpp>
 #include <view/dds/operations/FrontDDSView.hpp>
 #include <view/dds/visualization/FrontDDSView.hpp>
 #include <view/includeView/visualization/VisualizeFundIncludeView.hpp>
@@ -18,6 +20,7 @@
 #include <viewModel/ui/operations/SelectFundViewModel.hpp>
 #include <viewModel/ui/operations/TransferViewModel.hpp>
 #include <viewModel/ui/visualization/VisualizeFundViewModel.hpp>
+#include <viewModel/ui/visualization/ShowMessageViewModel.hpp>
 #include <viewModel/dds/operations/DDSViewModel.hpp>
 #include <viewModel/dds/visualization/DDSViewModel.hpp>
 
@@ -25,6 +28,7 @@ using FrontDDSViewOperations = frontend::view::dds::operations::FrontDDSView;
 using FrontDDSViewVisualization = frontend::view::dds::visualization::FrontDDSView;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoneyView;
 using VisualizeFundView = frontend::view::ui::visualization::VisualizeFundView;
+using ShowMessageView = frontend::view::ui::visualization::ShowMessageView;
 using SelectFundView = frontend::view::ui::operations::SelectFundView;
 using TransferMoneyView = frontend::view::ui::operations::TransferMoneyView;
 using VisualizeFundIncludeView = frontend::view::includeView::visualization::VisualizeFundIncludeView;
@@ -34,6 +38,7 @@ using DDSViewModelOperations = frontend::viewModel::dds::operations::DDSViewMode
 using DDSViewModelVisualization = frontend::viewModel::dds::visualization::DDSViewModel;
 using SelectFundViewModel = frontend::viewModel::ui::operations::SelectFundViewModel;
 using VisualizeFundViewModel = frontend::viewModel::ui::visualization::VisualizeFundViewModel;
+using ShowMessageViewModel = frontend::viewModel::ui::visualization::ShowMessageViewModel;
 using WithdrawViewModel = frontend::viewModel::ui::operations::WithdrawViewModel;
 using TransferViewModel = frontend::viewModel::ui::operations::TransferViewModel;
 
@@ -48,6 +53,8 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<model::operations::AllFunds> allFunds (new model::operations::AllFunds(model::operations::FundType::SAVINGS));
     std::shared_ptr<model::visualization::message::AllMessages> allMessage(new model::visualization::message::AllMessages());
+    std::shared_ptr<model::visualization::language::AllLanguages> allLanguages(
+                new model::visualization::language::AllLanguages(model::visualization::language::LanguagesAvailables::ENGLISH));
 
     std::shared_ptr<DepositViewModel> depositViewModel (new DepositViewModel());
     std::shared_ptr<WithdrawViewModel> withdrawViewModel (new WithdrawViewModel());
@@ -56,6 +63,7 @@ int main(int argc, char *argv[])
     std::shared_ptr<VisualizeFundViewModel> visualizeFundViewModel (new VisualizeFundViewModel(allFunds));
     std::shared_ptr<SelectFundViewModel> selectFundViewModel(new SelectFundViewModel());
     std::shared_ptr<TransferViewModel> transferViewModel(new TransferViewModel());
+    std::shared_ptr<ShowMessageViewModel> showMessageViewModel(new ShowMessageViewModel());
 
     std::shared_ptr<DepositMoneyView> depositMoneyView (new DepositMoneyView(depositViewModel, engine));
     std::shared_ptr<WithdrawMoneyView> withdrawMoneyView (new WithdrawMoneyView(withdrawViewModel, engine));
@@ -65,15 +73,19 @@ int main(int argc, char *argv[])
     std::shared_ptr<VisualizeFundView> visualizeFundView (new VisualizeFundView(engine));
     std::shared_ptr<SelectFundView> selectFundView(new SelectFundView(selectFundViewModel, engine));
     std::shared_ptr<TransferMoneyView> transferMoneyView(new TransferMoneyView(transferViewModel, engine));
+    std::shared_ptr<ShowMessageView> showMessageView(new ShowMessageView(allLanguages, engine));
 
     allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundTypeSignal>::addSubscriber(visualizeFundIncludeView);
     allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundSignal>::addSubscriber(visualizeFundIncludeView);
+
+    allMessage->addSubscriber(showMessageViewModel);
 
     depositViewModel->addSubscriber(frontDDSViewOperations);
     withdrawViewModel->addSubscriber(frontDDSViewOperations);
     visualizeFundViewModel->addSubscriber(visualizeFundView);
     selectFundViewModel->addSubscriber(frontDDSViewOperations);
     transferViewModel->addSubscriber(frontDDSViewOperations);
+    showMessageViewModel->addSubscriber(showMessageView);
 
     engine.rootContext()->setContextProperty("depositMoneyView", depositMoneyView.get());
     engine.rootContext()->setContextProperty("withdrawMoneyView", withdrawMoneyView.get());

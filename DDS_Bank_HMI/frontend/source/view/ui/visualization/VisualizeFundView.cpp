@@ -18,8 +18,10 @@ VisualizeFundView::VisualizeFundView(QQmlApplicationEngine &engine, QObject *par
 
 void VisualizeFundView::recievedSignal(frontend::viewModel::ui::visualization::signal::VisualizeFundSignal signal)
 {
-    QMetaObject::invokeMethod(this, "updateAmountQML",
-                                  Qt::QueuedConnection, Q_ARG(QVariant, signal.getAmount()));
+    QMetaObject::invokeMethod(this,
+                              "updateAmountQML",
+                              Qt::QueuedConnection,
+                              Q_ARG(QVariant, signal.getAmount()));
 }
 
 void VisualizeFundView::updateAmountQML(const QVariant &newAmount)
@@ -34,16 +36,19 @@ void VisualizeFundView::updateAmountQML(const QVariant &newAmount)
             if(textQML)
             {
                 textQML->setProperty("text", newAmount);
-            }else
-            {
-                std::cerr << "Error: Unable to find QML object with id 'displayTW'." << std::endl;
             }
-        }else
+            else
+            {
+                std::cerr << "Error: Unable to find QML object with id 'visualizeAmount'." << std::endl;
+            }
+        }
+        else
         {
             std::cerr << "Error: Root object is not a QQuickWindow." << std::endl;
         }
 
-    }else
+    }
+    else
     {
         std::cerr << "Error: No root objects found." << std::endl;
     }

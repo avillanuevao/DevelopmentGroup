@@ -3,6 +3,9 @@ import QtQuick.Controls 2.15
 
 Popup
 {
+    property alias text: textPopup.text
+    property alias color: textPopup.color
+
     id: popup
     anchors.centerIn: parent
     width: parent.width/2
@@ -10,6 +13,7 @@ Popup
     modal: true
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
 
     Text
     {

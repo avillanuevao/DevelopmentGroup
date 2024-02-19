@@ -105,6 +105,7 @@ Window {
     PopupMessage
     {
         id: popupMessage
+        objectName: "popupMessage"
     }
 
 
