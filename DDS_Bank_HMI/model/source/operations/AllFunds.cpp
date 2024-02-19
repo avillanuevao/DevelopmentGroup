@@ -65,6 +65,11 @@ void AllFunds::transferAmount(FundType destinationFundType, int amount)
 {
     int amountFundTypeOrigin = getActualFund()->getAmount();
 
+    if(m_actualFund == destinationFundType)
+    {
+        throw std::logic_error("Fund destination cant be the same as fund origin");
+    }
+
     if(!(amountFundTypeOrigin >= amount))
     {
         throw std::logic_error("Amount to transfer cant be bigger than the amount in the fund");

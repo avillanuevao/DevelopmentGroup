@@ -91,15 +91,6 @@ Window {
             fundsModel: allFundsModel
             visible: false
         }
-
-        Button
-        {
-            id: prueba
-            onClicked:
-            {
-                popupMessage.visible = true
-            }
-        }
     }
 
     PopupMessage
