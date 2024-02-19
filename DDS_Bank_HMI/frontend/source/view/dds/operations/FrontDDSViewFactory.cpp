@@ -1,5 +1,4 @@
 #include "FrontDDSViewFactory.hpp"
-#include <utils/source/so/Shutdown.hpp>
 
 namespace frontend
 {

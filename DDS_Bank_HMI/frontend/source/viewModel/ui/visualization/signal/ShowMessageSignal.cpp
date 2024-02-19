@@ -17,6 +17,11 @@ ShowMessageSignal::ShowMessageSignal(model::visualization::message::MessageInter
 
 }
 
+const model::visualization::message::MessageInterface ShowMessageSignal::getMessage() const
+{
+    return m_message;
+}
+
 }
 }
 }

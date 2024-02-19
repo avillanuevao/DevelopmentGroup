@@ -11,6 +11,8 @@
 #include <dds/DDSDataWriter.hpp>
 #include <dds/DDSDataReader.hpp>
 
+#include <so/Shutdown.hpp>
+
 namespace utils
 {
 namespace dds

@@ -18,13 +18,11 @@ class LanguageInterface
     public:
         LanguageInterface();
 
-        std::string literalToString(model::visualization::language::Literals literal);
-        std::string literalToString(std::vector<model::visualization::language::Literals> literals,
+        virtual std::string literalToString(model::visualization::language::Literals literal);
+        virtual std::string literalToString(std::vector<model::visualization::language::Literals> literals,
                                             std::vector<std::string> data = {});
 
     protected:
-        virtual void initLiterals() = 0;
-
         std::map<model::visualization::language::Literals, std::string> m_literals;
 
     private:

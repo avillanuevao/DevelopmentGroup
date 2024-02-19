@@ -19,6 +19,8 @@ class ShowMessageSignal
     public:
         ShowMessageSignal(model::visualization::message::MessageInterface message);
 
+        const model::visualization::message::MessageInterface getMessage() const;
+
     private:
         model::visualization::message::MessageInterface m_message;
 };
