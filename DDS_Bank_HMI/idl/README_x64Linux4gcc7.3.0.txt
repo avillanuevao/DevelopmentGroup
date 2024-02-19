@@ -1,7 +1,7 @@
 Welcome to your first Connext DDS example! 
 
 This example was generated for architecture x64Linux4gcc7.3.0, using the
-data type FundData from bank.idl.
+data type Message from bank.idl.
 This example builds two applications, named bank_publisher and
 bank_subscriber.
 
