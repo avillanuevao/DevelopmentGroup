@@ -4,6 +4,7 @@
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
 #include <model/source/visualization/message/signal/ShowMessageSignal.hpp>
+#include <viewModel/ui/visualization/signal/ShowMessageSignal.hpp>
 
 namespace frontend
 {
@@ -15,7 +16,8 @@ namespace visualization
 {
 
 class ShowMessageViewModel :
-        public utils::designPattern::SignalSubscriber<model::visualization::message::signal::ShowMessageSignal>
+        public utils::designPattern::SignalSubscriber<model::visualization::message::signal::ShowMessageSignal>,
+        public utils::designPattern::SignalPublisher<frontend::viewModel::ui::visualization::signal::ShowMessageSignal>
 {
     public:
         ShowMessageViewModel();

@@ -7,15 +7,10 @@ namespace visualization
 namespace language
 {
 
-AllLanguages::AllLanguages()
+AllLanguages::AllLanguages(model::visualization::language::LanguagesAvailables actualLanguage):
+    model::visualization::language::AllLanguagesInterface(actualLanguage)
 {
     initAllLanguages();
-}
-
-std::shared_ptr<LanguageInterface> AllLanguages::getLanguageDictionary(
-        model::visualization::language::LanguagesAvailables language)
-{
-    return m_languages[language];
 }
 
 void AllLanguages::initAllLanguages()

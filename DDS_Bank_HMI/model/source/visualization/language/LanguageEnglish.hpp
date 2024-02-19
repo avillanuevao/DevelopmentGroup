@@ -17,7 +17,7 @@ class LanguageEnglish:
         LanguageEnglish();
 
     private:
-        void initLiterals() override;
+        void initLiterals();
 };
 
 }

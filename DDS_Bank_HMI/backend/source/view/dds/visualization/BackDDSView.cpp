@@ -26,11 +26,11 @@ void BackDDSView::recievedSignal(model::visualization::message::signal::ShowMess
 void BackDDSView::writeMessage(Message sampleMessage)
 {
     m_writerMessage.write(sampleMessage);
-    std::cout << "sample Message sended:" <<std::endl
-              << "\t[date: " << sampleMessage.date() << ", " << std::endl
-              << "\tmessageType: " << sampleMessage.message_type() << ", " << std::endl
-              << "\tliterals: " << sampleMessage.literals() << ", " << std::endl
-              << "\tdata: " << sampleMessage.data() << "]" << std::endl;
+    std::cout << "sample Message sended:" <<
+              "[date: " << sampleMessage.date() << ", " <<
+              "messageType: " << sampleMessage.message_type() << ", " <<
+              "literals: " << sampleMessage.literals() << ", " <<
+              "data: " << sampleMessage.data() << "]" << std::endl;
 }
 
 std::vector<int> BackDDSView::toIntVector(std::vector<model::visualization::language::Literals> literals)

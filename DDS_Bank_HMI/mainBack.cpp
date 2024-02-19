@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<SelectFundController> selectFundController(new SelectFundController(allFunds));
     std::shared_ptr<DepositMoneyController> depositMoneyController(new DepositMoneyController(allFunds, allFunds));
-    std::shared_ptr<WithdrawMoneyController> withdrawMoneyController(new WithdrawMoneyController(allFunds));
-    std::shared_ptr<TransferMoneyController> transferMoneyController(new TransferMoneyController(allFunds));
+    std::shared_ptr<WithdrawMoneyController> withdrawMoneyController(new WithdrawMoneyController(allFunds, allFunds));
+    std::shared_ptr<TransferMoneyController> transferMoneyController(new TransferMoneyController(allFunds, allFunds));
     std::shared_ptr<ShowMessageController> showMessageController(new ShowMessageController(allMessages));
 
     std::shared_ptr<backend::view::dds::operations::BackDDSView>backDDSViewOperations(
@@ -44,6 +44,8 @@ int main(int argc, char *argv[])
     allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundTypeSignal>::addSubscriber(backDDSViewOperations);
 
     depositMoneyController->addSubscriber(showMessageIncludeView);
+    withdrawMoneyController->addSubscriber(showMessageIncludeView);
+    transferMoneyController->addSubscriber(showMessageIncludeView);
     allMessages->addSubscriber(backDDSViewVisualization);
 
     while(true)

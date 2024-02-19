@@ -16,11 +16,7 @@ class AllLanguages:
         public model::visualization::language::AllLanguagesInterface
 {
     public:
-        AllLanguages();
-
-        std::shared_ptr<model::visualization::language::LanguageInterface> getLanguageDictionary(
-                model::visualization::language::LanguagesAvailables language) override;
-
+        AllLanguages(model::visualization::language::LanguagesAvailables actualLanguage);
 
     private:
         void initAllLanguages();

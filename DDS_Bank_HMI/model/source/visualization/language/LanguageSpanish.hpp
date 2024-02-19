@@ -17,7 +17,7 @@ class LanguageSpanish:
         LanguageSpanish();
 
     private:
-        void initLiterals() override;
+        void initLiterals();
 };
 
 }

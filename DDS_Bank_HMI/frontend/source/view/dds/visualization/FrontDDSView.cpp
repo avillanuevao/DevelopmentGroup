@@ -1,5 +1,4 @@
 #include "FrontDDSView.hpp"
-//#include <utils/source/so/Shutdown.hpp>
 
 namespace frontend
 {
@@ -17,7 +16,7 @@ FrontDDSView::FrontDDSView(unsigned int domainId,
     m_ddsViewModel(ddsViewModel),
     m_readerMessage(createDataReader<Message>(MESSAGE_TOPIC, std::bind(&FrontDDSView::receivedTopicMessage, this, std::placeholders::_1)))
 {
-
+    m_threadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicMessage);
 }
 
 void FrontDDSView::receivedTopicMessage(Message messageSample)
@@ -32,10 +31,10 @@ void FrontDDSView::receivedTopicMessage(Message messageSample)
 
 void FrontDDSView::readingTopicMessage()
 {
-//    while(!utils::so::shutdown_requested)
-//    {
-//    }
-    m_readerMessage.wait(m_wait);
+    while(!utils::so::shutdown_requested)
+    {
+        m_readerMessage.wait(m_wait);
+    }
 }
 
 std::thread FrontDDSView::initReadingTopicThread(void (frontend::view::dds::visualization::FrontDDSView::*function)())
