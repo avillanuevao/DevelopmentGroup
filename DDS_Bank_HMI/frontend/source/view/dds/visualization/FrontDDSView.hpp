@@ -10,7 +10,7 @@
 #include <model/source/visualization/language/Literals.hpp>
 #include <utils/source/dds/DDSView.hpp>
 #include <frontend/source/viewModel/dds/visualization/DDSViewModel.hpp>
-#include <frontend/source/view/dds/visualization/MessageAdapter.hpp>
+#include <frontend/source/view/dds/visualization/MessageDDStoInterfaceAdapter.hpp>
 
 namespace frontend
 {

@@ -25,7 +25,7 @@ void FrontDDSView::receivedTopicMessage(Message messageSample)
     std::cout << "Message topic recieved: " << std::endl;
     std::cout << "\t" << messageSample << std::endl;
 
-    frontend::view::dds::visualization::MessageAdapter message(messageSample);
+    frontend::view::dds::visualization::MessageDDStoInterfaceAdapter message(messageSample);
 
     m_ddsViewModel->addMessage(message);
 }

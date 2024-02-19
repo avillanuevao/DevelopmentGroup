@@ -1,4 +1,4 @@
-#include "MessageAdapter.hpp"
+#include "MessageDDStoInterfaceAdapter.hpp"
 
 namespace frontend
 {
@@ -9,13 +9,13 @@ namespace dds
 namespace visualization
 {
 
-MessageAdapter::MessageAdapter(Message message):
+MessageDDStoInterfaceAdapter::MessageDDStoInterfaceAdapter(Message message):
     model::visualization::message::MessageInterface(createMessage(message))
 {
 
 }
 
-std::vector<model::visualization::language::Literals> MessageAdapter::toLiterals(std::vector<int> iLiterals)
+std::vector<model::visualization::language::Literals> MessageDDStoInterfaceAdapter::toLiterals(std::vector<int> iLiterals)
 {
     std::vector<model::visualization::language::Literals> literals;
 
@@ -27,7 +27,7 @@ std::vector<model::visualization::language::Literals> MessageAdapter::toLiterals
     return literals;
 }
 
-model::visualization::message::MessageInterface MessageAdapter::createMessage(Message message)
+model::visualization::message::MessageInterface MessageDDStoInterfaceAdapter::createMessage(Message message)
 {
     int ddsMessageType = static_cast<int>(message.message_type());
     std::vector<int> iLiterals (message.literals().begin(), message.literals().end());

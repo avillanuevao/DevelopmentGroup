@@ -1,5 +1,5 @@
-#ifndef MESSAGEADAPTER_HPP
-#define MESSAGEADAPTER_HPP
+#ifndef FRONTEND_VIEW_DDS_VISUALIZATION_MESSAGEDDSTOINTERFACEADAPTER_HPP
+#define FRONTEND_VIEW_DDS_VISUALIZATION_MESSAGEDDSTOINTERFACEADAPTER_HPP
 
 #include <idl/bank.hpp>
 #include <model/source/visualization/message/MessageInterface.hpp>
@@ -13,11 +13,11 @@ namespace dds
 namespace visualization
 {
 
-class MessageAdapter:
+class MessageDDStoInterfaceAdapter:
         public model::visualization::message::MessageInterface
 {
     public:
-        MessageAdapter(Message message);
+        MessageDDStoInterfaceAdapter(Message message);
 
     private:
         std::vector<model::visualization::language::Literals> toLiterals(std::vector<int> iLiterals);
@@ -29,4 +29,4 @@ class MessageAdapter:
 }
 }
 
-#endif // MESSAGEADAPTER_HPP
+#endif // FRONTEND_VIEW_DDS_VISUALIZATION_MESSAGEDDSTOINTERFACEADAPTER_HPP
