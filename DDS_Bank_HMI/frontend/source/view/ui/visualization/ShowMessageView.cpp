@@ -9,7 +9,7 @@ namespace ui
 namespace visualization
 {
 
-ShowMessageView::ShowMessageView(std::shared_ptr<model::visualization::language::LanguageInterface> languages,
+ShowMessageView::ShowMessageView(std::shared_ptr<model::visualization::language::aLanguage> languages,
                                  QQmlApplicationEngine &engine,
                                  QObject *parent):
     m_language(languages),
@@ -84,7 +84,6 @@ std::string ShowMessageView::composeMessage(model::visualization::message::Messa
 {
     std::string message;
 
-    // Fecha - TIPO MENSAJE - LITERALES
     message += formatDate(messageInterface.getDate()) + " - ";
     message += formatMessageType(messageInterface.getMessageType()) + " - ";
     message += m_language->literalToString(messageInterface.getLiterals(), messageInterface.getData());
@@ -97,13 +96,13 @@ std::string ShowMessageView::formatMessageType(model::visualization::message::Me
     switch (messageType)
     {
         case model::visualization::message::MessageType::SUCCESS:
-            return m_language->literalToString(model::visualization::language::Literals::SUCCESS);
+            return m_language->literalToString(model::visualization::language::kLiterals::kSuccess);
             break;
         case model::visualization::message::MessageType::FAILURE:
-            return m_language->literalToString(model::visualization::language::Literals::FAILURE);
+            return m_language->literalToString(model::visualization::language::kLiterals::kFailure);
             break;
         case model::visualization::message::MessageType::WARNING:
-            return m_language->literalToString(model::visualization::language::Literals::WARNING);
+            return m_language->literalToString(model::visualization::language::kLiterals::kWarning);
             break;
     }
 }

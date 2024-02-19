@@ -8,7 +8,7 @@ namespace language
 {
 
 AllLanguages::AllLanguages(model::visualization::language::LanguagesAvailables actualLanguage):
-    model::visualization::language::AllLanguagesInterface(actualLanguage)
+    model::visualization::language::aAllLanguages(actualLanguage)
 {
     initAllLanguages();
 }

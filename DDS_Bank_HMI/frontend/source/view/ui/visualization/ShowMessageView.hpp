@@ -7,7 +7,7 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <model/source/visualization/language/LanguageInterface.hpp>
+#include <model/source/visualization/language/aLanguage.hpp>
 #include <frontend/source/viewModel/ui/visualization/signal/ShowMessageSignal.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 
@@ -27,7 +27,7 @@ class ShowMessageView:
     Q_OBJECT
 
     public:
-        ShowMessageView(std::shared_ptr<model::visualization::language::LanguageInterface> language,
+        ShowMessageView(std::shared_ptr<model::visualization::language::aLanguage> language,
                 QQmlApplicationEngine &engine,
                 QObject *parent = nullptr);
 
@@ -45,7 +45,7 @@ class ShowMessageView:
         const QColor MESSAGE_SUCCESS = "#008F39";
         const QColor MESSAGE_FAILURE = "#CB3234";
         const QColor MESSAGE_WARNING = "#FF8000";
-        std::shared_ptr<model::visualization::language::LanguageInterface> m_language;
+        std::shared_ptr<model::visualization::language::aLanguage> m_language;
         QQmlApplicationEngine& m_engine;
         QObject* m_parent;
 };

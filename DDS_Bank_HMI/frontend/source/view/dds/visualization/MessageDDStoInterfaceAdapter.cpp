@@ -15,13 +15,13 @@ MessageDDStoInterfaceAdapter::MessageDDStoInterfaceAdapter(Message message):
 
 }
 
-std::vector<model::visualization::language::Literals> MessageDDStoInterfaceAdapter::toLiterals(std::vector<int> iLiterals)
+std::vector<model::visualization::language::kLiterals> MessageDDStoInterfaceAdapter::toLiterals(std::vector<int> iLiterals)
 {
-    std::vector<model::visualization::language::Literals> literals;
+    std::vector<model::visualization::language::kLiterals> literals;
 
     for(int elem: iLiterals)
     {
-        literals.push_back(model::visualization::language::Literals::_from_integral(elem));
+        literals.push_back(model::visualization::language::kLiterals::_from_integral(elem));
     }
 
     return literals;
@@ -34,7 +34,7 @@ model::visualization::message::MessageInterface MessageDDStoInterfaceAdapter::cr
 
     std::time_t date = message.date();
     model::visualization::message::MessageType modelMessageType = model::visualization::message::MessageType::_from_index(ddsMessageType);
-    std::vector<model::visualization::language::Literals> literals = toLiterals(iLiterals);
+    std::vector<model::visualization::language::kLiterals> literals = toLiterals(iLiterals);
     std::vector<std::string> data(message.data().begin(), message.data().end());
 
     return model::visualization::message::MessageInterface(date, modelMessageType, literals, data);

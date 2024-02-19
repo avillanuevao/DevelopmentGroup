@@ -1,7 +1,7 @@
 #ifndef MODEL_VISUALIZATION_LANGUAGE_ENGLISH_HPP
 #define MODEL_VISUALIZATION_LANGUAGE_ENGLISH_HPP
 
-#include <visualization/language/LanguageInterface.hpp>
+#include <visualization/language/aLanguage.hpp>
 
 namespace model
 {
@@ -11,7 +11,7 @@ namespace language
 {
 
 class LanguageEnglish:
-        public model::visualization::language::LanguageInterface
+        public model::visualization::language::aLanguage
 {
     public:
         LanguageEnglish();

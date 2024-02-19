@@ -18,7 +18,7 @@ MessageInterface::MessageInterface(model::visualization::message::MessageInterfa
 
 MessageInterface::MessageInterface(std::time_t date,
                                    model::visualization::message::MessageType messageType,
-                                   std::vector<model::visualization::language::Literals> literals, std::vector<std::string> data):
+                                   std::vector<model::visualization::language::kLiterals> literals, std::vector<std::string> data):
     m_date(date),
     m_messageType(messageType),
     m_literals(literals),
@@ -37,7 +37,7 @@ const model::visualization::message::MessageType &MessageInterface::getMessageTy
     return m_messageType;
 }
 
-const std::vector<model::visualization::language::Literals> &MessageInterface::getLiterals() const
+const std::vector<model::visualization::language::kLiterals> &MessageInterface::getLiterals() const
 {
     return m_literals;
 }
