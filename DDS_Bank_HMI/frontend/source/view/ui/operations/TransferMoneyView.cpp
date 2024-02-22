@@ -10,7 +10,7 @@ namespace ui
 namespace operations
 {
 
-TransferMoneyView::TransferMoneyView(std::shared_ptr<frontend::viewModel::ui::operations::TransferViewModel> transferViewModel,
+TransferMoneyView::TransferMoneyView(std::shared_ptr<frontend::viewModel::ui::operations::Transfer> transferViewModel,
                                      QQmlApplicationEngine &engine,
                                      QObject *parent) :
     m_transferViewModel(transferViewModel),

@@ -15,10 +15,10 @@
 #include <view/dds/operations/FrontDDSView.hpp>
 #include <view/dds/visualization/FrontDDSView.hpp>
 #include <view/includeView/visualization/VisualizeFundIncludeView.hpp>
-#include <viewModel/ui/operations/DepositViewModel.hpp>
-#include <viewModel/ui/operations/WithdrawViewModel.hpp>
-#include <viewModel/ui/operations/SelectFundViewModel.hpp>
-#include <viewModel/ui/operations/TransferViewModel.hpp>
+#include <viewModel/ui/operations/Deposit.hpp>
+#include <viewModel/ui/operations/Withdraw.hpp>
+#include <viewModel/ui/operations/SelectFund.hpp>
+#include <viewModel/ui/operations/Transfer.hpp>
 #include <viewModel/ui/visualization/VisualizeFundViewModel.hpp>
 #include <viewModel/ui/visualization/ShowMessageViewModel.hpp>
 #include <viewModel/dds/operations/DDSViewModel.hpp>
@@ -33,14 +33,14 @@ using SelectFundView = frontend::view::ui::operations::SelectFundView;
 using TransferMoneyView = frontend::view::ui::operations::TransferMoneyView;
 using VisualizeFundIncludeView = frontend::view::includeView::visualization::VisualizeFundIncludeView;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoneyView;
-using DepositViewModel = frontend::viewModel::ui::operations::DepositViewModel;
+using DepositViewModel = frontend::viewModel::ui::operations::Deposit;
 using DDSViewModelOperations = frontend::viewModel::dds::operations::DDSViewModel;
 using DDSViewModelVisualization = frontend::viewModel::dds::visualization::DDSViewModel;
-using SelectFundViewModel = frontend::viewModel::ui::operations::SelectFundViewModel;
+using SelectFundViewModel = frontend::viewModel::ui::operations::SelectFund;
 using VisualizeFundViewModel = frontend::viewModel::ui::visualization::VisualizeFundViewModel;
 using ShowMessageViewModel = frontend::viewModel::ui::visualization::ShowMessageViewModel;
-using WithdrawViewModel = frontend::viewModel::ui::operations::WithdrawViewModel;
-using TransferViewModel = frontend::viewModel::ui::operations::TransferViewModel;
+using WithdrawViewModel = frontend::viewModel::ui::operations::Withdraw;
+using TransferViewModel = frontend::viewModel::ui::operations::Transfer;
 
 int main(int argc, char *argv[])
 {

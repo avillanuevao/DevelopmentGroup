@@ -18,23 +18,23 @@ FrontDDSView::FrontDDSView(unsigned int domainId,
 
 }
 
-void FrontDDSView::recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoneySignal signal)
+void FrontDDSView::recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoney signal)
 {
     writeDeposit(signal.getAmount());
 }
 
-void FrontDDSView::recievedSignal(viewModel::ui::operations::signal::WithdrawnMoneySignal signal)
+void FrontDDSView::recievedSignal(viewModel::ui::operations::signal::WithdrawnMoney signal)
 {
     writeWithdraw(signal.getAmount());
 }
 
-void FrontDDSView::recievedSignal(frontend::viewModel::ui::operations::signal::TransferedMoneySignal signal)
+void FrontDDSView::recievedSignal(frontend::viewModel::ui::operations::signal::TransferedMoney signal)
 {
     FundType ddsFundType = static_cast<FundType>(signal.getDestinationFundType()._to_index());
     writeTransaction(ddsFundType, signal.getAmount());
 }
 
-void FrontDDSView::recievedSignal(viewModel::ui::operations::signal::SelectFundSignal signal)
+void FrontDDSView::recievedSignal(viewModel::ui::operations::signal::SelectFund signal)
 {
     FundType ddsFundType = static_cast<FundType>(signal.getFundType()._to_index());
     writeSelectFund(ddsFundType);

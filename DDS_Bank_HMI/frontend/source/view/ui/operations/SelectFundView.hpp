@@ -6,7 +6,7 @@
 #include <memory>
 
 #include <model/source/operations/kFundType.hpp>
-#include <frontend/source/viewModel/ui/operations/SelectFundViewModel.hpp>
+#include <frontend/source/viewModel/ui/operations/SelectFund.hpp>
 
 namespace frontend
 {
@@ -23,7 +23,7 @@ class SelectFundView :
     Q_OBJECT
 
     public:
-        SelectFundView(std::shared_ptr<frontend::viewModel::ui::operations::SelectFundViewModel> selectFundViewModel,
+        SelectFundView(std::shared_ptr<frontend::viewModel::ui::operations::SelectFund> selectFundViewModel,
                        QQmlApplicationEngine &engine,
                        QObject *parent = nullptr);
 
@@ -31,7 +31,7 @@ class SelectFundView :
         void setFundType(QString fundType);
 
     private:
-        std::shared_ptr<frontend::viewModel::ui::operations::SelectFundViewModel> m_selectFundViewModel;
+        std::shared_ptr<frontend::viewModel::ui::operations::SelectFund> m_selectFundViewModel;
         QQmlApplicationEngine& m_engine;
         QObject* m_parent;
 };

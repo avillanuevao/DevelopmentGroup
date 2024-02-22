@@ -8,7 +8,7 @@
 #include <QQmlComponent>
 
 #include <model/source/operations/kFundType.hpp>
-#include <frontend/source/viewModel/ui/operations/WithdrawViewModel.hpp>
+#include <frontend/source/viewModel/ui/operations/Withdraw.hpp>
 
 namespace frontend
 {
@@ -24,7 +24,7 @@ class WithdrawMoneyView:
 {
     Q_OBJECT
     public:
-        WithdrawMoneyView(std::shared_ptr<frontend::viewModel::ui::operations::WithdrawViewModel> withdrawViewModel,
+        WithdrawMoneyView(std::shared_ptr<frontend::viewModel::ui::operations::Withdraw> withdrawViewModel,
                           QQmlApplicationEngine &engine,
                           QObject *parent = nullptr);
 
@@ -33,7 +33,7 @@ class WithdrawMoneyView:
         void setAmountToWithdraw(int amount);
 
     private:
-        std::shared_ptr<frontend::viewModel::ui::operations::WithdrawViewModel> m_withdrawViewModel;
+        std::shared_ptr<frontend::viewModel::ui::operations::Withdraw> m_withdrawViewModel;
         QQmlApplicationEngine& m_engine;
         QObject* m_parent;
         int m_amountToWithdraw;

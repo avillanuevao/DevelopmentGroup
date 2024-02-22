@@ -9,7 +9,7 @@ namespace ui
 namespace operations
 {
 
-DepositMoneyView::DepositMoneyView(std::shared_ptr<viewModel::ui::operations::DepositViewModel> depositViewModel,
+DepositMoneyView::DepositMoneyView(std::shared_ptr<viewModel::ui::operations::Deposit> depositViewModel,
                                    QQmlApplicationEngine &engine,
                                    QObject *parent) :
     m_depositViewModel(depositViewModel),

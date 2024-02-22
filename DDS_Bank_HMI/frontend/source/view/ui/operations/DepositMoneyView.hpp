@@ -9,7 +9,7 @@
 #include <QQmlComponent>
 
 #include <model/source/operations/kFundType.hpp>
-#include <frontend/source/viewModel/ui/operations/DepositViewModel.hpp>
+#include <frontend/source/viewModel/ui/operations/Deposit.hpp>
 
 namespace frontend
 {
@@ -25,7 +25,7 @@ class DepositMoneyView :
 {
     Q_OBJECT
     public:
-        explicit DepositMoneyView(std::shared_ptr<viewModel::ui::operations::DepositViewModel> depositViewModel,
+        explicit DepositMoneyView(std::shared_ptr<viewModel::ui::operations::Deposit> depositViewModel,
                                   QQmlApplicationEngine &engine,
                                   QObject *parent = nullptr);
 
@@ -34,7 +34,7 @@ class DepositMoneyView :
         void depositMoney();
 
     private:
-        std::shared_ptr<viewModel::ui::operations::DepositViewModel> m_depositViewModel;
+        std::shared_ptr<viewModel::ui::operations::Deposit> m_depositViewModel;
         QQmlApplicationEngine& m_engine;
         QObject* m_parent;
         int m_amountToDeposit;

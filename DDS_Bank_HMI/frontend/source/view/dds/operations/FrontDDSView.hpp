@@ -8,10 +8,10 @@
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 #include <frontend/source/view/dds/operations/FrontDDSViewFactory.hpp>
 #include <frontend/source/viewModel/dds/operations/DDSViewModel.hpp>
-#include <frontend/source/viewModel/ui/operations/signal/DepositMoneySignal.hpp>
-#include <frontend/source/viewModel/ui/operations/signal/TransferedMoneySignal.hpp>
-#include <frontend/source/viewModel/ui/operations/signal/SelectFundSignal.hpp>
-#include <frontend/source/viewModel/ui/operations/signal/WithdrawnMoneySignal.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/DepositMoney.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/TransferedMoney.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/SelectFund.hpp>
+#include <frontend/source/viewModel/ui/operations/signal/WithdrawnMoney.hpp>
 
 namespace frontend
 {
@@ -23,20 +23,20 @@ namespace operations
 {
 class FrontDDSView :
         public frontend::view::dds::operations::FrontDDSViewFactory,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFundSignal>,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::DepositMoneySignal>,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal>,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::TransferedMoneySignal>
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFund>,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::DepositMoney>,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::WithdrawnMoney>,
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::TransferedMoney>
 {
     public:
         FrontDDSView(unsigned int domainId,
                      unsigned int sampleCount,
                      std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel);
 
-        void recievedSignal(frontend::viewModel::ui::operations::signal::SelectFundSignal signal) override;
-        void recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoneySignal signal) override;
-        void recievedSignal(frontend::viewModel::ui::operations::signal::WithdrawnMoneySignal signal) override;
-        void recievedSignal(frontend::viewModel::ui::operations::signal::TransferedMoneySignal signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::SelectFund signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoney signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::WithdrawnMoney signal) override;
+        void recievedSignal(frontend::viewModel::ui::operations::signal::TransferedMoney signal) override;
 
     private:
         void writeSelectFund(FundType fundType);
