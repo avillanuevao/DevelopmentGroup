@@ -5,34 +5,36 @@
 
 #include <operations/AllFunds.hpp>
 
-const int AMOUNTZERO = 0;
-const int AMOUNT01 = 500;
-const int AMOUNT02 = 1000;
-const int AMOUNTBIG = 10000;
-const int AMOUNTNEGATIVE = -2000;
+const int kAmountZero = 0;
+const int kAmount01 = 500;
+const int kAmount02 = 1000;
+const int kAmountBig = 10000;
+const int kAmountNegative = -2000;
 
 class AllFundsUnitTest :
-        public testing::TestWithParam<std::tuple<model::operations::kFundType, model::operations::kFundType>>
+    public testing::TestWithParam<std::tuple<model::operations::kFundType, model::operations::kFundType>>
 {
-    public:
-        AllFundsUnitTest();
-        virtual ~AllFundsUnitTest();
-    protected:
-        virtual void SetUp() override;
-        virtual void TearDown() override;
+  public:
+    AllFundsUnitTest();
+    virtual ~AllFundsUnitTest();
+  protected:
+    virtual void SetUp() override;
+    virtual void TearDown() override;
 
-        std::shared_ptr<model::operations::AllFunds> m_allFunds;
-        model::operations::kFundType m_actualFundType;
-        model::operations::kFundType m_otherFundType;
+    std::shared_ptr<model::operations::AllFunds> mAllFunds;
+    model::operations::kFundType mActualFundType;
+    model::operations::kFundType mOtherFundType;
 };
 
 INSTANTIATE_TEST_CASE_P(FundTypesOK, AllFundsUnitTest, testing::Values(
-                            std::make_tuple(model::operations::kFundType::SAVINGS, model::operations::kFundType::HOUSING),
-                            std::make_tuple(model::operations::kFundType::HOUSING, model::operations::kFundType::SAVINGS)));
+                          std::make_tuple(model::operations::kFundType::Savings,
+                                          model::operations::kFundType::Housing),
+                          std::make_tuple(model::operations::kFundType::Housing,
+                                          model::operations::kFundType::Savings)));
 
 AllFundsUnitTest::AllFundsUnitTest():
-    m_actualFundType(std::get<0>(GetParam())),
-    m_otherFundType(std::get<1>(GetParam()))
+  mActualFundType(std::get<0>(GetParam())),
+  mOtherFundType(std::get<1>(GetParam()))
 {
 
 }
@@ -44,143 +46,139 @@ AllFundsUnitTest::~AllFundsUnitTest()
 
 void AllFundsUnitTest::SetUp()
 {
-    m_actualFundType = std::get<0>(GetParam());
-    m_otherFundType = std::get<1>(GetParam());
-    m_allFunds.reset(new model::operations::AllFunds(m_actualFundType));
+  mActualFundType = std::get<0>(GetParam());
+  mOtherFundType = std::get<1>(GetParam());
+  mAllFunds.reset(new model::operations::AllFunds(mActualFundType));
 }
 
 void AllFundsUnitTest::TearDown()
 {
-    m_allFunds.reset();
+  mAllFunds.reset();
 }
 
 TEST_P(AllFundsUnitTest, getAmountByFundType)
 {
-    int amountOutput = m_allFunds->getAmount(m_actualFundType);
+  int amountOutput = mAllFunds->getAmount(mActualFundType);
 
-    ASSERT_EQ(AMOUNTZERO, amountOutput);
+  ASSERT_EQ(kAmountZero, amountOutput);
 
-    amountOutput = m_allFunds->getAmount(m_otherFundType);
+  amountOutput = mAllFunds->getAmount(mOtherFundType);
 
-    ASSERT_EQ(AMOUNTZERO, amountOutput);
+  ASSERT_EQ(kAmountZero, amountOutput);
 }
 
 TEST_P(AllFundsUnitTest, getAmount)
 {
-    int amountOutput = m_allFunds->getAmount();
+  int amountOutput = mAllFunds->getAmount();
 
-    ASSERT_EQ(AMOUNTZERO, amountOutput);
+  ASSERT_EQ(kAmountZero, amountOutput);
 }
 
 TEST_P(AllFundsUnitTest, setAmountByFundType)
 {
-    m_allFunds->setAmount(m_actualFundType, AMOUNT01);
-    int amountOutput = m_allFunds->getAmount(m_actualFundType);
+  mAllFunds->setAmount(mActualFundType, kAmount01);
+  int amountOutput = mAllFunds->getAmount(mActualFundType);
 
-    ASSERT_EQ(AMOUNT01, amountOutput);
+  ASSERT_EQ(kAmount01, amountOutput);
 
-    m_allFunds->setAmount(m_otherFundType, AMOUNT02);
-    int amountOutputOther = m_allFunds->getAmount(m_otherFundType);
+  mAllFunds->setAmount(mOtherFundType, kAmount02);
+  int amountOutputOther = mAllFunds->getAmount(mOtherFundType);
 
-    ASSERT_EQ(AMOUNT02, amountOutputOther);
-    ASSERT_NE(amountOutput, amountOutputOther);
+  ASSERT_EQ(kAmount02, amountOutputOther);
+  ASSERT_NE(amountOutput, amountOutputOther);
 }
 
 TEST_P(AllFundsUnitTest, setAmount)
 {
-    m_allFunds->setAmount(AMOUNT01);
-    int amountOutput = m_allFunds->getAmount();
+  mAllFunds->setAmount(kAmount01);
+  int amountOutput = mAllFunds->getAmount();
 
-    ASSERT_EQ(AMOUNT01, amountOutput);
+  ASSERT_EQ(kAmount01, amountOutput);
 
-    int amountOther = m_allFunds->getAmount(m_otherFundType);
-    ASSERT_NE(amountOutput, amountOther);
+  int amountOther = mAllFunds->getAmount(mOtherFundType);
+  ASSERT_NE(amountOutput, amountOther);
 }
 
 TEST_P(AllFundsUnitTest, setAmountNegativeByFundType)
 {
-    ASSERT_THROW(m_allFunds->setAmount(m_actualFundType, AMOUNTNEGATIVE), std::logic_error);
+  ASSERT_THROW(mAllFunds->setAmount(mActualFundType, kAmountNegative), std::logic_error);
 }
 
 TEST_P(AllFundsUnitTest, setAmountNegative)
 {
-    ASSERT_THROW(m_allFunds->setAmount(AMOUNTNEGATIVE), std::logic_error);
+  ASSERT_THROW(mAllFunds->setAmount(kAmountNegative), std::logic_error);
 }
 
 TEST_P(AllFundsUnitTest, increaseAmountOK)
 {    
-    int amountExpected = m_allFunds->getAmount() + AMOUNT01;
+  int amountExpected = mAllFunds->getAmount() + kAmount01;
 
-    for(int i = 0; i < 5; i++)
-    {
-        m_allFunds->increaseAmount(AMOUNT01);
-        int amountOutput = m_allFunds->getAmount();
+  for(int i = 0; i < 5; i++)
+  {
+    mAllFunds->increaseAmount(kAmount01);
+    int amountOutput = mAllFunds->getAmount();
 
-        ASSERT_EQ(amountExpected, amountOutput);
-        ASSERT_NE(m_allFunds->getAmount(m_otherFundType), amountOutput);
-        amountExpected += AMOUNT01;
-    }
+    ASSERT_EQ(amountExpected, amountOutput);
+    ASSERT_NE(mAllFunds->getAmount(mOtherFundType), amountOutput);
+    amountExpected += kAmount01;
+  }
 
 }
 
 TEST_P(AllFundsUnitTest, increaseAmountNegative)
 {
 
-    ASSERT_THROW(m_allFunds->increaseAmount(AMOUNTNEGATIVE), std::logic_error);
+  ASSERT_THROW(mAllFunds->increaseAmount(kAmountNegative), std::logic_error);
 }
 
 TEST_P(AllFundsUnitTest, decreaseAmountOK)
 {
-    m_allFunds->setAmount(AMOUNTBIG);
+  mAllFunds->setAmount(kAmountBig);
 
-    int amountExpected = m_allFunds->getAmount() - AMOUNT01;
+  int amountExpected = mAllFunds->getAmount() - kAmount01;
 
-    for(int i = 0; i < 5; i++)
-    {
-        m_allFunds->decreaseAmount(AMOUNT01);
-        int amountOutput = m_allFunds->getAmount();
+  for(int i = 0; i < 5; i++)
+  {
+    mAllFunds->decreaseAmount(kAmount01);
+    int amountOutput = mAllFunds->getAmount();
 
-        ASSERT_EQ(amountExpected, amountOutput);
-        ASSERT_NE(m_allFunds->getAmount(m_otherFundType), amountOutput);
-        amountExpected -= AMOUNT01;
-    }
+    ASSERT_EQ(amountExpected, amountOutput);
+    ASSERT_NE(mAllFunds->getAmount(mOtherFundType), amountOutput);
+    amountExpected -= kAmount01;
+  }
 
 }
 
 TEST_P(AllFundsUnitTest, decreaseAmountNegative)
 {
-
-    ASSERT_THROW(m_allFunds->decreaseAmount(AMOUNTNEGATIVE), std::logic_error);
+  ASSERT_THROW(mAllFunds->decreaseAmount(kAmountNegative), std::logic_error);
 }
 
 TEST_P(AllFundsUnitTest, decreaseAmountNotEnoughMoney)
 {
-
-    ASSERT_THROW(m_allFunds->decreaseAmount(AMOUNT01), std::logic_error);
+  ASSERT_THROW(mAllFunds->decreaseAmount(kAmount01), std::logic_error);
 }
 
 TEST_P(AllFundsUnitTest, transferAmount)
 {
-    m_allFunds->setAmount(AMOUNTBIG);
+  mAllFunds->setAmount(kAmountBig);
 
-    int amountToTransfer = AMOUNT01;
-    int amountOriginExpected = m_allFunds->getAmount() - amountToTransfer;
-    int amountDestinationExpected = m_allFunds->getAmount(m_otherFundType) + amountToTransfer;
+  int amountToTransfer = kAmount01;
+  int amountOriginExpected = mAllFunds->getAmount() - amountToTransfer;
+  int amountDestinationExpected = mAllFunds->getAmount(mOtherFundType) + amountToTransfer;
 
-    m_allFunds->transferAmount(m_otherFundType, amountToTransfer);
+  mAllFunds->transferAmount(mOtherFundType, amountToTransfer);
 
-    ASSERT_EQ(amountOriginExpected, m_allFunds->getAmount());
-    ASSERT_EQ(amountDestinationExpected, m_allFunds->getAmount(m_otherFundType));
+  ASSERT_EQ(amountOriginExpected, mAllFunds->getAmount());
+  ASSERT_EQ(amountDestinationExpected, mAllFunds->getAmount(mOtherFundType));
 }
 
 TEST_P(AllFundsUnitTest, transferAmountNegative)
 {
-
-    ASSERT_THROW(m_allFunds->transferAmount(m_otherFundType, AMOUNTNEGATIVE), std::logic_error);
+  ASSERT_THROW(mAllFunds->transferAmount(mOtherFundType, kAmountNegative), std::logic_error);
 }
 
 TEST_P(AllFundsUnitTest, transferAmountNotEnoughMoney)
 {
-
-    ASSERT_THROW(m_allFunds->transferAmount(m_otherFundType, AMOUNT01), std::logic_error);
+  ASSERT_THROW(mAllFunds->transferAmount(mOtherFundType, kAmount01), std::logic_error);
 }

@@ -149,20 +149,10 @@ void AllFunds::setFundType(model::operations::kFundType fundType)
   notifySubscribersFundType(mActualFund);
 }
 
-//std::shared_ptr<model::operations::iFund> model::operations::AllFunds::getFund(model::operations::kFundType fundType)
-//{
-//  return m_funds.find(fundType)->second;
-//}
-
 std::shared_ptr<model::operations::iFund> AllFunds::getFund(model::operations::kFundType fundType) const
 {
   return mFunds.find(fundType)->second;
 }
-
-//std::shared_ptr<iFund> AllFunds::getActualFund()
-//{
-//  return getFund(mActualFund);
-//}
 
 std::shared_ptr<iFund> AllFunds::getActualFund() const
 {

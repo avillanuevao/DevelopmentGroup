@@ -42,9 +42,7 @@ class AllFunds :
     void notifySubscribersFund(model::operations::kFundType fundType, int amount);
     void notifySubscribersFundType(model::operations::kFundType fundType);
 
-//    std::shared_ptr<model::operations::iFund> getFund(model::operations::kFundType  m_actualFund);
     std::shared_ptr<model::operations::iFund> getFund(model::operations::kFundType  m_actualFund) const;
-//    std::shared_ptr<model::operations::iFund> getActualFund();
     std::shared_ptr<model::operations::iFund> getActualFund() const;
 
     std::map<model::operations::kFundType, std::shared_ptr<model::operations::iFund>> mFunds;
