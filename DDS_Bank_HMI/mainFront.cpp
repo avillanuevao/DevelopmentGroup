@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     std::shared_ptr<model::operations::AllFunds> allFunds (new model::operations::AllFunds(model::operations::FundType::SAVINGS));
     std::shared_ptr<model::visualization::message::AllMessages> allMessage(new model::visualization::message::AllMessages());
     std::shared_ptr<model::visualization::language::AllLanguages> allLanguages(
-                new model::visualization::language::AllLanguages(model::visualization::language::LanguagesAvailables::ENGLISH));
+                new model::visualization::language::AllLanguages(model::visualization::language::kLanguagesAvailables::kEnglish));
 
     std::shared_ptr<DepositViewModel> depositViewModel (new DepositViewModel());
     std::shared_ptr<WithdrawViewModel> withdrawViewModel (new WithdrawViewModel());

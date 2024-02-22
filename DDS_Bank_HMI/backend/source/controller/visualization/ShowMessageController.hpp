@@ -25,12 +25,12 @@ class ShowMessageController
                         model::operations::FundType destinationFundType);
 
     private:
-        std::vector<model::visualization::language::Literals> createLiterals(model::visualization::message::OperationType operationType,
+        std::vector<model::visualization::language::kLiterals> createLiterals(model::visualization::message::OperationType operationType,
                                                                              model::operations::FundType originFundType,
                                                                              model::operations::FundType destinationFundType);
 
-        model::visualization::language::Literals toLiteral(model::operations::FundType fundType);
-        model::visualization::language::Literals toLiteral(model::visualization::message::OperationType operationType);
+        model::visualization::language::kLiterals toLiteral(model::operations::FundType fundType);
+        model::visualization::language::kLiterals toLiteral(model::visualization::message::OperationType operationType);
 
         std::shared_ptr<model::visualization::message::AllMessagesInterface> m_allMessages;
 

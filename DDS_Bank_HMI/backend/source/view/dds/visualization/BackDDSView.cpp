@@ -33,7 +33,7 @@ void BackDDSView::writeMessage(Message sampleMessage)
               "data: " << sampleMessage.data() << "]" << std::endl;
 }
 
-std::vector<int> BackDDSView::toIntVector(std::vector<model::visualization::language::Literals> literals)
+std::vector<int> BackDDSView::toIntVector(std::vector<model::visualization::language::kLiterals> literals)
 {
     std::vector<int> iLiterals(literals.size());
 
@@ -48,7 +48,7 @@ std::vector<int> BackDDSView::toIntVector(std::vector<model::visualization::lang
 Message BackDDSView::toMessageTopic(model::visualization::message::signal::ShowMessageSignal signal)
 {
     model::visualization::message::MessageInterface message = signal.getMessage();
-    std::vector<model::visualization::language::Literals> literals = message.getLiterals();
+    std::vector<model::visualization::language::kLiterals> literals = message.getLiterals();
     std::vector<std::string> data = message.getData();
 
     int64_t ddsDate (static_cast<int64_t>(message.getDate()));

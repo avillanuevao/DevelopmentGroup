@@ -16,7 +16,7 @@ class AllLanguages:
         public model::visualization::language::aAllLanguages
 {
     public:
-        AllLanguages(model::visualization::language::LanguagesAvailables actualLanguage);
+        AllLanguages(model::visualization::language::kLanguagesAvailables actualLanguage);
 
     private:
         void initAllLanguages();

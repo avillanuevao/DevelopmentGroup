@@ -10,12 +10,18 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
+    // vector A
+
     ListModel
     {
         id: allFundsModel
+        // ListElement{text: a[0]}
         ListElement { text: "Savings" }
         ListElement { text: "Housing" }
     }
+
+    // si quiero cambiar el orden, cambio primero el vector a (estará en c++) y luego cambio el orden del ListElement
+
 
     ColumnLayout
     {

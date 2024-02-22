@@ -22,6 +22,7 @@ class aLanguage
         virtual std::string literalToString(std::vector<model::visualization::language::kLiterals> literals,
                                             std::vector<std::string> data = {});
 
+
     protected:
         std::map<model::visualization::language::kLiterals, std::string> m_literals;
 

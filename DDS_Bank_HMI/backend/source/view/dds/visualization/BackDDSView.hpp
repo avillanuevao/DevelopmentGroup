@@ -28,7 +28,7 @@ class BackDDSView :
 
     private:
         void writeMessage(Message sampleMessage);
-        std::vector<int> toIntVector(std::vector<model::visualization::language::Literals> literals);
+        std::vector<int> toIntVector(std::vector<model::visualization::language::kLiterals> literals);
         Message toMessageTopic(model::visualization::message::signal::ShowMessageSignal signal);
 
         utils::dds::DDSDataWriter<Message> m_writerMessage;
