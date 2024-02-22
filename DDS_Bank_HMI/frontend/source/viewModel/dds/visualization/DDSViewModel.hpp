@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <model/source/visualization/message/AllMessagesInterface.hpp>
+#include <model/source/visualization/message/aAllMessages.hpp>
 
 namespace frontend
 {
@@ -17,12 +17,12 @@ namespace visualization
 class DDSViewModel
 {
     public:
-        DDSViewModel(std::shared_ptr<model::visualization::message::AllMessagesInterface> allMessageInterface);
+        DDSViewModel(std::shared_ptr<model::visualization::message::aAllMessages> allMessage);
 
-        void addMessage(model::visualization::message::MessageInterface message);
+        void addMessage(model::visualization::message::aMessage message);
 
     private:
-        std::shared_ptr<model::visualization::message::AllMessagesInterface> m_allMessageInterface;
+        std::shared_ptr<model::visualization::message::aAllMessages> m_allMessageInterface;
 };
 
 }

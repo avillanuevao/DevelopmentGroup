@@ -19,26 +19,26 @@ FrontDDSViewFactory::FrontDDSViewFactory(unsigned int domainId, unsigned int sam
     m_readerFundData(createDataReader<FundData>(FUND_DATA_TOPIC, std::bind(&FrontDDSViewFactory::receivedTopicFundData, this, std::placeholders::_1)))
 
 {
-    utils::so::setup_signal_handlers();
+    utils::so::setupSignalHandlers();
 
-    m_threadsForReading[SELECT_FUND_TOPIC_ACK] = initReadingTopicThread(&FrontDDSViewFactory::readingTopicSelectFundAck);
-    m_threadsForReading[FUND_DATA_TOPIC] = initReadingTopicThread(&FrontDDSViewFactory::readingTopicFundData);
+    mThreadsForReading[SELECT_FUND_TOPIC_ACK] = initReadingTopicThread(&FrontDDSViewFactory::readingTopicSelectFundAck);
+    mThreadsForReading[FUND_DATA_TOPIC] = initReadingTopicThread(&FrontDDSViewFactory::readingTopicFundData);
 
 }
 
 void FrontDDSViewFactory::readingTopicFundData()
 {
-    while(!utils::so::shutdown_requested)
+    while(!utils::so::shutdownRequested)
     {
-        m_readerFundData.wait(m_wait);
+        m_readerFundData.wait(mWait);
     }
 }
 
 void FrontDDSViewFactory::readingTopicSelectFundAck()
 {
-    while(!utils::so::shutdown_requested)
+    while(!utils::so::shutdownRequested)
     {
-        m_readerSelectFundAck.wait(m_wait);
+        m_readerSelectFundAck.wait(mWait);
     }
 }
 

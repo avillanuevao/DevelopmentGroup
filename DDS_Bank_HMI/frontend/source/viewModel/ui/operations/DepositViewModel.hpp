@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/DepositMoneySignal.hpp>
 

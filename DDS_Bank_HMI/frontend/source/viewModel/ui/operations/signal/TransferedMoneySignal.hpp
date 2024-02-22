@@ -1,7 +1,7 @@
 #ifndef FRONTEND_VIEWMODEL_SIGNAL_TRANSFEREDMONEYSIGNAL_HPP
 #define FRONTEND_VIEWMODEL_SIGNAL_TRANSFEREDMONEYSIGNAL_HPP
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 
 namespace frontend
 {
@@ -17,13 +17,13 @@ namespace signal
 class TransferedMoneySignal
 {
     public:
-        TransferedMoneySignal(model::operations::FundType destinationFundType, int amount);
+        TransferedMoneySignal(model::operations::kFundType destinationFundType, int amount);
 
-        model::operations::FundType getDestinationFundType() const;
+        model::operations::kFundType getDestinationFundType() const;
         int getAmount() const;
 
 private:
-        model::operations::FundType m_destinationFundType;
+        model::operations::kFundType m_destinationFundType;
         int m_amount;
 
 };

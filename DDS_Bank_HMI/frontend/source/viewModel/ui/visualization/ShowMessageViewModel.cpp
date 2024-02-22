@@ -14,7 +14,7 @@ ShowMessageViewModel::ShowMessageViewModel()
 
 }
 
-void ShowMessageViewModel::recievedSignal(model::visualization::message::signal::ShowMessageSignal signal)
+void ShowMessageViewModel::recievedSignal(model::visualization::message::signal::ShowMessage signal)
 {
     frontend::viewModel::ui::visualization::signal::ShowMessageSignal signalViewModel(signal.getMessage());
 

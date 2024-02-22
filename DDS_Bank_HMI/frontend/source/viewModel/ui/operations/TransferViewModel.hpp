@@ -4,7 +4,7 @@
 #include <memory>
 
 #include <utils/source/designPattern/SignalPublisher.hpp>
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/TransferedMoneySignal.hpp>
 
 namespace frontend
@@ -24,7 +24,7 @@ class TransferViewModel :
     public:
         TransferViewModel();
 
-        void transferMoney(model::operations::FundType destinationFundType, int amount);
+        void transferMoney(model::operations::kFundType destinationFundType, int amount);
 };
 
 }

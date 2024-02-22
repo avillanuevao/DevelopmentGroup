@@ -23,7 +23,7 @@ void SelectFundView::setFundType(QString fundType)
 {
     try
     {
-        model::operations::FundType modelFundType = model::operations::FundType::_from_string_nocase(fundType.toStdString().c_str());
+        model::operations::kFundType modelFundType = model::operations::kFundType::_from_string_nocase(fundType.toStdString().c_str());
         m_selectFundViewModel->selectFund(modelFundType);
     }  catch (std::runtime_error e)
     {

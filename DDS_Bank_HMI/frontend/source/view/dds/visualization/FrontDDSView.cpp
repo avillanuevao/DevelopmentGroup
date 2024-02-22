@@ -16,7 +16,7 @@ FrontDDSView::FrontDDSView(unsigned int domainId,
     m_ddsViewModel(ddsViewModel),
     m_readerMessage(createDataReader<Message>(MESSAGE_TOPIC, std::bind(&FrontDDSView::receivedTopicMessage, this, std::placeholders::_1)))
 {
-    m_threadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicMessage);
+    mThreadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicMessage);
 }
 
 void FrontDDSView::receivedTopicMessage(Message messageSample)
@@ -31,9 +31,9 @@ void FrontDDSView::receivedTopicMessage(Message messageSample)
 
 void FrontDDSView::readingTopicMessage()
 {
-    while(!utils::so::shutdown_requested)
+    while(!utils::so::shutdownRequested)
     {
-        m_readerMessage.wait(m_wait);
+        m_readerMessage.wait(mWait);
     }
 }
 

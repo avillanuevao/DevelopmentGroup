@@ -6,7 +6,7 @@
 
 #include <idl/bank.hpp>
 
-#include <model/source/visualization/message/MessageType.hpp>
+#include <model/source/visualization/message/kMessageType.hpp>
 #include <model/source/visualization/language/kLiterals.hpp>
 #include <utils/source/dds/DDSView.hpp>
 #include <frontend/source/viewModel/dds/visualization/DDSViewModel.hpp>

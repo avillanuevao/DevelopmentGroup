@@ -1,7 +1,7 @@
 #ifndef FRONTEND_VIEWMODEL_UI_OPERATIONS_SIGNAL_DEPOSITMONEYSIGNAL_HPP
 #define FRONTEND_VIEWMODEL_UI_OPERATIONS_SIGNAL_DEPOSITMONEYSIGNAL_HPP
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 
 namespace frontend
 {

@@ -8,7 +8,7 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 #include <frontend/source/viewModel/ui/operations/TransferViewModel.hpp>
 
 namespace frontend
@@ -41,7 +41,7 @@ private:
         QObject* m_parent;
 
         int m_amountToTransfer;
-        model::operations::FundType m_destinationFundType;
+        model::operations::kFundType m_destinationFundType;
 
 };
 

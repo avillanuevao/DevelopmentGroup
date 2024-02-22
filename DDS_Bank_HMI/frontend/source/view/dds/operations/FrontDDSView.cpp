@@ -87,7 +87,7 @@ void FrontDDSView::receivedTopicSelectFundAck(SelectFundAck selectFundAck)
     std::cout << "\t" << selectFundAck << std::endl;
 
     int ddsFundType = static_cast<int>(selectFundAck.fund_type());
-    model::operations::FundType modelFundType = model::operations::FundType::_from_index(ddsFundType);
+    model::operations::kFundType modelFundType = model::operations::kFundType::_from_index(ddsFundType);
 
     m_ddsviewModel->updateFundType(modelFundType);
 }
@@ -100,7 +100,7 @@ void FrontDDSView::receivedTopicFundData(FundData fundData)
     std::cout << "\t" << fundData << std::endl;
 
     int ddsFundType = static_cast<int>(fundData.fund_type());
-    model::operations::FundType modelFundType = model::operations::FundType::_from_index(ddsFundType);
+    model::operations::kFundType modelFundType = model::operations::kFundType::_from_index(ddsFundType);
 
     m_ddsviewModel->updateAmount(modelFundType, fundData.amount());
 }

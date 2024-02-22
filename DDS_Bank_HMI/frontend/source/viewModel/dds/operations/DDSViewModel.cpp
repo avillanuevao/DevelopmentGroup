@@ -1,6 +1,6 @@
 #include "DDSViewModel.hpp"
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 
 namespace frontend
 {
@@ -11,20 +11,20 @@ namespace dds
 namespace operations
 {
 
-DDSViewModel::DDSViewModel(std::shared_ptr<model::operations::FundSetParameterInterface> fundSetParameter,
-                           std::shared_ptr<model::operations::FundSetAmountByFundTypeInterface> fundSetAmountByFundType):
+DDSViewModel::DDSViewModel(std::shared_ptr<model::operations::iFundSetParameter> fundSetParameter,
+                           std::shared_ptr<model::operations::iFundSetAmountByFundType> fundSetAmountByFundType):
     m_fundSetParameter(fundSetParameter),
     m_fundSetAmountByFundType(fundSetAmountByFundType)
 {
 
 }
 
-void DDSViewModel::updateFundType(model::operations::FundType fundType)
+void DDSViewModel::updateFundType(model::operations::kFundType fundType)
 {
     m_fundSetParameter->setFundType(fundType);
 }
 
-void DDSViewModel::updateAmount(model::operations::FundType fundType, int amount)
+void DDSViewModel::updateAmount(model::operations::kFundType fundType, int amount)
 {
     m_fundSetAmountByFundType->setAmount(fundType, amount);
 }

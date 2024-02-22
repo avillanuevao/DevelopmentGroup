@@ -7,7 +7,7 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 #include <frontend/source/viewModel/ui/operations/WithdrawViewModel.hpp>
 
 namespace frontend

@@ -21,7 +21,7 @@ ShowMessageView::ShowMessageView(std::shared_ptr<model::visualization::language:
 
 void ShowMessageView::recievedSignal(viewModel::ui::visualization::signal::ShowMessageSignal signal)
 {
-    model::visualization::message::MessageInterface messageInterface = signal.getMessage();
+    model::visualization::message::aMessage messageInterface = signal.getMessage();
 
     QVariant message = QString::fromStdString(composeMessage(messageInterface));
     QVariant color = colorMessage(messageInterface.getMessageType());
@@ -64,23 +64,23 @@ void ShowMessageView::showMessageQML(const QVariant& message, const QVariant& co
     }
 }
 
-QColor ShowMessageView::colorMessage(model::visualization::message::MessageType messageType)
+QColor ShowMessageView::colorMessage(model::visualization::message::kMessageType messageType)
 {
     switch (messageType)
     {
-        case model::visualization::message::MessageType::SUCCESS:
+        case model::visualization::message::kMessageType::Success:
             return MESSAGE_SUCCESS;
             break;
-        case model::visualization::message::MessageType::FAILURE:
+        case model::visualization::message::kMessageType::Failure:
             return MESSAGE_FAILURE;
             break;
-        case model::visualization::message::MessageType::WARNING:
+        case model::visualization::message::kMessageType::Warning:
             return MESSAGE_WARNING;
             break;
     }
 }
 
-std::string ShowMessageView::composeMessage(model::visualization::message::MessageInterface messageInterface)
+std::string ShowMessageView::composeMessage(model::visualization::message::aMessage messageInterface)
 {
     std::string message;
 
@@ -91,18 +91,18 @@ std::string ShowMessageView::composeMessage(model::visualization::message::Messa
     return message;
 }
 
-std::string ShowMessageView::formatMessageType(model::visualization::message::MessageType messageType)
+std::string ShowMessageView::formatMessageType(model::visualization::message::kMessageType messageType)
 {
     switch (messageType)
     {
-        case model::visualization::message::MessageType::SUCCESS:
-            return m_language->literalToString(model::visualization::language::kLiterals::kSuccess);
+        case model::visualization::message::kMessageType::Success:
+            return m_language->literalToString(model::visualization::language::kLiterals::Success);
             break;
-        case model::visualization::message::MessageType::FAILURE:
-            return m_language->literalToString(model::visualization::language::kLiterals::kFailure);
+        case model::visualization::message::kMessageType::Failure:
+            return m_language->literalToString(model::visualization::language::kLiterals::Failure);
             break;
-        case model::visualization::message::MessageType::WARNING:
-            return m_language->literalToString(model::visualization::language::kLiterals::kWarning);
+        case model::visualization::message::kMessageType::Warning:
+            return m_language->literalToString(model::visualization::language::kLiterals::Warning);
             break;
     }
 }

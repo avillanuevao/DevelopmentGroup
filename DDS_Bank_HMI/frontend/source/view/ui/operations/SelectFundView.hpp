@@ -5,7 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <memory>
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 #include <frontend/source/viewModel/ui/operations/SelectFundViewModel.hpp>
 
 namespace frontend

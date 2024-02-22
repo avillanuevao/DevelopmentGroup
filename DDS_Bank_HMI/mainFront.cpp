@@ -51,10 +51,10 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    std::shared_ptr<model::operations::AllFunds> allFunds (new model::operations::AllFunds(model::operations::FundType::SAVINGS));
+    std::shared_ptr<model::operations::AllFunds> allFunds (new model::operations::AllFunds(model::operations::kFundType::Savings));
     std::shared_ptr<model::visualization::message::AllMessages> allMessage(new model::visualization::message::AllMessages());
     std::shared_ptr<model::visualization::language::AllLanguages> allLanguages(
-                new model::visualization::language::AllLanguages(model::visualization::language::kLanguagesAvailables::kEnglish));
+                new model::visualization::language::AllLanguages(model::visualization::language::kLanguagesAvailables::English));
 
     std::shared_ptr<DepositViewModel> depositViewModel (new DepositViewModel());
     std::shared_ptr<WithdrawViewModel> withdrawViewModel (new WithdrawViewModel());
@@ -75,8 +75,8 @@ int main(int argc, char *argv[])
     std::shared_ptr<TransferMoneyView> transferMoneyView(new TransferMoneyView(transferViewModel, engine));
     std::shared_ptr<ShowMessageView> showMessageView(new ShowMessageView(allLanguages, engine));
 
-    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundTypeSignal>::addSubscriber(visualizeFundIncludeView);
-    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundSignal>::addSubscriber(visualizeFundIncludeView);
+    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundType>::addSubscriber(visualizeFundIncludeView);
+    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFund>::addSubscriber(visualizeFundIncludeView);
 
     allMessage->addSubscriber(showMessageViewModel);
 

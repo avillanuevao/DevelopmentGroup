@@ -37,9 +37,9 @@ class ShowMessageView:
         void showMessageQML(const QVariant& message, const QVariant& color);
 
     private:
-        QColor colorMessage(model::visualization::message::MessageType messageType);
-        std::string composeMessage(model::visualization::message::MessageInterface messageInterface);
-        std::string formatMessageType(model::visualization::message::MessageType messageType);
+        QColor colorMessage(model::visualization::message::kMessageType messageType);
+        std::string composeMessage(model::visualization::message::aMessage messageInterface);
+        std::string formatMessageType(model::visualization::message::kMessageType messageType);
         std::string formatDate(std::time_t date);
 
         const QColor MESSAGE_SUCCESS = "#008F39";

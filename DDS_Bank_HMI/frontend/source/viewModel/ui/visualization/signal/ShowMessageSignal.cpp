@@ -11,13 +11,13 @@ namespace visualization
 namespace signal
 {
 
-ShowMessageSignal::ShowMessageSignal(model::visualization::message::MessageInterface message) :
+ShowMessageSignal::ShowMessageSignal(model::visualization::message::aMessage message) :
     m_message(message)
 {
 
 }
 
-const model::visualization::message::MessageInterface ShowMessageSignal::getMessage() const
+const model::visualization::message::aMessage ShowMessageSignal::getMessage() const
 {
     return m_message;
 }

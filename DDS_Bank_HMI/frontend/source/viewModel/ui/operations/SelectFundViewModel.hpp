@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <model/source/operations/FundType.hpp>
+#include <model/source/operations/kFundType.hpp>
 #include <utils/source/designPattern/SignalPublisher.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/SelectFundSignal.hpp>
 
@@ -22,7 +22,7 @@ class SelectFundViewModel :
     public:
         SelectFundViewModel();
 
-        void selectFund(model::operations::FundType fundType);
+        void selectFund(model::operations::kFundType fundType);
 };
 
 }

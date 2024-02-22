@@ -10,7 +10,7 @@ namespace visualization
 {
 
 MessageDDStoInterfaceAdapter::MessageDDStoInterfaceAdapter(Message message):
-    model::visualization::message::MessageInterface(createMessage(message))
+    model::visualization::message::aMessage(createMessage(message))
 {
 
 }
@@ -27,17 +27,17 @@ std::vector<model::visualization::language::kLiterals> MessageDDStoInterfaceAdap
     return literals;
 }
 
-model::visualization::message::MessageInterface MessageDDStoInterfaceAdapter::createMessage(Message message)
+model::visualization::message::aMessage MessageDDStoInterfaceAdapter::createMessage(Message message)
 {
     int ddsMessageType = static_cast<int>(message.message_type());
     std::vector<int> iLiterals (message.literals().begin(), message.literals().end());
 
     std::time_t date = message.date();
-    model::visualization::message::MessageType modelMessageType = model::visualization::message::MessageType::_from_index(ddsMessageType);
+    model::visualization::message::kMessageType modelMessageType = model::visualization::message::kMessageType::_from_index(ddsMessageType);
     std::vector<model::visualization::language::kLiterals> literals = toLiterals(iLiterals);
     std::vector<std::string> data(message.data().begin(), message.data().end());
 
-    return model::visualization::message::MessageInterface(date, modelMessageType, literals, data);
+    return model::visualization::message::aMessage(date, modelMessageType, literals, data);
 }
 
 }
