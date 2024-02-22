@@ -19,7 +19,7 @@ ShowMessageView::ShowMessageView(std::shared_ptr<model::visualization::language:
 
 }
 
-void ShowMessageView::recievedSignal(viewModel::ui::visualization::signal::ShowMessageSignal signal)
+void ShowMessageView::recievedSignal(viewModel::ui::visualization::signal::ShowMessage signal)
 {
     model::visualization::message::aMessage messageInterface = signal.getMessage();
 

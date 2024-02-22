@@ -8,7 +8,7 @@
 #include <QQmlComponent>
 
 #include <model/source/visualization/language/aLanguage.hpp>
-#include <frontend/source/viewModel/ui/visualization/signal/ShowMessageSignal.hpp>
+#include <frontend/source/viewModel/ui/visualization/signal/ShowMessage.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 
 namespace frontend
@@ -22,7 +22,7 @@ namespace visualization
 
 class ShowMessageView:
         public QObject,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::visualization::signal::ShowMessageSignal>
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::visualization::signal::ShowMessage>
 {
     Q_OBJECT
 
@@ -31,7 +31,7 @@ class ShowMessageView:
                 QQmlApplicationEngine &engine,
                 QObject *parent = nullptr);
 
-         void recievedSignal(frontend::viewModel::ui::visualization::signal::ShowMessageSignal signal) override;
+         void recievedSignal(frontend::viewModel::ui::visualization::signal::ShowMessage signal) override;
 
     private slots:
         void showMessageQML(const QVariant& message, const QVariant& color);

@@ -7,7 +7,7 @@
 #include <QQuickWindow>
 #include <QQmlComponent>
 
-#include <frontend/source/viewModel/ui/visualization/signal/VisualizeFundSignal.hpp>
+#include <frontend/source/viewModel/ui/visualization/signal/VisualizeFund.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 
 namespace frontend
@@ -21,7 +21,7 @@ namespace visualization
 
 class VisualizeFundView :
         public QObject,
-        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::visualization::signal::VisualizeFundSignal>
+        public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::visualization::signal::VisualizeFund>
 {
     Q_OBJECT
 
@@ -29,7 +29,7 @@ class VisualizeFundView :
         VisualizeFundView(QQmlApplicationEngine &engine,
                           QObject *parent = nullptr);
 
-        void recievedSignal(frontend::viewModel::ui::visualization::signal::VisualizeFundSignal signal);
+        void recievedSignal(frontend::viewModel::ui::visualization::signal::VisualizeFund signal);
 
     private slots:
         void updateAmountQML(const QVariant& newAmount);

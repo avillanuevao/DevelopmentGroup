@@ -19,8 +19,8 @@
 #include <viewModel/ui/operations/Withdraw.hpp>
 #include <viewModel/ui/operations/SelectFund.hpp>
 #include <viewModel/ui/operations/Transfer.hpp>
-#include <viewModel/ui/visualization/VisualizeFundViewModel.hpp>
-#include <viewModel/ui/visualization/ShowMessageViewModel.hpp>
+#include <viewModel/ui/visualization/VisualizeFund.hpp>
+#include <viewModel/ui/visualization/ShowMessage.hpp>
 #include <viewModel/dds/operations/DDSViewModel.hpp>
 #include <viewModel/dds/visualization/DDSViewModel.hpp>
 
@@ -38,7 +38,7 @@ using DDSViewModelOperations = frontend::viewModel::dds::operations::DDSViewMode
 using DDSViewModelVisualization = frontend::viewModel::dds::visualization::DDSViewModel;
 using SelectFundViewModel = frontend::viewModel::ui::operations::SelectFund;
 using VisualizeFundViewModel = frontend::viewModel::ui::visualization::VisualizeFundViewModel;
-using ShowMessageViewModel = frontend::viewModel::ui::visualization::ShowMessageViewModel;
+using ShowMessageViewModel = frontend::viewModel::ui::visualization::ShowMessage;
 using WithdrawViewModel = frontend::viewModel::ui::operations::Withdraw;
 using TransferViewModel = frontend::viewModel::ui::operations::Transfer;
 

@@ -5,7 +5,7 @@
 
 #include <model/source/operations/signal/UpdatedFundType.hpp>
 #include <model/source/operations/signal/UpdatedFund.hpp>
-#include <frontend/source/viewModel/ui/visualization/VisualizeFundViewModel.hpp>
+#include <frontend/source/viewModel/ui/visualization/VisualizeFund.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
 
 namespace frontend

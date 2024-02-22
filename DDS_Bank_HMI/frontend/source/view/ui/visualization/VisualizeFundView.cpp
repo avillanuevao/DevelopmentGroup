@@ -16,7 +16,7 @@ VisualizeFundView::VisualizeFundView(QQmlApplicationEngine &engine, QObject *par
 
 }
 
-void VisualizeFundView::recievedSignal(frontend::viewModel::ui::visualization::signal::VisualizeFundSignal signal)
+void VisualizeFundView::recievedSignal(frontend::viewModel::ui::visualization::signal::VisualizeFund signal)
 {
     QMetaObject::invokeMethod(this,
                               "updateAmountQML",
