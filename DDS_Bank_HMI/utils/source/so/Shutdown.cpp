@@ -4,6 +4,8 @@ namespace utils
 {
 namespace so
 {
-    bool shutdown_requested = false;
-}
-}
+
+bool shutdownRequested = false;
+
+}  // namespace so
+}  // namespace utils

@@ -1,31 +1,30 @@
 #ifndef UTILS_SO_SHUTDOWN_HPP
 #define UTILS_SO_SHUTDOWN_HPP
 
-#include <iostream>
 #include <csignal>
+#include <iostream>
 
-namespace  utils
+namespace utils
 {
 namespace so
 {
 
 // Catch control-C and tell application to shut down
-//TODO
-extern bool shutdown_requested;
+extern bool shutdownRequested;
 
-inline void stop_handler(int)
+inline void stopHandler(int)
 {
-//TODO
-    shutdown_requested = true;
-    std::cout << "preparing to shut down..." << std::endl;
+  shutdownRequested = true;
+  std::cout << "preparing to shut down..." << std::endl;
 }
 
-inline void setup_signal_handlers()
+inline void setupSignalHandlers()
 {
-    signal(SIGINT, stop_handler);
-    signal(SIGTERM, stop_handler);
+  signal(SIGINT, stopHandler);
+  signal(SIGTERM, stopHandler);
 }
 
-}
-}
-#endif // UTILS_SO_SHUTDOWN_HPP
+}  // namespace so
+}  // namespace utils
+
+#endif  // UTILS_SO_SHUTDOWN_HPP

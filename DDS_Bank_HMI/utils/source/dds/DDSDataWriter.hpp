@@ -4,42 +4,41 @@
 #include <memory>
 
 #include <dds/pub/ddspub.hpp>
-#include <rti/util/util.hpp>
 #include <rti/config/Logger.hpp>
+#include <rti/util/util.hpp>
 
-namespace utils {
-namespace dds {
+namespace utils
+{
+namespace dds
+{
 
 template <class TTopic>
 class DDSDataWriter
 {
-    public:
-        DDSDataWriter(std::shared_ptr<::dds::domain::DomainParticipant> participant,
-                      std::shared_ptr<::dds::pub::Publisher> publisher,
-                      const std::string& topicName) :
-            m_participant(participant),
-            m_publisher(publisher),
-            m_topicName(topicName),
-            m_topic(*m_participant, m_topicName),
-            m_dataWriter(*m_publisher, m_topic)
-        {
+  public:
+    DDSDataWriter(std::shared_ptr<::dds::domain::DomainParticipant> participant,
+                  std::shared_ptr<::dds::pub::Publisher> publisher,
+                  const std::string& topicName):
+      mParticipant(participant), mPublisher(publisher), mTopicName(topicName), mTopic(*mParticipant, mTopicName),
+      mDataWriter(*mPublisher, mTopic)
+    {
 
-        }
+    }
 
-        void write(TTopic sample)
-        {
-            m_dataWriter.write(sample);
-        }
+    void write(TTopic sample)
+    {
+      mDataWriter.write(sample);
+    }
 
-    private:
-        std::shared_ptr<::dds::domain::DomainParticipant> m_participant;
-        std::shared_ptr<::dds::pub::Publisher> m_publisher;
-        const std::string& m_topicName;
-        ::dds::topic::Topic<TTopic> m_topic;
-        ::dds::pub::DataWriter<TTopic> m_dataWriter;
+  private:
+    std::shared_ptr<::dds::domain::DomainParticipant> mParticipant;
+    std::shared_ptr<::dds::pub::Publisher> mPublisher;
+    const std::string& mTopicName;
+    ::dds::topic::Topic<TTopic> mTopic;
+    ::dds::pub::DataWriter<TTopic> mDataWriter;
 };
 
-}
-}
+}  // namespace dds
+}  // namespace utils
 
-#endif // UTILS_DDS_DDSDATAWRITER_HPP
+#endif  // UTILS_DDS_DDSDATAWRITER_HPP
