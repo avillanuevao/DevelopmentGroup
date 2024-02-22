@@ -16,8 +16,8 @@ namespace visualization
 {
 
 class ShowMessage :
-    public utils::designPattern::SignalSubscriber<model::visualization::message::signal::ShowMessage>,
-    public utils::designPattern::SignalPublisher<frontend::viewModel::ui::visualization::signal::ShowMessage>
+    public utils::designPattern::SignalPublisher<frontend::viewModel::ui::visualization::signal::ShowMessage>,
+    public utils::designPattern::SignalSubscriber<model::visualization::message::signal::ShowMessage>
 {
   public:
     ShowMessage();

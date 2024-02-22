@@ -5,13 +5,13 @@
 
 #include <dds/pub/ddspub.hpp>
 #include <dds/sub/ddssub.hpp>
-#include <rti/util/util.hpp>
 #include <rti/config/Logger.hpp>
+#include <rti/util/util.hpp>
 
 #include <idl/bank.hpp>
-#include <utils/source/dds/DDSView.hpp>
-#include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/dds/DDSDataReader.hpp>
+#include <utils/source/dds/DDSDataWriter.hpp>
+#include <utils/source/dds/DDSView.hpp>
 
 namespace frontend
 {
@@ -23,36 +23,35 @@ namespace operations
 {
 
 class FrontDDSViewFactory :
-        public utils::dds::DDSView
+    public utils::dds::DDSView
 
 {
-    public:
-        FrontDDSViewFactory(unsigned int domainId,
-                            unsigned int sampleCount);
+  public:
+    FrontDDSViewFactory(unsigned int domainId, unsigned int sampleCount);
 
-    protected:
-        virtual void receivedTopicSelectFundAck(SelectFundAck selectFundAck) = 0;
-        virtual void receivedTopicFundData(FundData fundData) = 0;
+  protected:
+    virtual void receivedTopicSelectFundAck(SelectFundAck selectFundAck) = 0;
+    virtual void receivedTopicFundData(FundData fundData) = 0;
 
-        utils::dds::DDSDataWriter<SelectFund> m_writerSelectFund;
-        utils::dds::DDSDataWriter<Deposit> m_writerDeposit;
-        utils::dds::DDSDataWriter<Withdraw> m_writerWithdraw;
-        utils::dds::DDSDataWriter<Transaction> m_writerTransfer;
-        utils::dds::DDSDataReader<SelectFundAck> m_readerSelectFundAck;
-        utils::dds::DDSDataReader<FundData> m_readerFundData;
+    utils::dds::DDSDataWriter<SelectFund> mWriterSelectFund;
+    utils::dds::DDSDataWriter<Deposit> mWriterDeposit;
+    utils::dds::DDSDataWriter<Withdraw> mWriterWithdraw;
+    utils::dds::DDSDataWriter<Transaction> mWriterTransfer;
+    utils::dds::DDSDataReader<SelectFundAck> mReaderSelectFundAck;
+    utils::dds::DDSDataReader<FundData> mReaderFundData;
 
-    private:
-        void readingTopicSelectFundAck();
-        void readingTopicFundData();
-        std::thread initReadingTopicThread(void (frontend::view::dds::operations::FrontDDSViewFactory::*function)());
+  private:
+    void readingTopicFundData();
+    void readingTopicSelectFundAck();
+    std::thread initReadingTopicThread(
+        void (frontend::view::dds::operations::FrontDDSViewFactory::*function)());
 
 
 };
 
-}
-}
-}
-}
+}  // namespace operations
+}  // namespace dds
+}  // namespace view
+}  // namespace frontend
 
-
-#endif // FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEWFACTORY_HPP
+#endif  // FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEWFACTORY_HPP

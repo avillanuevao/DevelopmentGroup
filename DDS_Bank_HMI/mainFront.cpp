@@ -14,7 +14,7 @@
 #include <view/ui/visualization/ShowMessageView.hpp>
 #include <view/dds/operations/FrontDDSView.hpp>
 #include <view/dds/visualization/FrontDDSView.hpp>
-#include <view/includeView/visualization/VisualizeFundIncludeView.hpp>
+#include <view/includeView/visualization/VisualizeFund.hpp>
 #include <viewModel/ui/operations/Deposit.hpp>
 #include <viewModel/ui/operations/Withdraw.hpp>
 #include <viewModel/ui/operations/SelectFund.hpp>
@@ -31,13 +31,13 @@ using VisualizeFundView = frontend::view::ui::visualization::VisualizeFundView;
 using ShowMessageView = frontend::view::ui::visualization::ShowMessageView;
 using SelectFundView = frontend::view::ui::operations::SelectFundView;
 using TransferMoneyView = frontend::view::ui::operations::TransferMoneyView;
-using VisualizeFundIncludeView = frontend::view::includeView::visualization::VisualizeFundIncludeView;
+using VisualizeFundIncludeView = frontend::view::includeView::visualization::VisualizeFund;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoneyView;
 using DepositViewModel = frontend::viewModel::ui::operations::Deposit;
 using DDSViewModelOperations = frontend::viewModel::dds::operations::DDSViewModel;
 using DDSViewModelVisualization = frontend::viewModel::dds::visualization::DDSViewModel;
 using SelectFundViewModel = frontend::viewModel::ui::operations::SelectFund;
-using VisualizeFundViewModel = frontend::viewModel::ui::visualization::VisualizeFundViewModel;
+using VisualizeFundViewModel = frontend::viewModel::ui::visualization::VisualizeFund;
 using ShowMessageViewModel = frontend::viewModel::ui::visualization::ShowMessage;
 using WithdrawViewModel = frontend::viewModel::ui::operations::Withdraw;
 using TransferViewModel = frontend::viewModel::ui::operations::Transfer;

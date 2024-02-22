@@ -15,11 +15,11 @@ namespace ui
 namespace visualization
 {
 
-class VisualizeFundViewModel :
+class VisualizeFund :
     public utils::designPattern::SignalPublisher<frontend::viewModel::ui::visualization::signal::VisualizeFund>
 {
   public:
-    VisualizeFundViewModel(std::shared_ptr<model::operations::iFundGetParameters> fund);
+    VisualizeFund(std::shared_ptr<model::operations::iFundGetParameters> fund);
 
     void updateView();
     void updateView(model::operations::kFundType fundType, int amount);
