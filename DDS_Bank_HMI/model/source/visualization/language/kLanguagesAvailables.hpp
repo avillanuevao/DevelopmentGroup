@@ -11,11 +11,11 @@ namespace language
 {
 
 BETTER_ENUM(kLanguagesAvailables, int,
-            kEnglish,
-            kSpanish)
+            English,
+            Spanish)
 
-}
-}
-}
+}  // namespace language
+}  // namespace visualization
+}  // namespace model
 
 #endif // MODEL_VISUALIZATION_LANGUAGE_KLANGUAGESAVAILABLES_HPP

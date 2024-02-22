@@ -15,26 +15,24 @@ namespace language
 
 class aLanguage
 {
-    public:
-        aLanguage();
+  public:
+    aLanguage();
 
-        virtual std::string literalToString(model::visualization::language::kLiterals literal);
-        virtual std::string literalToString(std::vector<model::visualization::language::kLiterals> literals,
-                                            std::vector<std::string> data = {});
+    virtual std::string literalToString(model::visualization::language::kLiterals literal);
+    virtual std::string literalToString(std::vector<model::visualization::language::kLiterals> literals,
+                                        std::vector<std::string> data = {});
 
+  protected:
+    std::map<model::visualization::language::kLiterals, std::string> mLiterals;
 
-    protected:
-        std::map<model::visualization::language::kLiterals, std::string> m_literals;
+  private:
+    void initValues();
 
-    private:
-        void initValues();
-
-        std::map<model::visualization::language::kLiterals, size_t> m_values;
-
+    std::map<model::visualization::language::kLiterals, size_t> mValues;
 };
 
-}
-}
-}
+}  // namespace language
+}  // namespace visualization
+}  // namespace model
 
 #endif // MODEL_VISUALIZATION_LANGUAGE_ALANGUAGE_HPP

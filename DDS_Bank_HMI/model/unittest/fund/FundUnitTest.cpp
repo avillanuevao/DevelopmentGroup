@@ -8,7 +8,7 @@ const int INITAMOUNT = 1000;
 const int AMOUNT01 = 500;
 const int AMOUNTNEGATIVE = -2000;
 
-class FundUnitTest : public testing::TestWithParam<model::operations::FundType>
+class FundUnitTest : public testing::TestWithParam<model::operations::kFundType>
 {
     public:
         FundUnitTest();
@@ -22,7 +22,7 @@ class FundUnitTest : public testing::TestWithParam<model::operations::FundType>
 
 };
 
-INSTANTIATE_TEST_CASE_P(FundTypes, FundUnitTest, testing::Values(model::operations::FundType::SAVINGS, model::operations::FundType::HOUSING));
+INSTANTIATE_TEST_CASE_P(FundTypes, FundUnitTest, testing::Values(model::operations::kFundType::SAVINGS, model::operations::kFundType::HOUSING));
 
 FundUnitTest::FundUnitTest()
 {
@@ -47,8 +47,8 @@ void FundUnitTest::TearDown()
 
 TEST_P(FundUnitTest, getFundType)
 {
-    model::operations::FundType fundTypeExpected = GetParam();
-    model::operations::FundType fundType = m_fund->getFundType();
+    model::operations::kFundType fundTypeExpected = GetParam();
+    model::operations::kFundType fundType = m_fund->getFundType();
 
     ASSERT_EQ(fundTypeExpected, fundType);
 }

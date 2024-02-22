@@ -12,13 +12,15 @@ AllMessages::AllMessages()
 
 }
 
-void AllMessages::addMessage(MessageInterface newMessage)
+void AllMessages::addMessage(aMessage newMessage)
 {
-    m_allMessages.push_back(newMessage);
+  mAllMessages.push_back(newMessage);
 
-    notifySubscribers(newMessage);
+  model::visualization::message::signal::ShowMessage signal(newMessage);
+
+  notifySubscribers(signal);
 }
 
-}
-}
-}
+}  // namespace message
+}  // namespace visualization
+}  // namespace model

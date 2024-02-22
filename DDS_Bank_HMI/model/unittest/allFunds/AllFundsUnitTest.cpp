@@ -12,7 +12,7 @@ const int AMOUNTBIG = 10000;
 const int AMOUNTNEGATIVE = -2000;
 
 class AllFundsUnitTest :
-        public testing::TestWithParam<std::tuple<model::operations::FundType, model::operations::FundType>>
+        public testing::TestWithParam<std::tuple<model::operations::kFundType, model::operations::kFundType>>
 {
     public:
         AllFundsUnitTest();
@@ -22,13 +22,13 @@ class AllFundsUnitTest :
         virtual void TearDown() override;
 
         std::shared_ptr<model::operations::AllFunds> m_allFunds;
-        model::operations::FundType m_actualFundType;
-        model::operations::FundType m_otherFundType;
+        model::operations::kFundType m_actualFundType;
+        model::operations::kFundType m_otherFundType;
 };
 
 INSTANTIATE_TEST_CASE_P(FundTypesOK, AllFundsUnitTest, testing::Values(
-                            std::make_tuple(model::operations::FundType::SAVINGS, model::operations::FundType::HOUSING),
-                            std::make_tuple(model::operations::FundType::HOUSING, model::operations::FundType::SAVINGS)));
+                            std::make_tuple(model::operations::kFundType::SAVINGS, model::operations::kFundType::HOUSING),
+                            std::make_tuple(model::operations::kFundType::HOUSING, model::operations::kFundType::SAVINGS)));
 
 AllFundsUnitTest::AllFundsUnitTest():
     m_actualFundType(std::get<0>(GetParam())),

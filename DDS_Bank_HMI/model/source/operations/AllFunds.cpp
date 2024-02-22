@@ -5,180 +5,190 @@ namespace model
 namespace operations
 {
 
-AllFunds::AllFunds(FundType actualFund):
-    m_actualFund(actualFund)
+AllFunds::AllFunds(model::operations::kFundType actualFund) :
+  mActualFund(actualFund)
 {
-    //TODO: Eliminar la inicialización a 0
-    initFund(model::operations::FundType::SAVINGS);
-    initFund(model::operations::FundType::HOUSING);
+  initFund(model::operations::kFundType::Savings);
+  initFund(model::operations::kFundType::Housing);
 }
 
 void AllFunds::increaseAmount(int amount)
 {
-    try
-    {
-        getActualFund()->increaseAmount(amount);
-    }  catch (const std::logic_error& e)
-    {
-        throw e;
-    }
+  try
+  {
+    getActualFund()->increaseAmount(amount);
+  }
+  catch (const std::logic_error& e)
+  {
+    throw e;
+  }
 
-    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
+  notifySubscribersFund(mActualFund, getActualFund()->getAmount());
 }
 
 void AllFunds::decreaseAmount(int amountToDecrease)
 {
-    int amountActualFund = getAmount();
-    int amountSavingsFund = getAmount(model::operations::FundType::SAVINGS);
-    int amountRest = amountToDecrease - amountActualFund;
-    bool isEnoughAmountInActualFund = (amountActualFund - amountToDecrease) >= 0;
-    bool isEnoughAmountInSavingsFund = (amountSavingsFund - amountRest) >= 0;
-    bool isActualFundSavingsFund = m_actualFund == +model::operations::FundType::SAVINGS;
+  int amountActualFund = getAmount();
+  int amountSavingsFund = getAmount(model::operations::kFundType::Savings);
+  int amountRest = amountToDecrease - amountActualFund;
+  bool isEnoughAmountInActualFund = (amountActualFund - amountToDecrease) >= 0;
+  bool isEnoughAmountInSavingsFund = (amountSavingsFund - amountRest) >= 0;
+  bool isActualFundSavingsFund = mActualFund == +model::operations::kFundType::Savings;
 
-    try
+  try
+  {
+    if(isEnoughAmountInActualFund)
     {
-        if(isEnoughAmountInActualFund)
-        {
-            getActualFund()->decreaseAmount(amountToDecrease);
-        }
-        else if(isEnoughAmountInSavingsFund && !isActualFundSavingsFund)
-        {
-            getActualFund()->decreaseAmount(amountActualFund);
-            getFund(model::operations::FundType::SAVINGS)->decreaseAmount(amountRest);
-
-            notifySubscribersFund(model::operations::FundType::SAVINGS, getFund(model::operations::FundType::SAVINGS)->getAmount());
-        }
-        else
-        {
-            throw std::logic_error("Amount in SAVINGS fund not enough");
-        }
+      getActualFund()->decreaseAmount(amountToDecrease);
     }
-    catch (const std::logic_error& e)
+    else if(isEnoughAmountInSavingsFund && !isActualFundSavingsFund)
     {
-        throw e;
-    }
+      getActualFund()->decreaseAmount(amountActualFund);
+      getFund(model::operations::kFundType::Savings)->decreaseAmount(amountRest);
 
-    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
+      notifySubscribersFund(model::operations::kFundType::Savings,
+                            getFund(model::operations::kFundType::Savings)->getAmount());
+    }
+    else
+    {
+      throw std::logic_error("Amount in SAVINGS fund not enough");
+    }
+  }
+  catch (const std::logic_error& e)
+  {
+    throw e;
+  }
+
+  notifySubscribersFund(mActualFund, getActualFund()->getAmount());
 }
 
-void AllFunds::transferAmount(FundType destinationFundType, int amount)
+void AllFunds::transferAmount(model::operations::kFundType destinationFundType, int amount)
 {
-    int amountFundTypeOrigin = getActualFund()->getAmount();
+  int amountFundTypeOrigin = getActualFund()->getAmount();
 
-    if(m_actualFund == destinationFundType)
-    {
-        throw std::logic_error("Fund destination cant be the same as fund origin");
-    }
+  if(mActualFund == destinationFundType)
+  {
+    throw std::logic_error("Fund destination cant be the same as fund origin");
+  }
 
-    if(!(amountFundTypeOrigin >= amount))
-    {
-        throw std::logic_error("Amount to transfer cant be bigger than the amount in the fund");
-    }
+  if(!(amountFundTypeOrigin >= amount))
+  {
+    throw std::logic_error("Amount to transfer cant be bigger than the amount in the fund");
+  }
 
-    try
-    {
-        getActualFund()->decreaseAmount(amount);
-    }  catch (const std::logic_error& e)
-    {
-        throw e;
-    }
+  try
+  {
+    getActualFund()->decreaseAmount(amount);
+  }
+  catch (const std::logic_error& e)
+  {
+    throw e;
+  }
 
-    try
-    {
-        getFund(destinationFundType)->increaseAmount(amount);
-    }  catch (const std::logic_error& e)
-    {
-        throw e;
-    }
+  try
+  {
+    getFund(destinationFundType)->increaseAmount(amount);
+  }
+  catch (const std::logic_error& e)
+  {
+    throw e;
+  }
 
-    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
-    notifySubscribersFund(destinationFundType, getFund(destinationFundType)->getAmount());
+  notifySubscribersFund(mActualFund, getActualFund()->getAmount());
+  notifySubscribersFund(destinationFundType, getFund(destinationFundType)->getAmount());
 
 }
 
 int AllFunds::getAmount() const
 {
-    return getActualFund()->getAmount();
+  return getActualFund()->getAmount();
 }
 
-int AllFunds::getAmount(FundType fundType) const
+int AllFunds::getAmount(model::operations::kFundType fundType) const
 {
-    return getFund(fundType)->getAmount();
+  return getFund(fundType)->getAmount();
 }
 
-FundType AllFunds::getFundType() const
+model::operations::kFundType AllFunds::getFundType() const
 {
-    return m_actualFund;
+  return mActualFund;
 }
 
 void AllFunds::setAmount(int newAmount)
 {
-    try
-    {
-        getActualFund()->setAmount(newAmount);
-    }  catch (const std::logic_error& e)
-    {
-        throw e;
-    }
-    notifySubscribersFund(m_actualFund, getActualFund()->getAmount());
+  try
+  {
+    getActualFund()->setAmount(newAmount);
+  }
+  catch (const std::logic_error& e)
+  {
+    throw e;
+  }
+
+  notifySubscribersFund(mActualFund, getActualFund()->getAmount());
 }
 
-void AllFunds::setAmount(FundType fundType, int amount)
+void AllFunds::setAmount(model::operations::kFundType fundType, int amount)
 {
-    try
-    {
-        getFund(fundType)->setAmount(amount);
-    }  catch (const std::logic_error& e)
-    {
-        throw e;
-    }
+  try
+  {
+    getFund(fundType)->setAmount(amount);
+  }
+  catch (const std::logic_error& e)
+  {
+    throw e;
+  }
 
-    notifySubscribersFund(fundType, getFund(fundType)->getAmount());
+  notifySubscribersFund(fundType, getFund(fundType)->getAmount());
 }
 
-void AllFunds::setFundType(FundType fundType)
+void AllFunds::setFundType(model::operations::kFundType fundType)
 {
-    m_actualFund = fundType;
+  mActualFund = fundType;
 
-    notifySubscribersFundType(m_actualFund);
+  notifySubscribersFundType(mActualFund);
 }
 
-std::shared_ptr<model::operations::FundInterface> model::operations::AllFunds::getFund(model::operations::FundType fundType)
+//std::shared_ptr<model::operations::iFund> model::operations::AllFunds::getFund(model::operations::kFundType fundType)
+//{
+//  return m_funds.find(fundType)->second;
+//}
+
+std::shared_ptr<model::operations::iFund> AllFunds::getFund(model::operations::kFundType fundType) const
 {
-    return m_funds.find(fundType)->second;
+  return mFunds.find(fundType)->second;
 }
 
-std::shared_ptr<model::operations::FundInterface> model::operations::AllFunds::getFund(model::operations::FundType fundType) const
+//std::shared_ptr<iFund> AllFunds::getActualFund()
+//{
+//  return getFund(mActualFund);
+//}
+
+std::shared_ptr<iFund> AllFunds::getActualFund() const
 {
-    return m_funds.find(fundType)->second;
+  return getFund(mActualFund);
 }
 
-std::shared_ptr<FundInterface> AllFunds::getActualFund()
+void AllFunds::initFund(model::operations::kFundType fundType)
 {
-    return getFund(m_actualFund);
+  mFunds[fundType] = std::make_shared<model::operations::Fund>(model::operations::Fund(fundType, 0));
 }
 
-std::shared_ptr<FundInterface> AllFunds::getActualFund() const
+void AllFunds::notifySubscribersFund(model::operations::kFundType fundType, int amount)
 {
-    return getFund(m_actualFund);
+  model::operations::signal::UpdatedFund signalUpdatedModel(fundType, amount);
+
+  utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFund>::notifySubscribers(
+        signalUpdatedModel);
 }
 
-void AllFunds::initFund(model::operations::FundType fundType)
+void AllFunds::notifySubscribersFundType(model::operations::kFundType fundType)
 {
-    m_funds[fundType] = std::make_shared<model::operations::Fund>(model::operations::Fund(fundType, 0));
+  model::operations::signal::UpdatedFundType signalUpdatedFundType(fundType);
+
+  utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundType>::notifySubscribers(
+        signalUpdatedFundType);
 }
 
-void AllFunds::notifySubscribersFund(FundType fundType, int amount)
-{
-    model::operations::signal::UpdatedFundSignal signalUpdatedModel(fundType, amount);
-    utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundSignal>::notifySubscribers(signalUpdatedModel);
-}
-
-void AllFunds::notifySubscribersFundType(FundType fundType)
-{
-    model::operations::signal::UpdatedFundTypeSignal signalUpdatedFundType(fundType);
-    utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundTypeSignal>::notifySubscribers(signalUpdatedFundType);
-}
-
-}
-}
+}  // namespace operations
+}  // namespace model

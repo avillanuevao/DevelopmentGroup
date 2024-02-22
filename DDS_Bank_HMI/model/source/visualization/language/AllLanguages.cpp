@@ -7,21 +7,21 @@ namespace visualization
 namespace language
 {
 
-AllLanguages::AllLanguages(model::visualization::language::kLanguagesAvailables actualLanguage):
-    model::visualization::language::aAllLanguages(actualLanguage)
+AllLanguages::AllLanguages(model::visualization::language::kLanguagesAvailables actualLanguage) :
+  model::visualization::language::aAllLanguages(actualLanguage)
 {
-    initAllLanguages();
+  initAllLanguages();
 }
 
 void AllLanguages::initAllLanguages()
 {
-    m_languages[model::visualization::language::kLanguagesAvailables::kSpanish] =
-            std::make_shared<model::visualization::language::LanguageSpanish>();
+  mLanguages[model::visualization::language::kLanguagesAvailables::Spanish] =
+      std::make_shared<model::visualization::language::LanguageSpanish>();
 
-    m_languages[model::visualization::language::kLanguagesAvailables::kEnglish] =
-            std::make_shared<model::visualization::language::LanguageEnglish>();
+  mLanguages[model::visualization::language::kLanguagesAvailables::English] =
+      std::make_shared<model::visualization::language::LanguageEnglish>();
 }
 
-}
-}
-}
+}  // namespace language
+}  // namespace visualization
+}  // namespace model

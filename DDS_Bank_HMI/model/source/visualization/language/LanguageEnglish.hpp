@@ -10,18 +10,18 @@ namespace visualization
 namespace language
 {
 
-class LanguageEnglish:
-        public model::visualization::language::aLanguage
+class LanguageEnglish :
+    public model::visualization::language::aLanguage
 {
-    public:
-        LanguageEnglish();
+  public:
+    LanguageEnglish();
 
-    private:
-        void initLiterals();
+  private:
+    void initLiterals();
 };
 
-}
-}
-}
+}  // namespace language
+}  // namespace visualization
+}  // namespace model
 
 #endif // MODEL_VISUALIZATION_LANGUAGE_ENGLISH_HPP

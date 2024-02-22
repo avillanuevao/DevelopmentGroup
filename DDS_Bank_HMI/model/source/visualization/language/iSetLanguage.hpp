@@ -12,14 +12,14 @@ namespace language
 
 class iSetLanguage
 {
-    public:
-        iSetLanguage() = default;
+  public:
+    iSetLanguage() = default;
 
-        virtual void setLanguage(model::visualization::language::kLanguagesAvailables newLanguage) = 0;
+    virtual void setLanguage(model::visualization::language::kLanguagesAvailables newLanguage) = 0;
 };
 
-}
-}
-}
+}  // namespace language
+}  // namespace visualization
+}  // namespace model
 
 #endif // MODEL_VISUALIZATION_LANGUAGE_ISETLANGUAGE_HPP
