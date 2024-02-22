@@ -20,7 +20,7 @@ using ShowMessageIncludeView = backend::view::includeView::visualization::ShowMe
 
 int main(int argc, char *argv[])
 {
-    std::shared_ptr<model::operations::AllFunds> allFunds (new model::operations::AllFunds(model::operations::FundType::SAVINGS));
+    std::shared_ptr<model::operations::AllFunds> allFunds (new model::operations::AllFunds(model::operations::kFundType::Savings));
     std::shared_ptr<model::visualization::message::AllMessages> allMessages(new model::visualization::message::AllMessages());
 
     std::shared_ptr<SelectFundController> selectFundController(new SelectFundController(allFunds));
@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
                 new backend::view::dds::visualization::BackDDSView(0, 2));
     std::shared_ptr<ShowMessageIncludeView> showMessageIncludeView(new ShowMessageIncludeView(showMessageController));
 
-    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundSignal>::addSubscriber(backDDSViewOperations);
-    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundTypeSignal>::addSubscriber(backDDSViewOperations);
+    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFund>::addSubscriber(backDDSViewOperations);
+    allFunds->utils::designPattern::SignalPublisher<model::operations::signal::UpdatedFundType>::addSubscriber(backDDSViewOperations);
 
     depositMoneyController->addSubscriber(showMessageIncludeView);
     withdrawMoneyController->addSubscriber(showMessageIncludeView);

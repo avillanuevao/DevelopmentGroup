@@ -16,7 +16,7 @@ BackDDSView::BackDDSView(unsigned int domainId, unsigned int sampleCount) :
 
 }
 
-void BackDDSView::recievedSignal(model::visualization::message::signal::ShowMessageSignal signal)
+void BackDDSView::recievedSignal(model::visualization::message::signal::ShowMessage signal)
 {
     Message sampleMessage = toMessageTopic(signal);
 
@@ -45,9 +45,9 @@ std::vector<int> BackDDSView::toIntVector(std::vector<model::visualization::lang
     return iLiterals;
 }
 
-Message BackDDSView::toMessageTopic(model::visualization::message::signal::ShowMessageSignal signal)
+Message BackDDSView::toMessageTopic(model::visualization::message::signal::ShowMessage signal)
 {
-    model::visualization::message::MessageInterface message = signal.getMessage();
+    model::visualization::message::aMessage message = signal.getMessage();
     std::vector<model::visualization::language::kLiterals> literals = message.getLiterals();
     std::vector<std::string> data = message.getData();
 

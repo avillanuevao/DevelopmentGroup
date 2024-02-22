@@ -14,8 +14,8 @@
 #include <utils/source/dds/DDSDataReader.hpp>
 #include <utils/source/dds/DDSDataWriter.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
-#include <model/source/operations/signal/UpdatedFundSignal.hpp>
-#include <model/source/operations/signal/UpdatedFundTypeSignal.hpp>
+#include <model/source/operations/signal/UpdatedFund.hpp>
+#include <model/source/operations/signal/UpdatedFundType.hpp>
 #include <backend/source/controller/operations/SelectFundController.hpp>
 #include <backend/source/controller/operations/DepositMoneyController.hpp>
 #include <backend/source/controller/operations/WithdrawMoneyController.hpp>
@@ -33,8 +33,8 @@ namespace operations
 
 class BackDDSView :
         public backend::view::dds::operations::BackDDSViewFactory,
-        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundSignal>,
-        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundTypeSignal>
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFund>,
+        public utils::designPattern::SignalSubscriber<model::operations::signal::UpdatedFundType>
 {
     public:
         BackDDSView(unsigned int domainId,
@@ -44,8 +44,8 @@ class BackDDSView :
                     std::shared_ptr<backend::controller::operations::WithdrawMoneyController> withdrawMoneyController,
                     std::shared_ptr<backend::controller::operations::TransferMoneyController> transferMoneyController);
 
-        void recievedSignal(model::operations::signal::UpdatedFundSignal signal);
-        void recievedSignal(model::operations::signal::UpdatedFundTypeSignal signal);
+        void recievedSignal(model::operations::signal::UpdatedFund signal);
+        void recievedSignal(model::operations::signal::UpdatedFundType signal);
 
     private:
         void writeFundData(const FundType &fundType, int16_t amount);

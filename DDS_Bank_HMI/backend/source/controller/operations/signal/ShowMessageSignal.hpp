@@ -3,9 +3,9 @@
 
 #include <chrono>
 
-#include <model/source/visualization/message/MessageType.hpp>
-#include <model/source/visualization/message/OperationType.hpp>
-#include <model/source/operations/FundType.hpp>
+#include <model/source/visualization/message/kMessageType.hpp>
+#include <model/source/visualization/message/kOperationType.hpp>
+#include <model/source/operations/kFundType.hpp>
 
 namespace backend
 {
@@ -20,27 +20,27 @@ class ShowMessageSignal
 {
     public:
         ShowMessageSignal(std::time_t date,
-                          model::visualization::message::MessageType messageType,
-                          model::visualization::message::OperationType operationType,
+                          model::visualization::message::kMessageType messageType,
+                          model::visualization::message::kOperationType operationType,
                           int amount,
-                          model::operations::FundType originFundType,
-                          model::operations::FundType destinationFundType = model::operations::FundType::NONE);
+                          model::operations::kFundType originFundType,
+                          model::operations::kFundType destinationFundType = model::operations::kFundType::None);
 
         std::time_t getDate() const;
-        const model::visualization::message::MessageType &getMessageType() const;
+        const model::visualization::message::kMessageType &getMessageType() const;
         int getAmount() const;
-        const model::operations::FundType &getOriginFundType() const;
-        const model::operations::FundType &getDestinationFundType() const;
+        const model::operations::kFundType &getOriginFundType() const;
+        const model::operations::kFundType &getDestinationFundType() const;
 
-        const model::visualization::message::OperationType &getOperationType() const;
+        const model::visualization::message::kOperationType &getOperationType() const;
 
 private:
         std::time_t m_date;
-        model::visualization::message::MessageType m_messageType;
-        model::visualization::message::OperationType m_operationType;
+        model::visualization::message::kMessageType m_messageType;
+        model::visualization::message::kOperationType m_operationType;
         int m_amount;
-        model::operations::FundType m_originFundType;
-        model::operations::FundType m_destinationFundType;
+        model::operations::kFundType m_originFundType;
+        model::operations::kFundType m_destinationFundType;
 
 };
 

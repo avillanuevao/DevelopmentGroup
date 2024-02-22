@@ -5,8 +5,8 @@
 #include <memory>
 #include <limits>
 
-#include <model/source/operations/FundIncreaseAmountInterface.hpp>
-#include <model/source/operations/FundGetParametersInterface.hpp>
+#include <model/source/operations/iFundIncreaseAmount.hpp>
+#include <model/source/operations/iFundGetParameters.hpp>
 
 #include <utils/source/designPattern/SignalPublisher.hpp>
 #include <backend/source/controller/operations/signal/ShowMessageSignal.hpp>
@@ -22,16 +22,16 @@ class DepositMoneyController :
         public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessageSignal>
 {
     public:
-        DepositMoneyController(std::shared_ptr<model::operations::FundIncreaseAmountInterface> fundIncreaseAmount,
-                               std::shared_ptr<model::operations::FundGetParametersInterface> fundGetParameter);
+        DepositMoneyController(std::shared_ptr<model::operations::iFundIncreaseAmount> fundIncreaseAmount,
+                               std::shared_ptr<model::operations::iFundGetParameters> fundGetParameter);
 
         void deposit(int amount);
 
     private:
-        void sendShowMessageSignal(model::visualization::message::MessageType messageType, int amount);
+        void sendShowMessageSignal(model::visualization::message::kMessageType messageType, int amount);
 
-        std::shared_ptr<model::operations::FundIncreaseAmountInterface> m_fundIncreaseAmount;
-        std::shared_ptr<model::operations::FundGetParametersInterface> m_fundGetParameter;
+        std::shared_ptr<model::operations::iFundIncreaseAmount> m_fundIncreaseAmount;
+        std::shared_ptr<model::operations::iFundGetParameters> m_fundGetParameter;
 };
 
 }

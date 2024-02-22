@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include <model/source/operations/FundType.hpp>
-#include <model/source/operations/FundSetParameterInterface.hpp>
+#include <model/source/operations/kFundType.hpp>
+#include <model/source/operations/iFundSetParameter.hpp>
 
 namespace backend
 {
@@ -16,12 +16,12 @@ namespace operations
 class SelectFundController
 {
     public:
-        SelectFundController(std::shared_ptr<model::operations::FundSetParameterInterface> fund);
+        SelectFundController(std::shared_ptr<model::operations::iFundSetParameter> fund);
 
-        void selectFundType(model::operations::FundType fundType);
+        void selectFundType(model::operations::kFundType fundType);
 
     private:
-        std::shared_ptr<model::operations::FundSetParameterInterface> m_fund;
+        std::shared_ptr<model::operations::iFundSetParameter> m_fund;
 };
 
 }

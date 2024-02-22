@@ -7,13 +7,13 @@ namespace controller
 namespace operations
 {
 
-SelectFundController::SelectFundController(std::shared_ptr<model::operations::FundSetParameterInterface> fund):
+SelectFundController::SelectFundController(std::shared_ptr<model::operations::iFundSetParameter> fund):
     m_fund(fund)
 {
 
 }
 
-void SelectFundController::selectFundType(model::operations::FundType fundType)
+void SelectFundController::selectFundType(model::operations::kFundType fundType)
 {
     m_fund->setFundType(fundType);
 }

@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include <model/source/operations/FundDecreaseAmountInterface.hpp>
-#include <model/source/operations/FundGetParametersInterface.hpp>
+#include <model/source/operations/iFundDecreaseAmount.hpp>
+#include <model/source/operations/iFundGetParameters.hpp>
 
 #include <utils/source/designPattern/SignalPublisher.hpp>
 #include <backend/source/controller/operations/signal/ShowMessageSignal.hpp>
@@ -21,16 +21,16 @@ class WithdrawMoneyController:
         public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessageSignal>
 {
     public:
-        WithdrawMoneyController(std::shared_ptr<model::operations::FundDecreaseAmountInterface> fundDecrease,
-                                std::shared_ptr<model::operations::FundGetParametersInterface> fundGetParameter);
+        WithdrawMoneyController(std::shared_ptr<model::operations::iFundDecreaseAmount> fundDecrease,
+                                std::shared_ptr<model::operations::iFundGetParameters> fundGetParameter);
 
         void withdraw(int amount);
 
     private:
-        void sendShowMessageSignal(model::visualization::message::MessageType messageType, int amount);
+        void sendShowMessageSignal(model::visualization::message::kMessageType messageType, int amount);
 
-        std::shared_ptr<model::operations::FundDecreaseAmountInterface> m_fundDecrease;
-        std::shared_ptr<model::operations::FundGetParametersInterface> m_fundGetParameter;
+        std::shared_ptr<model::operations::iFundDecreaseAmount> m_fundDecrease;
+        std::shared_ptr<model::operations::iFundGetParameters> m_fundGetParameter;
 
 };
 

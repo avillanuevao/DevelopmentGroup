@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include <model/source/operations/FundTransferAmountInterface.hpp>
-#include <model/source/operations/FundGetParametersInterface.hpp>
+#include <model/source/operations/iFundTransferAmount.hpp>
+#include <model/source/operations/iFundGetParameters.hpp>
 
 #include <utils/source/designPattern/SignalPublisher.hpp>
 #include <backend/source/controller/operations/signal/ShowMessageSignal.hpp>
@@ -21,16 +21,16 @@ class TransferMoneyController:
         public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessageSignal>
 {
     public:
-        TransferMoneyController(std::shared_ptr<model::operations::FundTransferAmountInterface> fund,
-                                std::shared_ptr<model::operations::FundGetParametersInterface> fundGetParameter);
+        TransferMoneyController(std::shared_ptr<model::operations::iFundTransferAmount> fund,
+                                std::shared_ptr<model::operations::iFundGetParameters> fundGetParameter);
 
-        void transfer(model::operations::FundType destinationFundType, int amount);
+        void transfer(model::operations::kFundType destinationFundType, int amount);
 
     private:
-        void sendShowMessageSignal(model::visualization::message::MessageType messageType, int amount, model::operations::FundType destinationFundType);
+        void sendShowMessageSignal(model::visualization::message::kMessageType messageType, int amount, model::operations::kFundType destinationFundType);
 
-        std::shared_ptr<model::operations::FundTransferAmountInterface> m_fund;
-        std::shared_ptr<model::operations::FundGetParametersInterface> m_fundGetParameter;
+        std::shared_ptr<model::operations::iFundTransferAmount> m_fund;
+        std::shared_ptr<model::operations::iFundGetParameters> m_fundGetParameter;
 };
 
 }
