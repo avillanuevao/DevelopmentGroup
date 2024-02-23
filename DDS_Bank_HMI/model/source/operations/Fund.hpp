@@ -3,33 +3,34 @@
 
 #include <stdexcept>
 
-#include <operations/FundType.hpp>
-#include <operations/FundInterface.hpp>
+#include <operations/iFund.hpp>
+#include <operations/kFundType.hpp>
 
-namespace model {
+namespace model
+{
 namespace operations
 {
 
-class Fund:
-        public model::operations::FundInterface
+class Fund :
+    public model::operations::iFund
 {
-    public:
-        Fund(model::operations::FundType fundType, int amount);
+  public:
+    Fund(model::operations::kFundType fundType, int amount);
 
-        void increaseAmount(int amount) override;
-        void decreaseAmount(int amount) override;
+    void increaseAmount(int amount) override;
+    void decreaseAmount(int amount) override;
 
-        int getAmount() const override;
-        FundType getFundType() const override;
-        void setAmount(int amount) override;
-        void setFundType(FundType fundType) override;
+    int getAmount() const override;
+    void setAmount(int amount) override;
+    model::operations::kFundType getFundType() const override;
+    void setFundType(model::operations::kFundType fundType) override;
 
-    private:
-        model::operations::FundType m_fundType;
-        int m_amount;       
+  private:
+    model::operations::kFundType mFundType;
+    int mAmount;
 };
 
-}
-}
+}  // namespace operations
+}  // namespace model
 
-#endif // MODEL_OPERATIONS_FUND_HPP
+#endif  // MODEL_OPERATIONS_FUND_HPP

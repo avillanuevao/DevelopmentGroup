@@ -9,22 +9,22 @@ namespace language
 
 LanguageSpanish::LanguageSpanish()
 {
-    initLiterals();
+  initLiterals();
 }
 
 void LanguageSpanish::initLiterals()
 {
-    m_literals[model::visualization::language::Literals::FUND]      = "fondo";
-    m_literals[model::visualization::language::Literals::DEPOSIT]   = "depósito";
-    m_literals[model::visualization::language::Literals::WITHDRAW]  = "extracción";
-    m_literals[model::visualization::language::Literals::TRANSFER]  = "transferencia";
-    m_literals[model::visualization::language::Literals::SUCCESS]   = "éxito";
-    m_literals[model::visualization::language::Literals::FAILURE]   = "fallo";
-    m_literals[model::visualization::language::Literals::WARNING]   = "advertencia";
-    m_literals[model::visualization::language::Literals::SAVINGS]   = "ahorro";
-    m_literals[model::visualization::language::Literals::HOUSING]   = "hogar";
+  mLiterals[model::visualization::language::kLiterals::Fund]      = "fondo";
+  mLiterals[model::visualization::language::kLiterals::Deposit]   = "depósito";
+  mLiterals[model::visualization::language::kLiterals::Withdraw]  = "extracción";
+  mLiterals[model::visualization::language::kLiterals::Transfer]  = "transferencia";
+  mLiterals[model::visualization::language::kLiterals::Success]   = "éxito";
+  mLiterals[model::visualization::language::kLiterals::Failure]   = "fallo";
+  mLiterals[model::visualization::language::kLiterals::Warning]   = "advertencia";
+  mLiterals[model::visualization::language::kLiterals::Savings]   = "ahorro";
+  mLiterals[model::visualization::language::kLiterals::Housing]   = "hogar";
 }
 
-}
-}
-}
+}  // namespace language
+}  // namespace visualization
+}  // namespace model

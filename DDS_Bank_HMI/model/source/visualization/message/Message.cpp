@@ -7,16 +7,14 @@ namespace visualization
 namespace message
 {
 
-Message::Message(std::time_t date,
-                 model::visualization::message::MessageType messageType,
-                 std::vector<model::visualization::language::Literals> literals, std::vector<std::string> data):
-    model::visualization::message::MessageInterface(date, messageType, literals, data)
+Message::Message(std::time_t date, model::visualization::message::kMessageType messageType,
+                 std::vector<model::visualization::language::kLiterals> literals,
+                 std::vector<std::string> data) :
+  model::visualization::message::aMessage(date, messageType, literals, data)
 {
 
 }
 
-
-
-}
-}
-}
+}  // namespace message
+}  // namespace visualization
+}  // namespace model

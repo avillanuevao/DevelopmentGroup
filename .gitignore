@@ -52,3 +52,7 @@ build-DDS_Bank_HMI-Desktop_Qt_5_15_8_GCC_64bit-Debug/
 build-DDS_Bank_HMI-Desktop_Qt_5_15_8_GCC_64bit-Release/
 
 *.autosave
+
+DDS_Bank_HMI/.cppQuickFix
+
+build-DDS_Bank_HMI-Desktop_Qt_5_15_8_GCC_64bit-MinSizeRel/

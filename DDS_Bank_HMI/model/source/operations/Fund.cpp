@@ -1,63 +1,67 @@
 #include "Fund.hpp"
 
-namespace model {
+namespace model
+{
 namespace operations
 {
 
-Fund::Fund(model::operations::FundType fundType, int amount) : m_fundType(fundType), m_amount(amount)
+Fund::Fund(model::operations::kFundType fundType, int amount) :
+  mFundType(fundType), mAmount(amount)
 {
 
 }
 
 void Fund::increaseAmount(int amount)
 {
-    if(amount < 0)
-    {
-        throw std::logic_error("Amount must be positive");
-    }
+  if(amount < 0)
+  {
+    throw std::logic_error("Amount must be positive");
+  }
 
-    setAmount(m_amount + amount);
+  setAmount(mAmount + amount);
 }
 
 void Fund::decreaseAmount(int amount)
 {
-    if(amount < 0)
-    {
-        throw std::logic_error("Amount must be positive");
-    }
+  if(amount < 0)
+  {
+    throw std::logic_error("Amount must be positive");
+  }
 
-    try
-    {
-        setAmount(m_amount - amount);
-    }  catch (std::logic_error e) {
-        throw std::logic_error("Not enough money");
-    }
-}
-
-model::operations::FundType Fund::getFundType() const
-{
-    return m_fundType;
+  try
+  {
+    setAmount(mAmount - amount);
+  }
+  catch (std::logic_error e)
+  {
+    throw std::logic_error("Not enough money");
+  }
 }
 
 int Fund::getAmount() const
 {
-    return m_amount;
+  return mAmount;
 }
 
 void Fund::setAmount(int newAmount)
 {
-    if(newAmount < 0)
-    {
-        throw std::logic_error("Amount must be positive");
-    }
+  if(newAmount < 0)
+  {
+    throw std::logic_error("Amount must be positive");
+  }
 
-    m_amount = newAmount;
+  mAmount = newAmount;
 }
 
-void Fund::setFundType(FundType fundType)
+model::operations::kFundType Fund::getFundType() const
 {
-    m_fundType = fundType;
+  return mFundType;
 }
 
+void Fund::setFundType(model::operations::kFundType fundType)
+{
+  mFundType = fundType;
 }
-}
+
+}  // namespace operations
+}  // namespace model

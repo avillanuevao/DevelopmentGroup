@@ -9,14 +9,14 @@ namespace designPattern
 template <class TSignal>
 class SignalSubscriber
 {
-    public:
-        SignalSubscriber() = default;
-        virtual ~SignalSubscriber(){}
+  public:
+    SignalSubscriber() = default;
+    virtual ~SignalSubscriber(){}
 
-        virtual void recievedSignal(TSignal signal) = 0;
+    virtual void recievedSignal(TSignal signal) = 0;
 };
 
-}
-}
+}  // namespace designPattern
+}  // namespace utils
 
-#endif // UTILS_DESIGNPATTERN_SIGNALSUBSCRIBER_HPP
+#endif  // UTILS_DESIGNPATTERN_SIGNALSUBSCRIBER_HPP

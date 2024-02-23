@@ -1,7 +1,7 @@
 #ifndef MODEL_VISUALIZATION_LANGUAGE_SPANISH_HPP
 #define MODEL_VISUALIZATION_LANGUAGE_SPANISH_HPP
 
-#include <visualization/language/LanguageInterface.hpp>
+#include <visualization/language/aLanguage.hpp>
 
 namespace model
 {
@@ -10,18 +10,18 @@ namespace visualization
 namespace language
 {
 
-class LanguageSpanish:
-        public model::visualization::language::LanguageInterface
+class LanguageSpanish :
+    public model::visualization::language::aLanguage
 {
-    public:
-        LanguageSpanish();
+  public:
+    LanguageSpanish();
 
-    private:
-        void initLiterals() override;
+  private:
+    void initLiterals();
 };
 
-}
-}
-}
+}  // namespace language
+}  // namespace visualization
+}  // namespace model
 
-#endif // MODEL_VISUALIZATION_LANGUAGE_SPANISH_HPP
+#endif  // MODEL_VISUALIZATION_LANGUAGE_SPANISH_HPP

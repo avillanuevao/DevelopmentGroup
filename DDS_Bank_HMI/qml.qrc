@@ -6,5 +6,6 @@
         <file>Transfer.qml</file>
         <file>Visualize.qml</file>
         <file>SelectFund.qml</file>
+        <file>PopupMessage.qml</file>
     </qresource>
 </RCC>
