@@ -1,5 +1,5 @@
-#ifndef FRONTEND_VIEWMODEL_DDS_VISUALIZATION_DDSVIEWMODEL_HPP
-#define FRONTEND_VIEWMODEL_DDS_VISUALIZATION_DDSVIEWMODEL_HPP
+#ifndef FRONTEND_VIEWMODEL_DDS_VISUALIZATION_COMMUNICATIONL_HPP
+#define FRONTEND_VIEWMODEL_DDS_VISUALIZATION_COMMUNICATIONL_HPP
 
 #include <memory>
 
@@ -14,10 +14,10 @@ namespace dds
 namespace visualization
 {
 
-class DDSViewModel
+class Communication
 {
   public:
-    DDSViewModel(std::shared_ptr<model::visualization::message::aAllMessages> allMessage);
+    Communication(std::shared_ptr<model::visualization::message::aAllMessages> allMessage);
 
     void addMessage(model::visualization::message::aMessage message);
 
@@ -30,4 +30,4 @@ class DDSViewModel
 }  // namespace viewModel
 }  // namespace frontend
 
-#endif // FRONTEND_VIEWMODEL_DDS_VISUALIZATION_DDSVIEWMODEL_HPP
+#endif // FRONTEND_VIEWMODEL_DDS_VISUALIZATION_COMMUNICATIONL_HPP

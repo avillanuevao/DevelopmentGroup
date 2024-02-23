@@ -28,7 +28,7 @@ class aAllLanguages :
 
     virtual std::shared_ptr<model::visualization::language::aLanguage> getLanguage(
         model::visualization::language::kLanguagesAvailables language);
-    virtual void setLanguage(model::visualization::language::kLanguagesAvailables newLanguage) override;
+    void setLanguage(model::visualization::language::kLanguagesAvailables newLanguage) override;
 
   protected:
     std::shared_ptr<model::visualization::language::aLanguage> getActualLanguage();

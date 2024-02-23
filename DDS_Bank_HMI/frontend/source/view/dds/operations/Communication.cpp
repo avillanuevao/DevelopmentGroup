@@ -1,4 +1,4 @@
-#include "FrontDDSView.hpp"
+#include "Communication.hpp"
 
 namespace frontend
 {
@@ -9,39 +9,38 @@ namespace dds
 namespace operations
 {
 
-FrontDDSView::FrontDDSView(unsigned int domainId, unsigned int sampleCount,
-                           std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsviewModel) :
-  frontend::view::dds::operations::FrontDDSViewFactory(domainId, sampleCount), mDDSviewModel(ddsviewModel)
+Communication::Communication(unsigned int domainId, unsigned int sampleCount,
+                             std::shared_ptr<frontend::viewModel::dds::operations::Communication> ddsviewModel) :
+  frontend::view::dds::operations::CommunicationFactory(domainId, sampleCount), mDDSviewModel(ddsviewModel)
 {
 
 }
 
-void FrontDDSView::recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoney signal)
+void Communication::recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoney signal)
 {
   writeDeposit(signal.getAmount());
 }
 
-void FrontDDSView::recievedSignal(viewModel::ui::operations::signal::SelectFund signal)
+void Communication::recievedSignal(viewModel::ui::operations::signal::SelectFund signal)
 {
   FundType ddsFundType = static_cast<FundType>(signal.getFundType()._to_index());
   writeSelectFund(ddsFundType);
 }
 
-void FrontDDSView::recievedSignal(frontend::viewModel::ui::operations::signal::TransferedMoney signal)
+void Communication::recievedSignal(frontend::viewModel::ui::operations::signal::TransferedMoney signal)
 {
   FundType ddsFundType = static_cast<FundType>(signal.getDestinationFundType()._to_index());
   writeTransaction(ddsFundType, signal.getAmount());
 }
 
-void FrontDDSView::recievedSignal(viewModel::ui::operations::signal::WithdrawnMoney signal)
+void Communication::recievedSignal(viewModel::ui::operations::signal::WithdrawnMoney signal)
 {
   writeWithdraw(signal.getAmount());
 }
 
-void FrontDDSView::receivedTopicFundData(FundData fundData)
+void Communication::receivedTopicFundData(FundData fundData)
 {
-  std::cout << "FundData topic recieved: " << std::endl;
-  std::cout << "\t" << fundData << std::endl;
+  std::cout << "FundData topic recieved: " << fundData << std::endl;
 
   int ddsFundType = static_cast<int>(fundData.fund_type());
   model::operations::kFundType modelFundType = model::operations::kFundType::_from_index(ddsFundType);
@@ -49,7 +48,7 @@ void FrontDDSView::receivedTopicFundData(FundData fundData)
   mDDSviewModel->updateAmount(modelFundType, fundData.amount());
 }
 
-void FrontDDSView::receivedTopicSelectFundAck(SelectFundAck selectFundAck)
+void Communication::receivedTopicSelectFundAck(SelectFundAck selectFundAck)
 {
   std::cout << "SelectFund topic recieved: " << "\t" << selectFundAck << std::endl;
 
@@ -59,7 +58,7 @@ void FrontDDSView::receivedTopicSelectFundAck(SelectFundAck selectFundAck)
   mDDSviewModel->updateFundType(modelFundType);
 }
 
-void FrontDDSView::writeDeposit(int16_t amount)
+void Communication::writeDeposit(int16_t amount)
 {
   Deposit sampleDeposit(amount);
 
@@ -68,7 +67,7 @@ void FrontDDSView::writeDeposit(int16_t amount)
   std::cout << "sample Deposit sended: " << "\t[amount:" << sampleDeposit.amount() << "]" << std::endl;
 }
 
-void FrontDDSView::writeSelectFund(FundType fundType)
+void Communication::writeSelectFund(FundType fundType)
 {
   SelectFund sampleSelectFund(fundType);
 
@@ -78,7 +77,7 @@ void FrontDDSView::writeSelectFund(FundType fundType)
             << "]" << std::endl;
 }
 
-void FrontDDSView::writeTransaction(const FundType &destinationFundType, int16_t amount)
+void Communication::writeTransaction(const FundType &destinationFundType, int16_t amount)
 {
   Transaction sampleTransaction(destinationFundType, amount);
 
@@ -89,7 +88,7 @@ void FrontDDSView::writeTransaction(const FundType &destinationFundType, int16_t
             << sampleTransaction.amount() << "]" << std::endl;
 }
 
-void FrontDDSView::writeWithdraw(int16_t amount)
+void Communication::writeWithdraw(int16_t amount)
 {
   Withdraw sampleWithdraw(amount);
 

@@ -19,7 +19,7 @@ class TransferMoney :
     public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessage>
 {
   public:
-    TransferMoney(std::shared_ptr<model::operations::iFundTransferAmount> fund,
+    TransferMoney(std::shared_ptr<model::operations::iFundTransferAmount> fundTransferAmount,
                   std::shared_ptr<model::operations::iFundGetParameters> fundGetParameter);
 
     void transfer(model::operations::kFundType destinationFundType, int amount);
@@ -28,7 +28,7 @@ class TransferMoney :
     void sendShowMessageSignal(model::visualization::message::kMessageType messageType, int amount,
                                model::operations::kFundType destinationFundType);
 
-    std::shared_ptr<model::operations::iFundTransferAmount> mFund;
+    std::shared_ptr<model::operations::iFundTransferAmount> mFundTransferAmount;
     std::shared_ptr<model::operations::iFundGetParameters> mFundGetParameter;
 };
 

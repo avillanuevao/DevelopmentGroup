@@ -1,5 +1,5 @@
-#ifndef BACKEND_VIEW_DDS_OPERATIONS_BACKDDSVIEWFACTORY_HPP
-#define BACKEND_VIEW_DDS_OPERATIONS_BACKDDSVIEWFACTORY_HPP
+#ifndef BACKEND_VIEW_DDS_OPERATIONS_COMMUNICATIONFACTORY_HPP
+#define BACKEND_VIEW_DDS_OPERATIONS_COMMUNICATIONFACTORY_HPP
 
 #include <idl/bank.hpp>
 
@@ -16,11 +16,11 @@ namespace dds
 namespace operations
 {
 
-class BackDDSViewFactory :
+class CommunicationFactory :
     protected utils::dds::DDSView
 {
   public:
-    BackDDSViewFactory(unsigned int domainId, unsigned int sampleCount);
+    CommunicationFactory(unsigned int domainId, unsigned int sampleCount);
 
   protected:
     virtual void receivedTopicSelectFund(SelectFund selectFund) = 0;
@@ -41,7 +41,8 @@ class BackDDSViewFactory :
     utils::dds::DDSDataWriter<FundData> mWriterFundData;
 
   private:
-    std::thread initReadingTopicThread(void (backend::view::dds::operations::BackDDSViewFactory::*function)());
+    std::thread initReadingTopicThread(
+        void (backend::view::dds::operations::CommunicationFactory::*function)());
 
 };
 
@@ -50,4 +51,4 @@ class BackDDSViewFactory :
 }  // namespace view
 }  // namespace backend
 
-#endif // BACKEND_VIEW_DDS_OPERATIONS_BACKDDSVIEWFACTORY_HPP
+#endif  // BACKEND_VIEW_DDS_OPERATIONS_COMMUNICATIONFACTORY_HPP

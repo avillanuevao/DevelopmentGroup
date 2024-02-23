@@ -10,7 +10,7 @@ namespace operations
 {
 
 WithdrawMoney::WithdrawMoney(std::shared_ptr<frontend::viewModel::ui::operations::Withdraw> withdrawViewModel,
-    QQmlApplicationEngine& engine, QObject* parent) :
+                             QQmlApplicationEngine& engine, QObject* parent) :
   mViewModel(withdrawViewModel), mEngine(engine), mParent(parent)
 {
   //TODO: al ser un valor por defecto debería cargarse del caso de uso de inicializar aplicación

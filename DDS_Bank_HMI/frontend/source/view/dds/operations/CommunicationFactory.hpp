@@ -1,5 +1,5 @@
-#ifndef FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEWFACTORY_HPP
-#define FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEWFACTORY_HPP
+#ifndef FRONTEND_VIEW_DDS_OPERATIONS_COMMUNICATIONFACTORY_HPP
+#define FRONTEND_VIEW_DDS_OPERATIONS_COMMUNICATIONFACTORY_HPP
 
 #include <thread>
 
@@ -22,11 +22,11 @@ namespace dds
 namespace operations
 {
 
-class FrontDDSViewFactory :
+class CommunicationFactory :
     public utils::dds::DDSView
 {
   public:
-    FrontDDSViewFactory(unsigned int domainId, unsigned int sampleCount);
+    CommunicationFactory(unsigned int domainId, unsigned int sampleCount);
 
   protected:
     virtual void receivedTopicSelectFundAck(SelectFundAck selectFundAck) = 0;
@@ -43,7 +43,7 @@ class FrontDDSViewFactory :
     void readingTopicFundData();
     void readingTopicSelectFundAck();
     std::thread initReadingTopicThread(
-        void (frontend::view::dds::operations::FrontDDSViewFactory::*function)());
+        void (frontend::view::dds::operations::CommunicationFactory::*function)());
 };
 
 }  // namespace operations
@@ -51,4 +51,4 @@ class FrontDDSViewFactory :
 }  // namespace view
 }  // namespace frontend
 
-#endif  // FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEWFACTORY_HPP
+#endif  // FRONTEND_VIEW_DDS_OPERATIONS_COMMUNICATIONFACTORY_HPP

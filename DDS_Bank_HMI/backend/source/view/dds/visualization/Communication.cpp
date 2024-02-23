@@ -1,4 +1,4 @@
-#include "BackDDSView.hpp"
+#include "Communication.hpp"
 
 namespace backend
 {
@@ -9,30 +9,28 @@ namespace dds
 namespace visualization
 {
 
-BackDDSView::BackDDSView(unsigned int domainId, unsigned int sampleCount) :
+Communication::Communication(unsigned int domainId, unsigned int sampleCount) :
   utils::dds::DDSView(domainId, sampleCount), mWriterMessage(createrDataWriter<Message>(MESSAGE_TOPIC))
 {
 
 }
 
-void BackDDSView::recievedSignal(model::visualization::message::signal::ShowMessage signal)
+void Communication::recievedSignal(model::visualization::message::signal::ShowMessage signal)
 {
   Message sampleMessage = toMessageTopic(signal);
 
   writeMessage(sampleMessage);
 }
 
-void BackDDSView::writeMessage(Message sampleMessage)
+void Communication::writeMessage(Message sampleMessage)
 {
   mWriterMessage.write(sampleMessage);
-  std::cout << "sample Message sended:" <<
-               "[date: " << sampleMessage.date() << ", " <<
-               "messageType: " << sampleMessage.message_type() << ", " <<
-               "literals: " << sampleMessage.literals() << ", " <<
-               "data: " << sampleMessage.data() << "]" << std::endl;
+  std::cout << "sample Message sended:" << "[date: " << sampleMessage.date() << ", " << "messageType: "
+            << sampleMessage.message_type() << ", " << "literals: " << sampleMessage.literals() << ", "
+            << "data: " << sampleMessage.data() << "]" << std::endl;
 }
 
-std::vector<int> BackDDSView::toIntVector(std::vector<model::visualization::language::kLiterals> literals)
+std::vector<int> Communication::toIntVector(std::vector<model::visualization::language::kLiterals> literals)
 {
   std::vector<int> iLiterals(literals.size());
 
@@ -44,7 +42,7 @@ std::vector<int> BackDDSView::toIntVector(std::vector<model::visualization::lang
   return iLiterals;
 }
 
-Message BackDDSView::toMessageTopic(model::visualization::message::signal::ShowMessage signal)
+Message Communication::toMessageTopic(model::visualization::message::signal::ShowMessage signal)
 {
   model::visualization::message::aMessage message = signal.getMessage();
   std::vector<model::visualization::language::kLiterals> literals = message.getLiterals();

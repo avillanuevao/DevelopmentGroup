@@ -1,4 +1,4 @@
-#include "FrontDDSView.hpp"
+#include "Communication.hpp"
 
 namespace frontend
 {
@@ -9,23 +9,23 @@ namespace dds
 namespace visualization
 {
 
-FrontDDSView::FrontDDSView(unsigned int domainId, unsigned int sampleCount,
-                           std::shared_ptr<viewModel::dds::visualization::DDSViewModel> ddsViewModel) :
+Communication::Communication(unsigned int domainId, unsigned int sampleCount,
+                             std::shared_ptr<viewModel::dds::visualization::Communication> ddsViewModel) :
   utils::dds::DDSView(domainId, sampleCount), mViewModel(ddsViewModel),
   mReaderMessage(createDataReader<Message>(MESSAGE_TOPIC,
-                                           std::bind(&FrontDDSView::receivedTopicMessage, this,
+                                           std::bind(&Communication::receivedTopicMessage, this,
                                                      std::placeholders::_1)))
 {
-  mThreadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicMessage);
+  mThreadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&Communication::readingTopicMessage);
 }
 
-std::thread FrontDDSView::initReadingTopicThread(
-    void (frontend::view::dds::visualization::FrontDDSView::*function)())
+std::thread Communication::initReadingTopicThread(
+    void (frontend::view::dds::visualization::Communication::*function)())
 {
   return std::thread(function, this);
 }
 
-void FrontDDSView::readingTopicMessage()
+void Communication::readingTopicMessage()
 {
   while(!utils::so::shutdownRequested)
   {
@@ -33,7 +33,7 @@ void FrontDDSView::readingTopicMessage()
   }
 }
 
-void FrontDDSView::receivedTopicMessage(Message messageSample)
+void Communication::receivedTopicMessage(Message messageSample)
 {
   std::cout << "Message topic recieved: " << "\t" << messageSample << std::endl;
 

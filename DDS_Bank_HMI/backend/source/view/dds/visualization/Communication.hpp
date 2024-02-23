@@ -1,8 +1,7 @@
-#ifndef BACKEND_VIEW_DDS_VISUALIZATION_BACKDDS_HPP
-#define BACKEND_VIEW_DDS_VISUALIZATION_BACKDDS_HPP
+#ifndef BACKEND_VIEW_DDS_VISUALIZATION_COMMUNICATION_HPP
+#define BACKEND_VIEW_DDS_VISUALIZATION_COMMUNICATION_HPP
 
 #include <idl/bank.hpp>
-
 #include <model/source/visualization/message/signal/ShowMessage.hpp>
 #include <utils/source/dds/DDSView.hpp>
 #include <utils/source/designPattern/SignalSubscriber.hpp>
@@ -16,14 +15,14 @@ namespace dds
 namespace visualization
 {
 
-class BackDDSView :
+class Communication :
     public utils::dds::DDSView,
     public utils::designPattern::SignalSubscriber<model::visualization::message::signal::ShowMessage>
 {
   public:
-    BackDDSView(unsigned int domainId, unsigned int sampleCount);
+    Communication(unsigned int domainId, unsigned int sampleCount);
 
-    void recievedSignal(model::visualization::message::signal::ShowMessage signal);
+    void recievedSignal(model::visualization::message::signal::ShowMessage signal) override;
 
   private:
     void writeMessage(Message sampleMessage);
@@ -38,4 +37,4 @@ class BackDDSView :
 }  // namespace view
 }  // namespace backend
 
-#endif  // BACKEND_VIEW_DDS_VISUALIZATION_BACKDDS_HPP
+#endif  // BACKEND_VIEW_DDS_VISUALIZATION_COMMUNICATION_HPP

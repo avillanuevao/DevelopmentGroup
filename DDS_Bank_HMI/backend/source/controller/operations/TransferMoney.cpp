@@ -7,10 +7,9 @@ namespace  controller
 namespace  operations
 {
 
-TransferMoney::TransferMoney(std::shared_ptr<model::operations::iFundTransferAmount> fund,
+TransferMoney::TransferMoney(std::shared_ptr<model::operations::iFundTransferAmount> fundTransferAmount,
                              std::shared_ptr<model::operations::iFundGetParameters> fundGetParameter) :
-  mFund(fund),
-  mFundGetParameter(fundGetParameter)
+  mFundTransferAmount(fundTransferAmount), mFundGetParameter(fundGetParameter)
 {
 
 }
@@ -19,7 +18,7 @@ void TransferMoney::transfer(model::operations::kFundType destinationFundType, i
 {
   try
   {
-    mFund->transferAmount(destinationFundType, amount);
+    mFundTransferAmount->transferAmount(destinationFundType, amount);
 
     sendShowMessageSignal(model::visualization::message::kMessageType::Success, amount, destinationFundType);
   }
@@ -35,10 +34,9 @@ void TransferMoney::sendShowMessageSignal(model::visualization::message::kMessag
 {
   std::time_t date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-  backend::controller::operations::signal::ShowMessage signal(date, messageType,
-                                                              model::visualization::message::kOperationType::Transfer,
-                                                              amount, mFundGetParameter->getFundType(),
-                                                              destinationFundType);
+  backend::controller::operations::signal::ShowMessage signal(
+        date, messageType, model::visualization::message::kOperationType::Transfer,
+        amount, mFundGetParameter->getFundType(), destinationFundType);
 
   notifySubscribers(signal);
 }

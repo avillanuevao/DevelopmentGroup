@@ -1,10 +1,10 @@
-#ifndef FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP
-#define FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP
+#ifndef FRONTEND_VIEW_DDS_OPERATIONS_COMMUNICATION_HPP
+#define FRONTEND_VIEW_DDS_OPERATIONS_COMMUNICATION_HPP
 
 #include <iostream>
 
-#include <frontend/source/view/dds/operations/FrontDDSViewFactory.hpp>
-#include <frontend/source/viewModel/dds/operations/DDSViewModel.hpp>
+#include <frontend/source/view/dds/operations/CommunicationFactory.hpp>
+#include <frontend/source/viewModel/dds/operations/Communication.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/DepositMoney.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/SelectFund.hpp>
 #include <frontend/source/viewModel/ui/operations/signal/TransferedMoney.hpp>
@@ -21,16 +21,16 @@ namespace dds
 namespace operations
 {
 
-class FrontDDSView :
-    public frontend::view::dds::operations::FrontDDSViewFactory,
+class Communication :
+    public frontend::view::dds::operations::CommunicationFactory,
     public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::DepositMoney>,
     public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::SelectFund>,
     public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::TransferedMoney>,
     public utils::designPattern::SignalSubscriber<frontend::viewModel::ui::operations::signal::WithdrawnMoney>
 {
   public:
-    FrontDDSView(unsigned int domainId, unsigned int sampleCount,
-                 std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> ddsViewModel);
+    Communication(unsigned int domainId, unsigned int sampleCount,
+                 std::shared_ptr<frontend::viewModel::dds::operations::Communication> ddsViewModel);
 
     void recievedSignal(frontend::viewModel::ui::operations::signal::DepositMoney signal) override;
     void recievedSignal(frontend::viewModel::ui::operations::signal::SelectFund signal) override;
@@ -46,7 +46,7 @@ class FrontDDSView :
     void writeTransaction(const FundType& destinationFundType, int16_t amount);
     void writeWithdraw(int16_t amount);
 
-    std::shared_ptr<frontend::viewModel::dds::operations::DDSViewModel> mDDSviewModel;
+    std::shared_ptr<frontend::viewModel::dds::operations::Communication> mDDSviewModel;
 };
 
 }  // namespace operations
@@ -54,4 +54,4 @@ class FrontDDSView :
 }  // namespace view
 }  // namespace frontend
 
-#endif  // FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP
+#endif  // FRONTEND_VIEW_DDS_OPERATIONS_COMMUNICATION_HPP

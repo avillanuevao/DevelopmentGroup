@@ -26,7 +26,7 @@ class WithdrawMoney :
     Q_OBJECT
   public:
     WithdrawMoney(std::shared_ptr<frontend::viewModel::ui::operations::Withdraw> withdrawViewModel,
-                      QQmlApplicationEngine& engine, QObject* parent = nullptr);
+                  QQmlApplicationEngine& engine, QObject* parent = nullptr);
 
   public slots:
     void withdrawMoney();

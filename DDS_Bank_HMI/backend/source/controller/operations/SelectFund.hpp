@@ -28,4 +28,4 @@ class SelectFund
 }  // namespace controller
 }  // namespace backend
 
-#endif // BACKEND_CONTROLLER_OPERATIONS_SELECTFUND_HPP
+#endif  // BACKEND_CONTROLLER_OPERATIONS_SELECTFUND_HPP

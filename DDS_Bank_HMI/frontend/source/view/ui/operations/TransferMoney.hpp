@@ -40,7 +40,6 @@ class TransferMoney :
     QObject* mParent;
     int mAmountToTransfer;
     model::operations::kFundType mDestinationFundType;
-
 };
 
 }  // namespace operations

@@ -19,7 +19,7 @@ class WithdrawMoney :
     public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessage>
 {
   public:
-    WithdrawMoney(std::shared_ptr<model::operations::iFundDecreaseAmount> fundDecrease,
+    WithdrawMoney(std::shared_ptr<model::operations::iFundDecreaseAmount> fundDecreaseAmount,
                   std::shared_ptr<model::operations::iFundGetParameters> fundGetParameter);
 
     void withdraw(int amount);
@@ -27,12 +27,12 @@ class WithdrawMoney :
   private:
     void sendShowMessageSignal(model::visualization::message::kMessageType messageType, int amount);
 
-    std::shared_ptr<model::operations::iFundDecreaseAmount> mFundDecrease;
-    std::shared_ptr<model::operations::iFundGetParameters> mFundGetParameter;
+    std::shared_ptr<model::operations::iFundDecreaseAmount> mFundDecreaseAmount;
+    std::shared_ptr<model::operations::iFundGetParameters> mFundGetParameters;
 };
 
 }  // namespace operations
 }  // namespace controller
 }  // namespace backend
 
-#endif // BACKEND_CONTROLLER_OPERATIONS_WITHDRAWMONEY_HPP
+#endif  // BACKEND_CONTROLLER_OPERATIONS_WITHDRAWMONEY_HPP

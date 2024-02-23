@@ -45,4 +45,4 @@ class ShowMessage
 }  // namespace controller
 }  // namespace backend
 
-#endif // BACKEND_CONTROLLER_OPERATIONS_SIGNAL_SHOWMESSAGE_HPP
+#endif  // BACKEND_CONTROLLER_OPERATIONS_SIGNAL_SHOWMESSAGE_HPP

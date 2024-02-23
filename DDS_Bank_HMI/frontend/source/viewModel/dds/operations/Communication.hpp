@@ -1,5 +1,5 @@
-#ifndef FRONTEND_VIEWMODEL_DDS_OPERATIONS_DDSVIEWMODEL_HPP
-#define FRONTEND_VIEWMODEL_DDS_OPERATIONS_DDSVIEWMODEL_HPP
+#ifndef FRONTEND_VIEWMODEL_DDS_OPERATIONS_COMMUNICATION_HPP
+#define FRONTEND_VIEWMODEL_DDS_OPERATIONS_COMMUNICATION_HPP
 
 #include <memory>
 
@@ -15,11 +15,11 @@ namespace dds
 namespace operations
 {
 
-class DDSViewModel
+class Communication
 {
   public:
-    DDSViewModel(std::shared_ptr<model::operations::iFundSetParameter> fundSetParameter,
-                 std::shared_ptr<model::operations::iFundSetAmountByFundType> fundSetAmountByFundType);
+    Communication(std::shared_ptr<model::operations::iFundSetParameter> fundSetParameter,
+                  std::shared_ptr<model::operations::iFundSetAmountByFundType> fundSetAmountByFundType);
 
     void updateFundType(model::operations::kFundType fundType);
     void updateAmount(model::operations::kFundType fundType, int amount);
@@ -34,4 +34,4 @@ class DDSViewModel
 }  // namespace viewModel
 }  // namespace frontend
 
-#endif  // FRONTEND_VIEWMODEL_DDS_OPERATIONS_DDSVIEWMODEL_HPP
+#endif  // FRONTEND_VIEWMODEL_DDS_OPERATIONS_COMMUNICATION_HPP

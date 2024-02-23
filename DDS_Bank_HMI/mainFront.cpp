@@ -7,8 +7,8 @@
 #include <model/source/operations/AllFunds.hpp>
 #include <model/source/visualization/language/AllLanguages.hpp>
 #include <model/source/visualization/message/AllMessages.hpp>
-#include <view/dds/operations/FrontDDSView.hpp>
-#include <view/dds/visualization/FrontDDSView.hpp>
+#include <view/dds/operations/Communication.hpp>
+#include <view/dds/visualization/Communication.hpp>
 #include <view/includeView/visualization/VisualizeFund.hpp>
 #include <view/ui/operations/DepositMoney.hpp>
 #include <view/ui/operations/SelectFund.hpp>
@@ -16,8 +16,8 @@
 #include <view/ui/operations/WithdrawMoney.hpp>
 #include <view/ui/visualization/ShowMessage.hpp>
 #include <view/ui/visualization/VisualizeFund.hpp>
-#include <viewModel/dds/operations/DDSViewModel.hpp>
-#include <viewModel/dds/visualization/DDSViewModel.hpp>
+#include <viewModel/dds/operations/Communication.hpp>
+#include <viewModel/dds/visualization/Communication.hpp>
 #include <viewModel/ui/operations/Deposit.hpp>
 #include <viewModel/ui/operations/SelectFund.hpp>
 #include <viewModel/ui/operations/Transfer.hpp>
@@ -25,8 +25,8 @@
 #include <viewModel/ui/visualization/ShowMessage.hpp>
 #include <viewModel/ui/visualization/VisualizeFund.hpp>
 
-using FrontDDSViewOperations = frontend::view::dds::operations::FrontDDSView;
-using FrontDDSViewVisualization = frontend::view::dds::visualization::FrontDDSView;
+using CommunicationOperations = frontend::view::dds::operations::Communication;
+using CommunicationVisualization = frontend::view::dds::visualization::Communication;
 using VisualizeFundIncludeView = frontend::view::includeView::visualization::VisualizeFund;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoney;
 using SelectFundView = frontend::view::ui::operations::SelectFund;
@@ -34,8 +34,8 @@ using TransferMoneyView = frontend::view::ui::operations::TransferMoney;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoney;
 using VisualizeFundView = frontend::view::ui::visualization::VisualizeFund;
 using ShowMessageView = frontend::view::ui::visualization::ShowMessage;
-using DDSViewModelOperations = frontend::viewModel::dds::operations::DDSViewModel;
-using DDSViewModelVisualization = frontend::viewModel::dds::visualization::DDSViewModel;
+using DDSViewModelOperations = frontend::viewModel::dds::operations::Communication;
+using DDSViewModelVisualization = frontend::viewModel::dds::visualization::Communication;
 using DepositViewModel = frontend::viewModel::ui::operations::Deposit;
 using SelectFundViewModel = frontend::viewModel::ui::operations::SelectFund;
 using TransferViewModel = frontend::viewModel::ui::operations::Transfer;
@@ -76,10 +76,10 @@ int main(int argc, char *argv[])
       std::make_shared<DepositMoneyView>(depositViewModel, engine);
   std::shared_ptr<WithdrawMoneyView> withdrawMoneyView =
       std::make_shared<WithdrawMoneyView>(withdrawViewModel, engine);
-  std::shared_ptr<FrontDDSViewOperations> frontDDSViewOperations =
-      std::make_shared<FrontDDSViewOperations>(0, 2, ddsViewModelOperations);
-  std::shared_ptr<FrontDDSViewVisualization> frontDDSViewVisualization =
-      std::make_shared<FrontDDSViewVisualization>(0, 2, ddsViewModelVisualization);
+  std::shared_ptr<CommunicationOperations> communicationOperations =
+      std::make_shared<CommunicationOperations>(0, 2, ddsViewModelOperations);
+  std::shared_ptr<CommunicationVisualization> communicationVisualization =
+      std::make_shared<CommunicationVisualization>(0, 2, ddsViewModelVisualization);
   std::shared_ptr<VisualizeFundIncludeView> visualizeFundIncludeView =
       std::make_shared<VisualizeFundIncludeView>(visualizeFundViewModel);
   std::shared_ptr<VisualizeFundView> visualizeFundView = std::make_shared<VisualizeFundView>(engine);
@@ -96,11 +96,11 @@ int main(int argc, char *argv[])
 
   allMessage->addSubscriber(showMessageViewModel);
 
-  depositViewModel->addSubscriber(frontDDSViewOperations);
-  withdrawViewModel->addSubscriber(frontDDSViewOperations);
+  depositViewModel->addSubscriber(communicationOperations);
+  withdrawViewModel->addSubscriber(communicationOperations);
   visualizeFundViewModel->addSubscriber(visualizeFundView);
-  selectFundViewModel->addSubscriber(frontDDSViewOperations);
-  transferViewModel->addSubscriber(frontDDSViewOperations);
+  selectFundViewModel->addSubscriber(communicationOperations);
+  transferViewModel->addSubscriber(communicationOperations);
   showMessageViewModel->addSubscriber(showMessageView);
 
   engine.rootContext()->setContextProperty("depositMoneyView", depositMoneyView.get());

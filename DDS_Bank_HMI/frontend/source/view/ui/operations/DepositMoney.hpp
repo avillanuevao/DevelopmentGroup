@@ -28,7 +28,7 @@ class DepositMoney :
 
   public:
     explicit DepositMoney(std::shared_ptr<viewModel::ui::operations::Deposit> depositViewModel,
-                              QQmlApplicationEngine& engine, QObject* parent = nullptr);
+                          QQmlApplicationEngine& engine, QObject* parent = nullptr);
 
   public slots:
     void depositMoney();

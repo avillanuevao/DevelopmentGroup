@@ -1,4 +1,4 @@
-#include "FrontDDSViewFactory.hpp"
+#include "CommunicationFactory.hpp"
 
 namespace frontend
 {
@@ -9,7 +9,7 @@ namespace dds
 namespace operations
 {
 
-FrontDDSViewFactory::FrontDDSViewFactory(unsigned int domainId, unsigned int sampleCount) :
+CommunicationFactory::CommunicationFactory(unsigned int domainId, unsigned int sampleCount) :
   utils::dds::DDSView(domainId, sampleCount),
   mWriterSelectFund(createrDataWriter<SelectFund>(SELECT_FUND_TOPIC)),
   mWriterDeposit(createrDataWriter<Deposit>(DEPOSIT_TOPIC)),
@@ -18,20 +18,20 @@ FrontDDSViewFactory::FrontDDSViewFactory(unsigned int domainId, unsigned int sam
   mReaderSelectFundAck(
     createDataReader<SelectFundAck>(
       SELECT_FUND_TOPIC_ACK, std::bind(
-        &FrontDDSViewFactory::receivedTopicSelectFundAck, this, std::placeholders::_1))),
+        &CommunicationFactory::receivedTopicSelectFundAck, this, std::placeholders::_1))),
   mReaderFundData(
     createDataReader<FundData>(
-      FUND_DATA_TOPIC, std::bind(&FrontDDSViewFactory::receivedTopicFundData, this, std::placeholders::_1)))
+      FUND_DATA_TOPIC, std::bind(&CommunicationFactory::receivedTopicFundData, this, std::placeholders::_1)))
 {
   utils::so::setupSignalHandlers();
 
-  mThreadsForReading[SELECT_FUND_TOPIC_ACK] = initReadingTopicThread(
-        &FrontDDSViewFactory::readingTopicSelectFundAck);
-  mThreadsForReading[FUND_DATA_TOPIC] = initReadingTopicThread(
-        &FrontDDSViewFactory::readingTopicFundData);
+  mThreadsForReading[SELECT_FUND_TOPIC_ACK] =
+      initReadingTopicThread(&CommunicationFactory::readingTopicSelectFundAck);
+  mThreadsForReading[FUND_DATA_TOPIC] =
+      initReadingTopicThread(&CommunicationFactory::readingTopicFundData);
 }
 
-void FrontDDSViewFactory::readingTopicFundData()
+void CommunicationFactory::readingTopicFundData()
 {
   while(!utils::so::shutdownRequested)
   {
@@ -39,7 +39,7 @@ void FrontDDSViewFactory::readingTopicFundData()
   }
 }
 
-void FrontDDSViewFactory::readingTopicSelectFundAck()
+void CommunicationFactory::readingTopicSelectFundAck()
 {
   while(!utils::so::shutdownRequested)
   {
@@ -47,8 +47,8 @@ void FrontDDSViewFactory::readingTopicSelectFundAck()
   }
 }
 
-std::thread FrontDDSViewFactory::initReadingTopicThread(
-    void (frontend::view::dds::operations::FrontDDSViewFactory::*function)())
+std::thread CommunicationFactory::initReadingTopicThread(
+    void (frontend::view::dds::operations::CommunicationFactory::*function)())
 {
   return std::thread(function, this);
 }

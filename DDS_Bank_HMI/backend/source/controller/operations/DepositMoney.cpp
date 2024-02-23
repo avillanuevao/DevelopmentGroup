@@ -18,7 +18,6 @@ void DepositMoney::deposit(int amount)
 {
   try
   {
-
     mFundIncreaseAmount->increaseAmount(amount);
 
     sendShowMessageSignal(model::visualization::message::kMessageType::Success, amount);
@@ -35,9 +34,9 @@ void DepositMoney::sendShowMessageSignal(model::visualization::message::kMessage
 {
   std::time_t date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-  backend::controller::operations::signal::ShowMessage signal(date, messageType,
-                                                              model::visualization::message::kOperationType::Deposit,
-                                                              amount, mFundGetParameter->getFundType());
+  backend::controller::operations::signal::ShowMessage signal(
+        date, messageType, model::visualization::message::kOperationType::Deposit,
+        amount, mFundGetParameter->getFundType());
 
   notifySubscribers(signal);
 }
@@ -45,4 +44,3 @@ void DepositMoney::sendShowMessageSignal(model::visualization::message::kMessage
 }  // namespace operations
 }  // namespace controller
 }  // namespace backend
-
