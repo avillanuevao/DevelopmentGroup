@@ -9,40 +9,40 @@ namespace dds
 namespace visualization
 {
 
-FrontDDSView::FrontDDSView(unsigned int domainId,
-                           unsigned int sampleCount,
+FrontDDSView::FrontDDSView(unsigned int domainId, unsigned int sampleCount,
                            std::shared_ptr<viewModel::dds::visualization::DDSViewModel> ddsViewModel) :
-    utils::dds::DDSView(domainId, sampleCount),
-    m_ddsViewModel(ddsViewModel),
-    m_readerMessage(createDataReader<Message>(MESSAGE_TOPIC, std::bind(&FrontDDSView::receivedTopicMessage, this, std::placeholders::_1)))
+  utils::dds::DDSView(domainId, sampleCount), mViewModel(ddsViewModel),
+  mReaderMessage(createDataReader<Message>(MESSAGE_TOPIC,
+                                           std::bind(&FrontDDSView::receivedTopicMessage, this,
+                                                     std::placeholders::_1)))
 {
-    m_threadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicMessage);
+  mThreadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicMessage);
 }
 
-void FrontDDSView::receivedTopicMessage(Message messageSample)
+std::thread FrontDDSView::initReadingTopicThread(
+    void (frontend::view::dds::visualization::FrontDDSView::*function)())
 {
-    std::cout << "Message topic recieved: " << std::endl;
-    std::cout << "\t" << messageSample << std::endl;
-
-    frontend::view::dds::visualization::MessageDDStoInterfaceAdapter message(messageSample);
-
-    m_ddsViewModel->addMessage(message);
+  return std::thread(function, this);
 }
 
 void FrontDDSView::readingTopicMessage()
 {
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerMessage.wait(m_wait);
-    }
+  while(!utils::so::shutdownRequested)
+  {
+    mReaderMessage.wait(mWait);
+  }
 }
 
-std::thread FrontDDSView::initReadingTopicThread(void (frontend::view::dds::visualization::FrontDDSView::*function)())
+void FrontDDSView::receivedTopicMessage(Message messageSample)
 {
-    return std::thread(function, this);
+  std::cout << "Message topic recieved: " << "\t" << messageSample << std::endl;
+
+  frontend::view::dds::visualization::MessageDDStoAbstractAdapter message(messageSample);
+
+  mViewModel->addMessage(message);
 }
 
-}
-}
-}
-}
+}  // namespace visualization
+}  // namespace view
+}  // namespace dds
+}  // namespace frontend

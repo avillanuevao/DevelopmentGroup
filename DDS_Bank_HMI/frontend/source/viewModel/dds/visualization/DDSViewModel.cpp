@@ -9,18 +9,18 @@ namespace dds
 namespace visualization
 {
 
-DDSViewModel::DDSViewModel(std::shared_ptr<model::visualization::message::AllMessagesInterface> allMessageInterface) :
-    m_allMessageInterface(allMessageInterface)
+DDSViewModel::DDSViewModel(std::shared_ptr<model::visualization::message::aAllMessages> allMessageInterface) :
+    mAllMessage(allMessageInterface)
 {
 
 }
 
-void DDSViewModel::addMessage(model::visualization::message::MessageInterface message)
+void DDSViewModel::addMessage(model::visualization::message::aMessage message)
 {
-    m_allMessageInterface->addMessage(message);
+    mAllMessage->addMessage(message);
 }
 
-}
-}
-}
-}
+}  // namespace operations
+}  // namespace dds
+}  // namespace viewModel
+}  // namespace frontend

@@ -4,13 +4,10 @@
 #include <memory>
 #include <vector>
 
-#include <idl/bank.hpp>
-
-#include <model/source/visualization/message/MessageType.hpp>
-#include <model/source/visualization/language/kLiterals.hpp>
-#include <utils/source/dds/DDSView.hpp>
+#include <frontend/source/view/dds/visualization/MessageDDStoAbstractAdapter.hpp>
 #include <frontend/source/viewModel/dds/visualization/DDSViewModel.hpp>
-#include <frontend/source/view/dds/visualization/MessageDDStoInterfaceAdapter.hpp>
+#include <idl/bank.hpp>
+#include <utils/source/dds/DDSView.hpp>
 
 namespace frontend
 {
@@ -22,27 +19,25 @@ namespace visualization
 {
 
 class FrontDDSView :
-        public utils::dds::DDSView
+    public utils::dds::DDSView
 {
-    public:
-        FrontDDSView(unsigned int domainId,
-                     unsigned int sampleCount,
-                     std::shared_ptr<frontend::viewModel::dds::visualization::DDSViewModel> ddsViewModel);
+  public:
+    FrontDDSView(unsigned int domainId,unsigned int sampleCount,
+                 std::shared_ptr<frontend::viewModel::dds::visualization::DDSViewModel> ddsViewModel);
 
-    private:
-        void receivedTopicMessage(Message messageSample);
-        void readingTopicMessage();
-        std::thread initReadingTopicThread(void (frontend::view::dds::visualization::FrontDDSView::*function)());
+  private:
+    std::thread initReadingTopicThread(void (frontend::view::dds::visualization::FrontDDSView::*function)());
+    void readingTopicMessage();
+    void receivedTopicMessage(Message messageSample);
 
-        std::shared_ptr<frontend::viewModel::dds::visualization::DDSViewModel> m_ddsViewModel;
-        utils::dds::DDSDataReader<Message> m_readerMessage;
+    std::shared_ptr<frontend::viewModel::dds::visualization::DDSViewModel> mViewModel;
+    utils::dds::DDSDataReader<Message> mReaderMessage;
 
 };
 
-}
-}
-}
-}
+}  // namespace visualization
+}  // namespace view
+}  // namespace dds
+}  // namespace frontend
 
-
-#endif // FRONTEND_VIEW_DDS_VISUALIZATION_FRONTDDSVIEW_HPP
+#endif  // FRONTEND_VIEW_DDS_VISUALIZATION_FRONTDDSVIEW_HPP

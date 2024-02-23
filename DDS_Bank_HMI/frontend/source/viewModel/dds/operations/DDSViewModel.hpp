@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include <model/source/operations/FundSetParameterInterface.hpp>
-#include <model/source/operations/FundSetAmountByFundTypeInterface.hpp>
+#include <model/source/operations/iFundSetAmountByFundType.hpp>
+#include <model/source/operations/iFundSetParameter.hpp>
 
 namespace frontend
 {
@@ -17,22 +17,21 @@ namespace operations
 
 class DDSViewModel
 {
-    public:
-        DDSViewModel(std::shared_ptr<model::operations::FundSetParameterInterface> fundSetParameter,
-                     std::shared_ptr<model::operations::FundSetAmountByFundTypeInterface> fundSetAmountByFundType);
+  public:
+    DDSViewModel(std::shared_ptr<model::operations::iFundSetParameter> fundSetParameter,
+                 std::shared_ptr<model::operations::iFundSetAmountByFundType> fundSetAmountByFundType);
 
-        void updateFundType(model::operations::FundType fundType);
-        void updateAmount(model::operations::FundType fundType, int amount);
+    void updateFundType(model::operations::kFundType fundType);
+    void updateAmount(model::operations::kFundType fundType, int amount);
 
-    private:
-        std::shared_ptr<model::operations::FundSetParameterInterface> m_fundSetParameter;
-        std::shared_ptr<model::operations::FundSetAmountByFundTypeInterface> m_fundSetAmountByFundType;
-
+  private:
+    std::shared_ptr<model::operations::iFundSetParameter> mFundSetParameter;
+    std::shared_ptr<model::operations::iFundSetAmountByFundType> mFundSetAmountByFundType;
 };
 
-}
-}
-}
-}
+}  // namespace operations
+}  // namespace dds
+}  // namespace viewModel
+}  // namespace frontend
 
-#endif // FRONTEND_VIEWMODEL_DDS_OPERATIONS_DDSVIEWMODEL_HPP
+#endif  // FRONTEND_VIEWMODEL_DDS_OPERATIONS_DDSVIEWMODEL_HPP
