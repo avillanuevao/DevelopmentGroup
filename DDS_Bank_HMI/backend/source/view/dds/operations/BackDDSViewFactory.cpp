@@ -10,62 +10,66 @@ namespace dds
 namespace operations
 {
 
-BackDDSViewFactory::BackDDSViewFactory(unsigned int domainId,
-                                       unsigned int sampleCount) :
-    utils::dds::DDSView(domainId, sampleCount),
-    m_readerSelectFund(createDataReader<SelectFund>(SELECT_FUND_TOPIC, std::bind(&BackDDSViewFactory::receivedTopicSelectFund, this, std::placeholders::_1))),
-    m_readerDeposit(createDataReader<Deposit>(DEPOSIT_TOPIC, std::bind(&BackDDSViewFactory::receivedTopicDeposit, this, std::placeholders::_1))),
-    m_readerWithdraw(createDataReader<Withdraw>(WITHDRAW_TOPIC, std::bind(&BackDDSViewFactory::receivedTopicWithdraw, this, std::placeholders::_1))),
-    m_readerTransaction(createDataReader<Transaction>(TRANSACTION_TOPIC, std::bind(&BackDDSViewFactory::receivedTopicTransaction, this, std::placeholders::_1))),
-    m_writerSelectFundAck(createrDataWriter<SelectFundAck>(SELECT_FUND_TOPIC_ACK)),
-    m_writerFundData(createrDataWriter<FundData>(FUND_DATA_TOPIC))
+BackDDSViewFactory::BackDDSViewFactory(unsigned int domainId, unsigned int sampleCount) :
+  utils::dds::DDSView(domainId, sampleCount),
+  mReaderSelectFund(createDataReader<SelectFund>(SELECT_FUND_TOPIC, std::bind(
+        &BackDDSViewFactory::receivedTopicSelectFund, this, std::placeholders::_1))),
+  mReaderDeposit(createDataReader<Deposit>(DEPOSIT_TOPIC, std::bind(
+        &BackDDSViewFactory::receivedTopicDeposit, this, std::placeholders::_1))),
+  mReaderWithdraw(createDataReader<Withdraw>(WITHDRAW_TOPIC, std::bind(
+        &BackDDSViewFactory::receivedTopicWithdraw, this, std::placeholders::_1))),
+  mReaderTransaction(createDataReader<Transaction>(TRANSACTION_TOPIC, std::bind(
+        &BackDDSViewFactory::receivedTopicTransaction, this, std::placeholders::_1))),
+  mWriterSelectFundAck(createrDataWriter<SelectFundAck>(SELECT_FUND_TOPIC_ACK)),
+  mWriterFundData(createrDataWriter<FundData>(FUND_DATA_TOPIC))
 {
-    utils::so::setup_signal_handlers();
+  utils::so::setupSignalHandlers();
 
-    m_threadsForReading[SELECT_FUND_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicSelectFund);
-    m_threadsForReading[DEPOSIT_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicDeposit);
-    m_threadsForReading[WITHDRAW_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicWithdraw);
-    m_threadsForReading[TRANSACTION_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicTransaction);
+  mThreadsForReading[SELECT_FUND_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicSelectFund);
+  mThreadsForReading[DEPOSIT_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicDeposit);
+  mThreadsForReading[WITHDRAW_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicWithdraw);
+  mThreadsForReading[TRANSACTION_TOPIC] = initReadingTopicThread(&BackDDSViewFactory::readingTopicTransaction);
 }
 
 void BackDDSViewFactory::readingTopicSelectFund()
 {
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerSelectFund.wait(m_wait);
-    }
+  while(!utils::so::shutdownRequested)
+  {
+    mReaderSelectFund.wait(mWait);
+  }
 }
 
 void BackDDSViewFactory::readingTopicDeposit()
 {
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerDeposit.wait(m_wait);
-    }
+  while(!utils::so::shutdownRequested)
+  {
+    mReaderDeposit.wait(mWait);
+  }
 }
 
 void BackDDSViewFactory::readingTopicWithdraw()
 {
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerWithdraw.wait(m_wait);
-    }
+  while(!utils::so::shutdownRequested)
+  {
+    mReaderWithdraw.wait(mWait);
+  }
 }
 
 void BackDDSViewFactory::readingTopicTransaction()
 {
-    while(!utils::so::shutdown_requested)
-    {
-        m_readerTransaction.wait(m_wait);
-    }
+  while(!utils::so::shutdownRequested)
+  {
+    mReaderTransaction.wait(mWait);
+  }
 }
 
-std::thread BackDDSViewFactory::initReadingTopicThread(void (backend::view::dds::operations::BackDDSViewFactory::*function)())
+std::thread BackDDSViewFactory::initReadingTopicThread(
+    void (backend::view::dds::operations::BackDDSViewFactory::*function)())
 {
-    return std::thread(function, this);
+  return std::thread(function, this);
 }
 
-}
-}
-}
-}
+}  // namespace operations
+}  // namespace dds
+}  // namespace view
+}  // namespace backend
