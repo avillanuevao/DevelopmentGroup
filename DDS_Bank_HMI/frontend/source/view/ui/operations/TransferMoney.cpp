@@ -46,5 +46,3 @@ void TransferMoney::setDestinationFundType(QString newDestinationFundType)
 }  // namespace iu
 }  // namespace view
 }  // namespace frontend
-
-

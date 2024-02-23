@@ -30,6 +30,7 @@ class WithdrawMoney :
 
   public slots:
     void withdrawMoney();
+
     void setAmountToWithdraw(int amount);
 
   private:

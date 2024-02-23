@@ -36,7 +36,7 @@ class VisualizeFund :
     void updateAmountQML(const QVariant& newAmount);
 
   private:
-    QQmlApplicationEngine& mengine;
+    QQmlApplicationEngine& mEngine;
     QObject* mParent;
 };
 
@@ -45,4 +45,4 @@ class VisualizeFund :
 }  // namespace view
 }  // namespace frontend
 
-#endif // FRONTEND_VIEW_UI_VISUALIZATION_VISUALIZEFUND_HPP
+#endif  // FRONTEND_VIEW_UI_VISUALIZATION_VISUALIZEFUND_HPP

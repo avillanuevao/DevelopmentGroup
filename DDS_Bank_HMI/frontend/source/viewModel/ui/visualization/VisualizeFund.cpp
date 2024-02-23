@@ -15,6 +15,14 @@ VisualizeFund::VisualizeFund(std::shared_ptr<model::operations::iFundGetParamete
 
 }
 
+void VisualizeFund::updateView()
+{
+  int amount = mFund->getAmount();
+  model::operations::kFundType fundType = mFund->getFundType();
+
+  updateView(fundType, amount);
+}
+
 void VisualizeFund::updateView(model::operations::kFundType fundType, int amount)
 {
   if(fundType == mFund->getFundType())
@@ -23,14 +31,6 @@ void VisualizeFund::updateView(model::operations::kFundType fundType, int amount
 
     notifySubscribers(signal);
   }
-}
-
-void VisualizeFund::updateView()
-{
-  int amount = mFund->getAmount();
-  model::operations::kFundType fundType = mFund->getFundType();
-
-  updateView(fundType, amount);
 }
 
 }  // namespace visualization

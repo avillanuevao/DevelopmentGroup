@@ -30,7 +30,7 @@ class FrontDDSView :
     void readingTopicMessage();
     void receivedTopicMessage(Message messageSample);
 
-    std::shared_ptr<frontend::viewModel::dds::visualization::DDSViewModel> mDDSViewModel;
+    std::shared_ptr<frontend::viewModel::dds::visualization::DDSViewModel> mViewModel;
     utils::dds::DDSDataReader<Message> mReaderMessage;
 
 };

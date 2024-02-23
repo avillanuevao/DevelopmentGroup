@@ -31,5 +31,4 @@ class ShowMessage
 }  // namespace viewModel
 }  // namespace frontend
 
-
 #endif  // FRONTEND_VIEWMODEL_UI_VISUALIZATION_SIGNAL_SHOWMESSAGE_HPP

@@ -32,6 +32,7 @@ class DepositMoney :
 
   public slots:
     void depositMoney();
+
     void setAmountToDeposit(int amount);
 
   private:

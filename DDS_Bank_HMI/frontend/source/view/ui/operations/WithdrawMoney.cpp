@@ -9,8 +9,7 @@ namespace ui
 namespace operations
 {
 
-WithdrawMoney::WithdrawMoney(
-    std::shared_ptr<frontend::viewModel::ui::operations::Withdraw> withdrawViewModel,
+WithdrawMoney::WithdrawMoney(std::shared_ptr<frontend::viewModel::ui::operations::Withdraw> withdrawViewModel,
     QQmlApplicationEngine& engine, QObject* parent) :
   mViewModel(withdrawViewModel), mEngine(engine), mParent(parent)
 {

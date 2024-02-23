@@ -9,9 +9,8 @@ namespace ui
 namespace operations
 {
 
-SelectFund::SelectFund(
-    std::shared_ptr<frontend::viewModel::ui::operations::SelectFund> selectFundViewModel,
-    QQmlApplicationEngine& engine, QObject* parent) :
+SelectFund::SelectFund(std::shared_ptr<frontend::viewModel::ui::operations::SelectFund> selectFundViewModel,
+                       QQmlApplicationEngine& engine, QObject* parent) :
   mViewModel(selectFundViewModel), mEngine(engine), mParent(parent)
 {
 

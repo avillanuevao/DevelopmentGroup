@@ -54,4 +54,4 @@ class FrontDDSView :
 }  // namespace view
 }  // namespace frontend
 
-#endif // FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP
+#endif  // FRONTEND_VIEW_DDS_OPERATIONS_FRONTDDSVIEW_HPP

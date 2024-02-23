@@ -11,10 +11,10 @@ namespace visualization
 
 FrontDDSView::FrontDDSView(unsigned int domainId, unsigned int sampleCount,
                            std::shared_ptr<viewModel::dds::visualization::DDSViewModel> ddsViewModel) :
-  utils::dds::DDSView(domainId, sampleCount), mDDSViewModel(ddsViewModel),
-  mReaderMessage(
-    createDataReader<Message>(
-      MESSAGE_TOPIC, std::bind(&FrontDDSView::receivedTopicMessage, this, std::placeholders::_1)))
+  utils::dds::DDSView(domainId, sampleCount), mViewModel(ddsViewModel),
+  mReaderMessage(createDataReader<Message>(MESSAGE_TOPIC,
+                                           std::bind(&FrontDDSView::receivedTopicMessage, this,
+                                                     std::placeholders::_1)))
 {
   mThreadsForReading[MESSAGE_TOPIC] = initReadingTopicThread(&FrontDDSView::readingTopicMessage);
 }
@@ -39,7 +39,7 @@ void FrontDDSView::receivedTopicMessage(Message messageSample)
 
   frontend::view::dds::visualization::MessageDDStoAbstractAdapter message(messageSample);
 
-  mDDSViewModel->addMessage(message);
+  mViewModel->addMessage(message);
 }
 
 }  // namespace visualization

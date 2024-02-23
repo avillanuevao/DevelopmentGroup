@@ -29,7 +29,7 @@ class VisualizeFund :
     void recievedSignal(model::operations::signal::UpdatedFundType signal);
 
   private:
-    std::shared_ptr<viewModel::ui::visualization::VisualizeFund> mVisualizeFundViewModel;
+    std::shared_ptr<viewModel::ui::visualization::VisualizeFund> mViewModel;
     model::operations::kFundType mFundTypeActual;
 };
 

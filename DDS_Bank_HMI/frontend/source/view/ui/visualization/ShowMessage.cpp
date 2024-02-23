@@ -10,7 +10,7 @@ namespace visualization
 {
 
 ShowMessage::ShowMessage(std::shared_ptr<model::visualization::language::aLanguage> languages,
-                                 QQmlApplicationEngine& engine, QObject* parent) :
+                         QQmlApplicationEngine& engine, QObject* parent) :
   mLanguage(languages), mEngine(engine), mParent(parent)
 {
 
@@ -33,6 +33,7 @@ void ShowMessage::showMessageQML(const QVariant& message, const QVariant& color)
   {
     QObject* rootObject = mEngine.rootObjects().first();
     QQuickWindow* rootWindow = qobject_cast<QQuickWindow*>(rootObject);
+
     if(rootWindow)
     {
       QObject* popupQML = rootObject->findChild<QObject*>("popupMessage", Qt::FindChildrenRecursively);
@@ -51,7 +52,6 @@ void ShowMessage::showMessageQML(const QVariant& message, const QVariant& color)
     {
       std::cerr << "Error: Root object is not a QQuickWindow." << std::endl;
     }
-
   }
   else
   {

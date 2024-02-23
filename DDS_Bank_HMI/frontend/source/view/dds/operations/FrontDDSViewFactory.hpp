@@ -24,7 +24,6 @@ namespace operations
 
 class FrontDDSViewFactory :
     public utils::dds::DDSView
-
 {
   public:
     FrontDDSViewFactory(unsigned int domainId, unsigned int sampleCount);
@@ -45,8 +44,6 @@ class FrontDDSViewFactory :
     void readingTopicSelectFundAck();
     std::thread initReadingTopicThread(
         void (frontend::view::dds::operations::FrontDDSViewFactory::*function)());
-
-
 };
 
 }  // namespace operations

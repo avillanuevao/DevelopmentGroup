@@ -30,6 +30,7 @@ class TransferMoney :
 
   public slots:
     void transferMoney();
+
     void setAmountToTransfer(int newAmountToTransfer);
     void setDestinationFundType(QString newDestinationFundType);
 

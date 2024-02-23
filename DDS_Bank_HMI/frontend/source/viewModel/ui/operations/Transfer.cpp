@@ -16,8 +16,8 @@ Transfer::Transfer()
 
 void Transfer::transferMoney(model::operations::kFundType destinationFundType, int amount)
 {
-    frontend::viewModel::ui::operations::signal::TransferedMoney transferedMoneySignal(
-          destinationFundType, amount);
+    frontend::viewModel::ui::operations::signal::TransferedMoney transferedMoneySignal(destinationFundType,
+                                                                                       amount);
 
     notifySubscribers(transferedMoneySignal);
 }

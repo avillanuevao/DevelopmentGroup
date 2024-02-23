@@ -10,7 +10,7 @@ namespace visualization
 {
 
 VisualizeFund::VisualizeFund(QQmlApplicationEngine &engine, QObject *parent) :
-  mengine(engine), mParent(parent)
+  mEngine(engine), mParent(parent)
 {
 
 }
@@ -21,11 +21,11 @@ void VisualizeFund::recievedSignal(frontend::viewModel::ui::visualization::signa
                             Q_ARG(QVariant, signal.getAmount()));
 }
 
-void VisualizeFund::updateAmountQML(const QVariant &newAmount)
+void VisualizeFund::updateAmountQML(const QVariant& newAmount)
 {
-  if(!mengine.rootObjects().isEmpty())
+  if(!mEngine.rootObjects().isEmpty())
   {
-    QObject* rootObject = mengine.rootObjects().first();
+    QObject* rootObject = mEngine.rootObjects().first();
     QQuickWindow* rootWindow = qobject_cast<QQuickWindow*>(rootObject);
     if(rootWindow)
     {
@@ -43,7 +43,6 @@ void VisualizeFund::updateAmountQML(const QVariant &newAmount)
     {
       std::cerr << "Error: Root object is not a QQuickWindow." << std::endl;
     }
-
   }
   else
   {
