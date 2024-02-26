@@ -11,8 +11,6 @@ ColumnLayout
     {
         id: visualizeAmount
         objectName: "visualizeAmount"
-        text: "Hola"
-        //text: depositMoneyView.getAmountFromFund()
     }
 }
 

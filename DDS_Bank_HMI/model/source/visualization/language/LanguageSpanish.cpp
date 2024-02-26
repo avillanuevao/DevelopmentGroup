@@ -23,6 +23,13 @@ void LanguageSpanish::initLiterals()
   mLiterals[model::visualization::language::kLiterals::Warning]   = "advertencia";
   mLiterals[model::visualization::language::kLiterals::Savings]   = "ahorro";
   mLiterals[model::visualization::language::kLiterals::Housing]   = "hogar";
+  mLiterals[model::visualization::language::kLiterals::English]   = "Inglés";
+  mLiterals[model::visualization::language::kLiterals::Spanish]   = "Español";
+  mLiterals[model::visualization::language::kLiterals::Accept]   = "Aceptar";
+  mLiterals[model::visualization::language::kLiterals::AmountDeposit]   = "Cantidad depositar";
+  mLiterals[model::visualization::language::kLiterals::AmountWithdraw]   = "Cantidad extraer";
+  mLiterals[model::visualization::language::kLiterals::AmountTransfer]   = "Cantidad transferir";
+  mLiterals[model::visualization::language::kLiterals::DestinationTransfer]   = "Destino Transferencia";
 }
 
 }  // namespace language

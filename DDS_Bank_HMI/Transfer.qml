@@ -5,21 +5,23 @@ import QtQuick.Layouts 1.12
 ColumnLayout
 {
     id: columnLayoutTransfer
-
-    property alias fundsModel: fundTypeDestinationTransferComboBox.model
+    property alias textButton: acceptButton.text
+    property alias textDestination: destinationTransfer.text
+    property alias placeholderText: amountTextField.placeholderText
+    property alias modelFund: fundTypeDestinationTransferComboBox.model
 
     RowLayout
     {
         Text
         {
             id: destinationTransfer
-            text: qsTr("Destination Transfer: ")
+            text: destinationTransferText
         }
 
         ComboBox
         {
             id: fundTypeDestinationTransferComboBox
-
+            model: fundsAvailables
             onCurrentTextChanged:
             {
                 transferMoneyView.setDestinationFundType(fundTypeDestinationTransferComboBox.currentText);
@@ -29,15 +31,15 @@ ColumnLayout
 
     TextField
     {
-        id: amountTransferTextField
-        placeholderText: "Amount transfer"
+        id: amountTextField
+        placeholderText: amountTransfer
         validator: RegExpValidator{ regExp: /^\d+$/ }
     }
 
     Button
     {
-        id: acceptTransferButton
-        text: "Accept"
+        id: acceptButton
+        text: accept
 
         onClicked:
         {

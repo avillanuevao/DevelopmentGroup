@@ -7,6 +7,7 @@
 #include <model/source/operations/AllFunds.hpp>
 #include <model/source/visualization/language/AllLanguages.hpp>
 #include <model/source/visualization/message/AllMessages.hpp>
+#include <model/source/visualization/language/kLiterals.hpp>
 #include <view/dds/operations/Communication.hpp>
 #include <view/dds/visualization/Communication.hpp>
 #include <view/includeView/visualization/VisualizeFund.hpp>
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
       std::make_shared<model::visualization::message::AllMessages>();
   std::shared_ptr<model::visualization::language::AllLanguages> allLanguages =
         std::make_shared<model::visualization::language::AllLanguages>(
-          model::visualization::language::kLanguagesAvailables::English);
+          model::visualization::language::kLanguagesAvailables::Spanish);
 
   std::shared_ptr<DepositViewModel> depositViewModel = std::make_shared<DepositViewModel>();
   std::shared_ptr<WithdrawViewModel> withdrawViewModel = std::make_shared<WithdrawViewModel>();
@@ -103,6 +104,39 @@ int main(int argc, char *argv[])
   transferViewModel->addSubscriber(communicationOperations);
   showMessageViewModel->addSubscriber(showMessageView);
 
+  QString english = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::English));
+  QString spanish = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Spanish));
+  QVariantList allLanguagesAvailables;
+
+  allLanguagesAvailables.append(english);
+  allLanguagesAvailables.append(spanish);
+
+  QString savings = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Savings));
+  QString housing = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Housing));
+  QVariantList allFundsAvailables;
+
+  allFundsAvailables.append(savings);
+  allFundsAvailables.append(housing);
+
+  QString depositText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Deposit));
+  QString withdrawText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Withdraw));
+  QString transferText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Transfer));
+  QString acceptText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Accept));
+  QString amountDepositText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::AmountDeposit));
+  QString amountWithdrawText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::AmountWithdraw));
+  QString amountTransferText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::AmountTransfer));
+  QString destinationTransferText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::DestinationTransfer));
+
+  engine.rootContext()->setContextProperty("languagesAvailables", QVariant::fromValue(allLanguagesAvailables));
+  engine.rootContext()->setContextProperty("fundsAvailables", QVariant::fromValue(allFundsAvailables));
+  engine.rootContext()->setContextProperty("depositText", depositText);
+  engine.rootContext()->setContextProperty("withdrawText", withdrawText);
+  engine.rootContext()->setContextProperty("transferText", transferText);
+  engine.rootContext()->setContextProperty("acceptText", acceptText);
+  engine.rootContext()->setContextProperty("amountDepositText", amountDepositText);
+  engine.rootContext()->setContextProperty("amountWithdrawText", amountWithdrawText);
+  engine.rootContext()->setContextProperty("amountTransferText", amountTransferText);
+  engine.rootContext()->setContextProperty("destinationTransferText", destinationTransferText);
   engine.rootContext()->setContextProperty("depositMoneyView", depositMoneyView.get());
   engine.rootContext()->setContextProperty("withdrawMoneyView", withdrawMoneyView.get());
   engine.rootContext()->setContextProperty("selectFundView", selectFundView.get());

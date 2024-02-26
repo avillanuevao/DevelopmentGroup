@@ -7,7 +7,7 @@ ComboBox
 {
     id: selectFundTypeComboBox
 
-    property alias fundsModel: selectFundTypeComboBox.model
+    model: fundsAvailables
 
     onCurrentTextChanged:
     {

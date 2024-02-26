@@ -7,5 +7,6 @@
         <file>Visualize.qml</file>
         <file>SelectFund.qml</file>
         <file>PopupMessage.qml</file>
+        <file>SelectLanguage.qml</file>
     </qresource>
 </RCC>

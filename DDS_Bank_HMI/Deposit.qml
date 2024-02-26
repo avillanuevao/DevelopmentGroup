@@ -5,19 +5,21 @@ import QtQuick.Layouts 1.12
 ColumnLayout
 {
     id: columnLayout
+    property alias textButton: acceptButton.text
+    property alias placeholderText: amountTextField.placeholderText
 
     TextField
     {
-        id: amount
-        placeholderText: "Amount deposit"
+        id: amountTextField
+        placeholderText: amountDeposit
 
         validator: RegExpValidator{ regExp: /^\d+$/ }
     }
 
     Button
     {
-        id: acceptB
-        text: "Accept"
+        id: acceptButton
+        text: accept
 
         onClicked:
         {

@@ -5,11 +5,13 @@ import QtQuick.Layouts 1.12
 ColumnLayout
 {
     id: columnLayoutWithdraw
+    property alias textButton: acceptButton.text
+    property alias placeholderText: amountTextField.placeholderText
 
     TextField
     {
-        id: amountWithdraw
-        placeholderText: "Amount withdraw"
+        id: amountTextField
+        placeholderText: amountWithdraw
 
         validator: RegExpValidator{ regExp: /^\d+$/ }
         onTextChanged:
@@ -21,8 +23,8 @@ ColumnLayout
 
     Button
     {
-        id: acceptBW
-        text: "Accept"
+        id: acceptButton
+        text: accept
 
         onClicked:
         {

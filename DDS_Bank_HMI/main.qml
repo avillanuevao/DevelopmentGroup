@@ -10,28 +10,22 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-    // vector A
-
-    ListModel
-    {
-        id: allFundsModel
-        // ListElement{text: a[0]}
-        ListElement { text: "Savings" }
-        ListElement { text: "Housing" }
-    }
-
-    // si quiero cambiar el orden, cambio primero el vector a (estará en c++) y luego cambio el orden del ListElement
-
-
     ColumnLayout
     {
+        SelectLanguage
+        {
+            id: selectLanguage
+            visible: true
+        }
+
         RowLayout
         {
             id: mainRL
             RadioButton
             {
                 id: depositRB
-                text: "Deposit"
+                objectName: "depositRB"
+                text: depositText
 
                 onClicked:
                 {
@@ -43,7 +37,8 @@ Window {
             RadioButton
             {
                 id: withdrawRB
-                text: "Withdraw"
+                objectName: "withdrawRB"
+                text: withdrawText
 
                 onClicked:
                 {
@@ -55,7 +50,8 @@ Window {
             RadioButton
             {
                 id: transferRB
-                text: "Transfer"
+                objectName: "transferRB"
+                text: transferText
 
                 onClicked:
                 {
@@ -69,7 +65,6 @@ Window {
         SelectFund
         {
             id: selectFund
-            fundsModel: allFundsModel
             visible: true
         }
 
@@ -82,19 +77,21 @@ Window {
         Deposit
         {
             id: deposit
+            objectName: "deposit"
             visible: false
         }
 
         Withdraw
         {
             id: withdraw
+            objectName: "withdraw"
             visible: false
         }
 
         Transfer
         {
             id: transfer
-            fundsModel: allFundsModel
+            objectName: "transfer"
             visible: false
         }
     }
@@ -104,6 +101,4 @@ Window {
         id: popupMessage
         objectName: "popupMessage"
     }
-
-
 }
