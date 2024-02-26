@@ -2,6 +2,7 @@
 #define BACKEND_CONTROLLER_VISUALIZATION_SHOWMESSAGE_HPP
 
 #include <model/source/operations/kFundType.hpp>
+#include <model/source/visualization/language/EnumToLiteral.hpp>
 #include <model/source/visualization/message/aAllMessages.hpp>
 #include <model/source/visualization/message/kOperationType.hpp>
 

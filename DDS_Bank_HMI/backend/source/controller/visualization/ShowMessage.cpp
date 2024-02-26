@@ -54,20 +54,18 @@ std::vector<model::visualization::language::kLiterals> ShowMessage::createLitera
 
 model::visualization::language::kLiterals ShowMessage::toLiteral(model::operations::kFundType fundType)
 {
-  //TODO: Cambiar esto, es una guarreria
-  std::string kLiteral = "k";
-  kLiteral += fundType._to_string();
+  model::visualization::language::EnumToLiteral enumToLiteral;
+  model::visualization::language::kLiterals literal = enumToLiteral.toLiteral(fundType);
 
-  return model::visualization::language::kLiterals::_from_string_nocase(kLiteral.c_str());
+  return literal;
 }
 
 model::visualization::language::kLiterals ShowMessage::toLiteral(model::visualization::message::kOperationType operationType)
 {
-  //TODO: Cambiar esto, es una guarreria
-  std::string kLiteral = "k";
-  kLiteral += operationType._to_string();
+  model::visualization::language::EnumToLiteral enumToLiteral;
+  model::visualization::language::kLiterals literal = enumToLiteral.toLiteral(operationType);
 
-  return model::visualization::language::kLiterals::_from_string_nocase(kLiteral.c_str());
+  return literal;
 }
 
 }  // namespace visualization

@@ -1,23 +1,32 @@
-//#ifndef ENUMTOLITERAL_HPP
-//#define ENUMTOLITERAL_HPP
+#ifndef MODEL_VISUALIZATION_LANGUAGE_ENUMTOLITERAL_HPP
+#define MODEL_VISUALIZATION_LANGUAGE_ENUMTOLITERAL_HPP
 
-//#include <map>
+#include <map>
+#include <stdexcept>
 
-//#include <visualization/language/kLiterals.hpp>
-//#include <operations/kFundType.hpp>
-//#include <visualization/message/OperationType.hpp>
+#include <operations/kFundType.hpp>
+#include <visualization/language/kLiterals.hpp>
+#include <visualization/message/kOperationType.hpp>
 
-//class EnumToLiteral
-//{
-//  public:
-//    EnumToLiteral();
+namespace model
+{
+namespace visualization
+{
+namespace language
+{
 
-//    model::visualization::language::kLiterals toLiteral(model::operations::kFundType fundType) const;
-//    model::visualization::language::kLiterals toLiteral(model::visualization::message::OperationType operationType) const;
+class EnumToLiteral
+{
+  public:
+    EnumToLiteral();
 
-//  private:
-//    std::map<model::operations::kFundType, model::visualization::language::kLiterals> mFundTypeToLiteral;
-//    std::map<model::visualization::message::OperationType, model::visualization::language::kLiterals> mOperationTypeToLiteral;
-//};
+    model::visualization::language::kLiterals toLiteral(model::operations::kFundType fundType);
+    model::visualization::language::kLiterals toLiteral(
+        model::visualization::message::kOperationType operationType);
+};
 
-//#endif // ENUMTOLITERAL_HPP
+}  // namespace language
+}  // namespace visualization
+}  // namespace models
+
+#endif  // MODEL_VISUALIZATION_LANGUAGE_ENUMTOLITERAL_HPP
