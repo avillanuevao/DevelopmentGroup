@@ -14,6 +14,7 @@
 #include <view/includeView/visualization/Visualize.hpp>
 #include <view/ui/operations/DepositMoney.hpp>
 #include <view/ui/operations/SelectFund.hpp>
+#include <view/ui/visualization/SelectLanguage.hpp>
 #include <view/ui/operations/TransferMoney.hpp>
 #include <view/ui/operations/WithdrawMoney.hpp>
 #include <view/ui/visualization/ShowMessage.hpp>
@@ -23,6 +24,7 @@
 #include <viewModel/dds/visualization/Communication.hpp>
 #include <viewModel/ui/operations/Deposit.hpp>
 #include <viewModel/ui/operations/SelectFund.hpp>
+#include <viewModel/ui/visualization/SelectLanguage.hpp>
 #include <viewModel/ui/operations/Transfer.hpp>
 #include <viewModel/ui/operations/Withdraw.hpp>
 #include <viewModel/ui/visualization/ShowMessage.hpp>
@@ -35,6 +37,7 @@ using VisualizeFundIncludeView = frontend::view::includeView::visualization::Vis
 using VisualizeIncludeView = frontend::view::includeView::visualization::Visualize;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoney;
 using SelectFundView = frontend::view::ui::operations::SelectFund;
+using SelectLanguageView = frontend::view::ui::visualization::SelectLanguage;
 using TransferMoneyView = frontend::view::ui::operations::TransferMoney;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoney;
 using VisualizeFundView = frontend::view::ui::visualization::VisualizeFund;
@@ -44,6 +47,7 @@ using DDSViewModelOperations = frontend::viewModel::dds::operations::Communicati
 using DDSViewModelVisualization = frontend::viewModel::dds::visualization::Communication;
 using DepositViewModel = frontend::viewModel::ui::operations::Deposit;
 using SelectFundViewModel = frontend::viewModel::ui::operations::SelectFund;
+using SelectLanguageViewModel = frontend::viewModel::ui::visualization::SelectLanguage;
 using TransferViewModel = frontend::viewModel::ui::operations::Transfer;
 using WithdrawViewModel = frontend::viewModel::ui::operations::Withdraw;
 using ShowMessageViewModel = frontend::viewModel::ui::visualization::ShowMessage;
@@ -78,6 +82,7 @@ int main(int argc, char *argv[])
   std::shared_ptr<VisualizeViewModel> visualizeViewModel =
       std::make_shared<VisualizeViewModel>();
   std::shared_ptr<SelectFundViewModel> selectFundViewModel = std::make_shared<SelectFundViewModel>();
+  std::shared_ptr<SelectLanguageViewModel> selectLanguageViewModel = std::make_shared<SelectLanguageViewModel>(allLanguages);
   std::shared_ptr<TransferViewModel> transferViewModel = std::make_shared<TransferViewModel>();
   std::shared_ptr<ShowMessageViewModel> showMessageViewModel = std::make_shared<ShowMessageViewModel>();
 
@@ -97,6 +102,8 @@ int main(int argc, char *argv[])
   std::shared_ptr<VisualizeView> visualizeView = std::make_shared<VisualizeView>(allLanguages, engine);
   std::shared_ptr<SelectFundView> selectFundView =
       std::make_shared<SelectFundView>(selectFundViewModel, engine);
+  std::shared_ptr<SelectLanguageView> selectLanguageView =
+      std::make_shared<SelectLanguageView>(selectLanguageViewModel, engine);
   std::shared_ptr<TransferMoneyView> transferMoneyView =
       std::make_shared<TransferMoneyView>(transferViewModel, engine);
   std::shared_ptr<ShowMessageView> showMessageView = std::make_shared<ShowMessageView>(allLanguages, engine);
@@ -125,6 +132,7 @@ int main(int argc, char *argv[])
   engine.rootContext()->setContextProperty("selectFundView", selectFundView.get());
   engine.rootContext()->setContextProperty("transferMoneyView", transferMoneyView.get());
   engine.rootContext()->setContextProperty("visualizeView", visualizeView.get());
+  engine.rootContext()->setContextProperty("selectLanguageView", selectLanguageView.get());
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));
   QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

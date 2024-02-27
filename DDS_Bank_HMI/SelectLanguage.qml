@@ -10,5 +10,6 @@ ComboBox
     onCurrentTextChanged:
     {
         //TODO: SelectLanguage
+        selectLanguageView.setLanguage(selectLanguageComboBox.currentText)
     }
 }

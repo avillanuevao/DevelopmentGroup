@@ -10,15 +10,18 @@ namespace visualization
 {
 
 
-SelectLanguage::SelectLanguage(QQmlApplicationEngine& engine, QObject* parent) :
-  mEngine(engine), mParent(parent)
+SelectLanguage::SelectLanguage(std::shared_ptr<viewModel::ui::visualization::SelectLanguage> viewModel,
+                               QQmlApplicationEngine& engine, QObject* parent) :
+  mViewModel(viewModel), mEngine(engine), mParent(parent)
 {
 
 }
 
 void SelectLanguage::setLanguage(QString language)
 {
-
+  model::visualization::language::kLanguagesAvailables literal =
+      model::visualization::language::kLanguagesAvailables::_from_string_nocase(language.toStdString().c_str());
+  mViewModel->selectLanguage(literal);
 }
 
 }  // namespace visualization

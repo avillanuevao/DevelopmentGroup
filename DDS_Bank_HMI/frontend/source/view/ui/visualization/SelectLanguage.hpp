@@ -1,8 +1,12 @@
 #ifndef FRONTEND_VIEW_UI_VISUALIZATION_SELECTLANGUAGE_HPP
 #define FRONTEND_VIEW_UI_VISUALIZATION_SELECTLANGUAGE_HPP
 
+#include <memory>
+
 #include <QObject>
 #include <QQmlApplicationEngine>
+
+#include <frontend/source/viewModel/ui/visualization/SelectLanguage.hpp>
 
 namespace frontend
 {
@@ -19,12 +23,14 @@ class SelectLanguage :
     Q_OBJECT
 
   public:
-    SelectLanguage(QQmlApplicationEngine& engine, QObject* parent = nullptr);
+    SelectLanguage(std::shared_ptr<frontend::viewModel::ui::visualization::SelectLanguage> viewModel,
+                   QQmlApplicationEngine& engine, QObject* parent = nullptr);
 
   public slots:
     void setLanguage(QString language);
 
   private:
+    std::shared_ptr<frontend::viewModel::ui::visualization::SelectLanguage> mViewModel;
     QQmlApplicationEngine& mEngine;
     QObject* mParent;
 };
