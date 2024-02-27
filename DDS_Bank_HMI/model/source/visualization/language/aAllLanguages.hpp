@@ -7,6 +7,8 @@
 #include <visualization/language/aLanguage.hpp>
 #include <visualization/language/iSetLanguage.hpp>
 #include <visualization/language/kLanguagesAvailables.hpp>
+#include <designPattern/SignalPublisher.hpp>
+#include <visualization/language/signal/UpdatedLanguage.hpp>
 
 namespace model
 {
@@ -17,7 +19,8 @@ namespace language
 
 class aAllLanguages :
     public model::visualization::language::aLanguage,
-    public model::visualization::language::iSetLanguage
+    public model::visualization::language::iSetLanguage,
+    public utils::designPattern::SignalPublisher<model::visualization::language::signal::UpdatedLanguage>
 {
   public:
     aAllLanguages(model::visualization::language::kLanguagesAvailables actualLanguage);

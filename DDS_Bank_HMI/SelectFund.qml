@@ -6,8 +6,7 @@ import QtQuick.Layouts 1.12
 ComboBox
 {
     id: selectFundTypeComboBox
-
-    model: fundsAvailables
+    property alias modelFund: selectFundTypeComboBox.model
 
     onCurrentTextChanged:
     {

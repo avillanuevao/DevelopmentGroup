@@ -15,13 +15,11 @@ ColumnLayout
         Text
         {
             id: destinationTransfer
-            text: destinationTransferText
         }
 
         ComboBox
         {
             id: fundTypeDestinationTransferComboBox
-            model: fundsAvailables
             onCurrentTextChanged:
             {
                 transferMoneyView.setDestinationFundType(fundTypeDestinationTransferComboBox.currentText);
@@ -32,14 +30,12 @@ ColumnLayout
     TextField
     {
         id: amountTextField
-        placeholderText: amountTransfer
         validator: RegExpValidator{ regExp: /^\d+$/ }
     }
 
     Button
     {
         id: acceptButton
-        text: accept
 
         onClicked:
         {

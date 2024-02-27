@@ -15,6 +15,7 @@ Window {
         SelectLanguage
         {
             id: selectLanguage
+            objectName: "selectLanguage"
             visible: true
         }
 
@@ -25,7 +26,6 @@ Window {
             {
                 id: depositRB
                 objectName: "depositRB"
-                text: depositText
 
                 onClicked:
                 {
@@ -38,7 +38,6 @@ Window {
             {
                 id: withdrawRB
                 objectName: "withdrawRB"
-                text: withdrawText
 
                 onClicked:
                 {
@@ -51,7 +50,6 @@ Window {
             {
                 id: transferRB
                 objectName: "transferRB"
-                text: transferText
 
                 onClicked:
                 {
@@ -65,6 +63,7 @@ Window {
         SelectFund
         {
             id: selectFund
+            objectName: "selectFund"
             visible: true
         }
 

@@ -11,12 +11,14 @@
 #include <view/dds/operations/Communication.hpp>
 #include <view/dds/visualization/Communication.hpp>
 #include <view/includeView/visualization/VisualizeFund.hpp>
+#include <view/includeView/visualization/Visualize.hpp>
 #include <view/ui/operations/DepositMoney.hpp>
 #include <view/ui/operations/SelectFund.hpp>
 #include <view/ui/operations/TransferMoney.hpp>
 #include <view/ui/operations/WithdrawMoney.hpp>
 #include <view/ui/visualization/ShowMessage.hpp>
 #include <view/ui/visualization/VisualizeFund.hpp>
+#include <view/ui/visualization/Visualize.hpp>
 #include <viewModel/dds/operations/Communication.hpp>
 #include <viewModel/dds/visualization/Communication.hpp>
 #include <viewModel/ui/operations/Deposit.hpp>
@@ -25,15 +27,18 @@
 #include <viewModel/ui/operations/Withdraw.hpp>
 #include <viewModel/ui/visualization/ShowMessage.hpp>
 #include <viewModel/ui/visualization/VisualizeFund.hpp>
+#include <viewModel/ui/visualization/Visualize.hpp>
 
 using CommunicationOperations = frontend::view::dds::operations::Communication;
 using CommunicationVisualization = frontend::view::dds::visualization::Communication;
 using VisualizeFundIncludeView = frontend::view::includeView::visualization::VisualizeFund;
+using VisualizeIncludeView = frontend::view::includeView::visualization::Visualize;
 using DepositMoneyView = frontend::view::ui::operations::DepositMoney;
 using SelectFundView = frontend::view::ui::operations::SelectFund;
 using TransferMoneyView = frontend::view::ui::operations::TransferMoney;
 using WithdrawMoneyView = frontend::view::ui::operations::WithdrawMoney;
 using VisualizeFundView = frontend::view::ui::visualization::VisualizeFund;
+using VisualizeView = frontend::view::ui::visualization::Visualize;
 using ShowMessageView = frontend::view::ui::visualization::ShowMessage;
 using DDSViewModelOperations = frontend::viewModel::dds::operations::Communication;
 using DDSViewModelVisualization = frontend::viewModel::dds::visualization::Communication;
@@ -43,6 +48,7 @@ using TransferViewModel = frontend::viewModel::ui::operations::Transfer;
 using WithdrawViewModel = frontend::viewModel::ui::operations::Withdraw;
 using ShowMessageViewModel = frontend::viewModel::ui::visualization::ShowMessage;
 using VisualizeFundViewModel = frontend::viewModel::ui::visualization::VisualizeFund;
+using VisualizeViewModel = frontend::viewModel::ui::visualization::Visualize;
 
 int main(int argc, char *argv[])
 {
@@ -69,6 +75,8 @@ int main(int argc, char *argv[])
       std::make_shared<DDSViewModelVisualization>(allMessage);
   std::shared_ptr<VisualizeFundViewModel> visualizeFundViewModel =
       std::make_shared<VisualizeFundViewModel>(allFunds);
+  std::shared_ptr<VisualizeViewModel> visualizeViewModel =
+      std::make_shared<VisualizeViewModel>();
   std::shared_ptr<SelectFundViewModel> selectFundViewModel = std::make_shared<SelectFundViewModel>();
   std::shared_ptr<TransferViewModel> transferViewModel = std::make_shared<TransferViewModel>();
   std::shared_ptr<ShowMessageViewModel> showMessageViewModel = std::make_shared<ShowMessageViewModel>();
@@ -83,7 +91,10 @@ int main(int argc, char *argv[])
       std::make_shared<CommunicationVisualization>(0, 2, ddsViewModelVisualization);
   std::shared_ptr<VisualizeFundIncludeView> visualizeFundIncludeView =
       std::make_shared<VisualizeFundIncludeView>(visualizeFundViewModel);
+  std::shared_ptr<VisualizeIncludeView> visualizeIncludeView =
+      std::make_shared<VisualizeIncludeView>(visualizeViewModel);
   std::shared_ptr<VisualizeFundView> visualizeFundView = std::make_shared<VisualizeFundView>(engine);
+  std::shared_ptr<VisualizeView> visualizeView = std::make_shared<VisualizeView>(allLanguages, engine);
   std::shared_ptr<SelectFundView> selectFundView =
       std::make_shared<SelectFundView>(selectFundViewModel, engine);
   std::shared_ptr<TransferMoneyView> transferMoneyView =
@@ -97,46 +108,18 @@ int main(int argc, char *argv[])
 
   allMessage->addSubscriber(showMessageViewModel);
 
+  allLanguages->addSubscriber(visualizeIncludeView);
+
   depositViewModel->addSubscriber(communicationOperations);
   withdrawViewModel->addSubscriber(communicationOperations);
   visualizeFundViewModel->addSubscriber(visualizeFundView);
   selectFundViewModel->addSubscriber(communicationOperations);
   transferViewModel->addSubscriber(communicationOperations);
   showMessageViewModel->addSubscriber(showMessageView);
+  visualizeViewModel->addSubscriber(visualizeView);
 
-  QString english = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::English));
-  QString spanish = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Spanish));
-  QVariantList allLanguagesAvailables;
+  allLanguages->setLanguage(model::visualization::language::kLanguagesAvailables::English);
 
-  allLanguagesAvailables.append(english);
-  allLanguagesAvailables.append(spanish);
-
-  QString savings = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Savings));
-  QString housing = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Housing));
-  QVariantList allFundsAvailables;
-
-  allFundsAvailables.append(savings);
-  allFundsAvailables.append(housing);
-
-  QString depositText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Deposit));
-  QString withdrawText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Withdraw));
-  QString transferText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Transfer));
-  QString acceptText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::Accept));
-  QString amountDepositText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::AmountDeposit));
-  QString amountWithdrawText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::AmountWithdraw));
-  QString amountTransferText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::AmountTransfer));
-  QString destinationTransferText = QString::fromStdString(allLanguages->literalToString(model::visualization::language::kLiterals::DestinationTransfer));
-
-  engine.rootContext()->setContextProperty("languagesAvailables", QVariant::fromValue(allLanguagesAvailables));
-  engine.rootContext()->setContextProperty("fundsAvailables", QVariant::fromValue(allFundsAvailables));
-  engine.rootContext()->setContextProperty("depositText", depositText);
-  engine.rootContext()->setContextProperty("withdrawText", withdrawText);
-  engine.rootContext()->setContextProperty("transferText", transferText);
-  engine.rootContext()->setContextProperty("acceptText", acceptText);
-  engine.rootContext()->setContextProperty("amountDepositText", amountDepositText);
-  engine.rootContext()->setContextProperty("amountWithdrawText", amountWithdrawText);
-  engine.rootContext()->setContextProperty("amountTransferText", amountTransferText);
-  engine.rootContext()->setContextProperty("destinationTransferText", destinationTransferText);
   engine.rootContext()->setContextProperty("depositMoneyView", depositMoneyView.get());
   engine.rootContext()->setContextProperty("withdrawMoneyView", withdrawMoneyView.get());
   engine.rootContext()->setContextProperty("selectFundView", selectFundView.get());

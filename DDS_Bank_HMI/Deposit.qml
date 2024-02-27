@@ -11,15 +11,12 @@ ColumnLayout
     TextField
     {
         id: amountTextField
-        placeholderText: amountDeposit
-
         validator: RegExpValidator{ regExp: /^\d+$/ }
     }
 
     Button
     {
         id: acceptButton
-        text: accept
 
         onClicked:
         {

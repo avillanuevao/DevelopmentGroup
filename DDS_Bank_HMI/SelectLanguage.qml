@@ -6,10 +6,9 @@ ComboBox
 {
     id: selectLanguageComboBox
     property alias modelLanguage: selectLanguageComboBox.model
-    model: languagesAvailables
 
     onCurrentTextChanged:
     {
-
+        //TODO: SelectLanguage
     }
 }

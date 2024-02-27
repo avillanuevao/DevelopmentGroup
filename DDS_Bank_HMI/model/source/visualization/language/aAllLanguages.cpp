@@ -33,6 +33,9 @@ std::shared_ptr<aLanguage> aAllLanguages::getLanguage(
 void aAllLanguages::setLanguage(model::visualization::language::kLanguagesAvailables newLanguage)
 {
   mActualLanguage = newLanguage;
+
+  model::visualization::language::signal::UpdatedLanguage signal;
+  notifySubscribers(signal);
 }
 
 std::shared_ptr<aLanguage> aAllLanguages::getActualLanguage()

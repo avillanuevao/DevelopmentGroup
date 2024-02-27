@@ -10,14 +10,14 @@ namespace visualization
 {
 
 Visualize::Visualize(std::shared_ptr<viewModel::ui::visualization::Visualize> visualize) :
-  mVisualize(visualize)
+  mViewModel(visualize)
 {
 
 }
 
 void Visualize::recievedSignal(model::visualization::language::signal::UpdatedLanguage signal)
 {
-  mVisualize->updatedLanguage();
+  mViewModel->updatedLanguage();
 }
 
 }  // namespace visualization

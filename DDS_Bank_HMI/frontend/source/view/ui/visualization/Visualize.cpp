@@ -1,5 +1,7 @@
 #include "Visualize.hpp"
 
+using kLiterals = model::visualization::language::kLiterals;
+
 namespace frontend
 {
 namespace view
@@ -9,67 +11,27 @@ namespace  ui
 namespace visualization
 {
 
-Visualize::Visualize(QQmlApplicationEngine& engine, QObject* parent) :
-  mEngine(engine), mParent(parent)
+Visualize::Visualize(const std::shared_ptr<model::visualization::language::aLanguage> language,
+                     QQmlApplicationEngine& engine, QObject* parent) :
+  mLanguage(language), mEngine(engine), mParent(parent)
+{
+  initFundsAvailables();
+  initLanguagesAvailables();
+  initObjectsQML();
+}
+
+Visualize::~Visualize()
 {
 
 }
 
 void Visualize::recievedSignal(viewModel::ui::visualization::signal::UpdatedLanguage signal)
 {
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "depositRB"),
-                            Q_ARG(QVariant, "text"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::Deposit))));
 
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "withdrawRB"),
-                            Q_ARG(QVariant, "text"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::Withdraw))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "transferRB"),
-                            Q_ARG(QVariant, "text"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::Transfer))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "deposit"),
-                            Q_ARG(QVariant, "textButton"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::Accept))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "deposit"),
-                            Q_ARG(QVariant, "placeholderText"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::AmountDeposit))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "withdraw"),
-                            Q_ARG(QVariant, "textButton"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::Accept))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "withdraw"),
-                            Q_ARG(QVariant, "placeholderText"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::AmountWithdraw))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "transfer"),
-                            Q_ARG(QVariant, "textButton"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::Transfer))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "transfer"),
-                            Q_ARG(QVariant, "textDestination"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::DestinationTransfer))));
-
-  QMetaObject::invokeMethod(this, "showMessageQML", Qt::QueuedConnection, Q_ARG(QVariant, "transfer"),
-                            Q_ARG(QVariant, "placeholderText"), Q_ARG(QVariant,
-                                  QString::fromStdString(mLanguage->literalToString(
-                                                           model::visualization::language::kLiterals::AmountTransfer))));
-  //TODO:     property alias modelFund: fundTypeDestinationTransferComboBox.model
+  refreshQMLContent();
 }
 
-void Visualize::showMessageQML(QString objectName, QString property, QString propertyValue)
+void Visualize::updateQML(QVariant objectName, QVariant property, QVariant propertyValue)
 {
   if(!mEngine.rootObjects().isEmpty())
   {
@@ -78,14 +40,14 @@ void Visualize::showMessageQML(QString objectName, QString property, QString pro
 
     if(rootWindow)
     {
-      QObject* objectQML = rootObject->findChild<QObject*>(objectName, Qt::FindChildrenRecursively);
+      QObject* objectQML = rootObject->findChild<QObject*>(objectName.toString(), Qt::FindChildrenRecursively);
       if(objectQML)
       {
-        objectQML->setProperty(property.toStdString().c_str(), propertyValue);
+        objectQML->setProperty(property.toString().toStdString().c_str(), propertyValue);
       }
       else
       {
-        std::cerr << "Error: Unable to find QML object with id '" << objectName.toStdString() <<"'." <<
+        std::cerr << "Error: Unable to find QML object with id '" << objectName.toString().toStdString() <<"'." <<
                      std::endl;
       }
     }
@@ -97,6 +59,83 @@ void Visualize::showMessageQML(QString objectName, QString property, QString pro
   else
   {
     std::cerr << "Error: No root objects found." << std::endl;
+  }
+}
+
+void Visualize::initObjectsQML()
+{
+  mObjectsQML.push_back(ObjectQML{"depositRB", "text", kLiterals::Deposit});
+
+  mObjectsQML.push_back(ObjectQML{"withdrawRB", "text", kLiterals::Withdraw});
+
+  mObjectsQML.push_back(ObjectQML{"transferRB", "text", kLiterals::Transfer});
+
+  mObjectsQML.push_back(ObjectQML{"deposit", "textButton", kLiterals::Accept});
+
+  mObjectsQML.push_back(ObjectQML{"deposit", "placeholderText", kLiterals::AmountDeposit});
+
+  mObjectsQML.push_back(ObjectQML{"withdraw", "textButton", kLiterals::Accept});
+
+  mObjectsQML.push_back(ObjectQML{"withdraw", "placeholderText", kLiterals::AmountWithdraw});
+
+  mObjectsQML.push_back(ObjectQML{"transfer", "textButton", kLiterals::Accept});
+
+  mObjectsQML.push_back(ObjectQML{"transfer", "placeholderText", kLiterals::AmountTransfer});
+
+  mObjectsQML.push_back(ObjectQML{"transfer", "textDestination", kLiterals::DestinationTransfer});
+}
+
+void Visualize::initComboBoxQML()
+{
+  mComboBoxQML.push_back(ComboBoxQML{"transfer", "modelFund", mFundsAvailables});
+
+  mComboBoxQML.push_back(ComboBoxQML{"selectFund", "modelFund", mFundsAvailables});
+
+  mComboBoxQML.push_back(ComboBoxQML{"selectLanguage", "modelLanguage", mLanguageAvailables});
+}
+
+void Visualize::initFundsAvailables()
+{
+  mFundsAvailables.push_back(kLiterals::Savings);
+  mFundsAvailables.push_back(kLiterals::Housing);
+}
+
+void Visualize::initLanguagesAvailables()
+{
+  mLanguageAvailables.push_back(kLiterals::English);
+  mLanguageAvailables.push_back(kLiterals::Spanish);
+}
+
+QVariantList Visualize::toQVariantList(std::list<model::visualization::language::kLiterals> literals)
+{
+  QVariantList elements;
+
+  for(const kLiterals literal : literals)
+  {
+    QString sLiteral = QString::fromStdString(mLanguage->literalToString(literal));
+
+    elements.append(sLiteral);
+  }
+
+  return elements;
+}
+
+void Visualize::refreshQMLContent()
+{
+  for(const ObjectQML& object : mObjectsQML)
+  {
+    // TODO: New name to sLiteral
+    QString sLiteral = QString::fromStdString(mLanguage->literalToString(object.literal));
+
+    QMetaObject::invokeMethod(this, "updateQML", Qt::QueuedConnection, Q_ARG(QVariant, object.id),
+                              Q_ARG(QVariant, object.property), Q_ARG(QVariant, sLiteral));
+  }
+
+  for(const ComboBoxQML& comboBox : mComboBoxQML)
+  {
+    QMetaObject::invokeMethod(this, "updateQML", Qt::QueuedConnection, Q_ARG(QVariant, comboBox.id),
+                              Q_ARG(QVariant, comboBox.property),
+                              Q_ARG(QVariantList, toQVariantList(comboBox.model)));
   }
 }
 

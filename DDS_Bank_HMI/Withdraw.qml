@@ -11,7 +11,6 @@ ColumnLayout
     TextField
     {
         id: amountTextField
-        placeholderText: amountWithdraw
 
         validator: RegExpValidator{ regExp: /^\d+$/ }
         onTextChanged:
@@ -24,7 +23,6 @@ ColumnLayout
     Button
     {
         id: acceptButton
-        text: accept
 
         onClicked:
         {

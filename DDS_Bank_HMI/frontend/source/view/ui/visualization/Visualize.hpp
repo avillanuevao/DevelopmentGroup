@@ -1,4 +1,4 @@
-#ifndef FRONTEND_VIEW_UI_VISUALIZATION_VISUALIZE_HPP
+﻿#ifndef FRONTEND_VIEW_UI_VISUALIZATION_VISUALIZE_HPP
 #define FRONTEND_VIEW_UI_VISUALIZATION_VISUALIZE_HPP
 
 #include <iostream>
@@ -29,17 +29,46 @@ class Visualize :
 {
     Q_OBJECT
   public:
-    Visualize(QQmlApplicationEngine& engine, QObject* parent = nullptr);
+    Visualize(const std::shared_ptr<model::visualization::language::aLanguage> language,
+              QQmlApplicationEngine& engine, QObject* parent = nullptr);
+
+    ~Visualize() override;
 
     void recievedSignal(frontend::viewModel::ui::visualization::signal::UpdatedLanguage signal) override;
 
   private slots:
-    void showMessageQML(QString objectName, QString property, QString propertyValue);
+    void updateQML(QVariant objectName, QVariant property, QVariant propertyValue);
+    void refreshQMLContent();
 
   private:
+    struct ObjectQML
+    {
+        QString id;
+        QString property;
+        model::visualization::language::kLiterals literal;
+    };
+
+    struct ComboBoxQML
+    {
+        QString id;
+        QString property;
+        std::list<model::visualization::language::kLiterals> model;
+    };
+
+    void initObjectsQML();
+    void initComboBoxQML();
+    void initFundsAvailables();
+    void initLanguagesAvailables();
+    QVariantList toQVariantList(std::list<model::visualization::language::kLiterals> literals);
+
+
     const std::shared_ptr<model::visualization::language::aLanguage> mLanguage;
     QQmlApplicationEngine& mEngine;
     QObject* mParent;
+    std::list<ObjectQML> mObjectsQML;
+    std::list<ComboBoxQML> mComboBoxQML;
+    std::list<model::visualization::language::kLiterals> mFundsAvailables;
+    std::list<model::visualization::language::kLiterals> mLanguageAvailables;
 };
 
 }  // namespace visualization

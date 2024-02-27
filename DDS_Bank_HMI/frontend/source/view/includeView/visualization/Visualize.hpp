@@ -25,7 +25,7 @@ class Visualize :
     void recievedSignal(model::visualization::language::signal::UpdatedLanguage signal) override;
 
   private:
-    std::shared_ptr<frontend::viewModel::ui::visualization::Visualize> mVisualize;
+    std::shared_ptr<frontend::viewModel::ui::visualization::Visualize> mViewModel;
 };
 
 #endif  // FRONTEND_VIEW_INCLUDEVIEW_VISUALIZATION_VISUALIZE_HPP
