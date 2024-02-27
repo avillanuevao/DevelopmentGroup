@@ -37,7 +37,8 @@ class Visualize :
     void recievedSignal(frontend::viewModel::ui::visualization::signal::UpdatedLanguage signal) override;
 
   private slots:
-    void updateQML(QVariant objectName, QVariant property, QVariant propertyValue);
+    void updateObjectQML(QVariant objectName, QVariant property, QVariant propertyValue);
+    void updateComboBoxQML(QVariant objectName, QVariant property, QVariantList propertyValue);
     void refreshQMLContent();
 
   private:

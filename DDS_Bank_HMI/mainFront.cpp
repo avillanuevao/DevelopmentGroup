@@ -124,6 +124,7 @@ int main(int argc, char *argv[])
   engine.rootContext()->setContextProperty("withdrawMoneyView", withdrawMoneyView.get());
   engine.rootContext()->setContextProperty("selectFundView", selectFundView.get());
   engine.rootContext()->setContextProperty("transferMoneyView", transferMoneyView.get());
+  engine.rootContext()->setContextProperty("visualizeView", visualizeView.get());
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));
   QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -18,6 +18,7 @@ Visualize::Visualize(const std::shared_ptr<model::visualization::language::aLang
   initFundsAvailables();
   initLanguagesAvailables();
   initObjectsQML();
+  initComboBoxQML();
 }
 
 Visualize::~Visualize()
@@ -31,7 +32,7 @@ void Visualize::recievedSignal(viewModel::ui::visualization::signal::UpdatedLang
   refreshQMLContent();
 }
 
-void Visualize::updateQML(QVariant objectName, QVariant property, QVariant propertyValue)
+void Visualize::updateObjectQML(QVariant objectName, QVariant property, QVariant propertyValue)
 {
   if(!mEngine.rootObjects().isEmpty())
   {
@@ -49,6 +50,33 @@ void Visualize::updateQML(QVariant objectName, QVariant property, QVariant prope
       {
         std::cerr << "Error: Unable to find QML object with id '" << objectName.toString().toStdString() <<"'." <<
                      std::endl;
+      }
+    }
+    else
+    {
+      std::cerr << "Error: Root object is not a QQuickWindow." << std::endl;
+    }
+  }
+  else
+  {
+    std::cerr << "Error: No root objects found." << std::endl;
+  }
+}
+
+void Visualize::updateComboBoxQML(QVariant objectName, QVariant property, QVariantList propertyValue)
+{
+  if(!mEngine.rootObjects().isEmpty())
+  {
+    QObject* rootObject = mEngine.rootObjects().first();
+    QQuickWindow* rootWindow = qobject_cast<QQuickWindow*>(rootObject);
+
+    if(rootWindow)
+    {
+      QObject* objectQML = rootObject->findChild<QObject*>(objectName.toString(), Qt::FindChildrenRecursively);
+      if(objectQML)
+      {
+
+        objectQML->setProperty(property.toString().toStdString().c_str(), propertyValue);
       }
     }
     else
@@ -127,13 +155,13 @@ void Visualize::refreshQMLContent()
     // TODO: New name to sLiteral
     QString sLiteral = QString::fromStdString(mLanguage->literalToString(object.literal));
 
-    QMetaObject::invokeMethod(this, "updateQML", Qt::QueuedConnection, Q_ARG(QVariant, object.id),
+    QMetaObject::invokeMethod(this, "updateObjectQML", Qt::QueuedConnection, Q_ARG(QVariant, object.id),
                               Q_ARG(QVariant, object.property), Q_ARG(QVariant, sLiteral));
   }
 
   for(const ComboBoxQML& comboBox : mComboBoxQML)
   {
-    QMetaObject::invokeMethod(this, "updateQML", Qt::QueuedConnection, Q_ARG(QVariant, comboBox.id),
+    QMetaObject::invokeMethod(this, "updateComboBoxQML", Qt::QueuedConnection, Q_ARG(QVariant, comboBox.id),
                               Q_ARG(QVariant, comboBox.property),
                               Q_ARG(QVariantList, toQVariantList(comboBox.model)));
   }
