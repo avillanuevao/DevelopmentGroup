@@ -2,9 +2,9 @@
 #define BACKEND_CONTROLLER_OPERATIONS_DEPOSITMONEY_HPP
 
 #include <iostream>
-#include <limits>
 #include <memory>
 
+#include <backend/source/controller/operations/signal/SaveFund.hpp>
 #include <backend/source/controller/operations/signal/ShowMessage.hpp>
 #include <model/source/operations/iFundGetParameters.hpp>
 #include <model/source/operations/iFundIncreaseAmount.hpp>
@@ -18,7 +18,8 @@ namespace operations
 {
 
 class DepositMoney :
-    public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessage>
+    public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessage>,
+    public utils::designPattern::SignalPublisher<backend::controller::operations::signal::SaveFund>
 {
   public:
     DepositMoney(std::shared_ptr<model::operations::iFundIncreaseAmount> fundIncreaseAmount,
@@ -28,6 +29,7 @@ class DepositMoney :
 
   private:
     void sendShowMessageSignal(model::visualization::message::kMessageType messageType, int amount);
+    void sendSaveFundSignal(model::operations::kFundType fundChanged);
 
     std::shared_ptr<model::operations::iFundIncreaseAmount> mFundIncreaseAmount;
     std::shared_ptr<model::operations::iFundGetParameters> mFundGetParameter;

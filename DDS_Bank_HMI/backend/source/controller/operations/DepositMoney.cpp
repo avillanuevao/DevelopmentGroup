@@ -1,5 +1,12 @@
 #include "DepositMoney.hpp"
 
+using ShowMessageSignal = backend::controller::operations::signal::ShowMessage;
+using SaveFundSignal = backend::controller::operations::signal::SaveFund;
+using ShowMessageSignalPublisher = utils::designPattern::SignalPublisher<ShowMessageSignal>;
+using SaveFundSignalPublisher = utils::designPattern::SignalPublisher<SaveFundSignal>;
+using kMessageType = model::visualization::message::kMessageType;
+using kOperationType = model::visualization::message::kOperationType;
+
 namespace backend
 {
 namespace  controller
@@ -20,11 +27,12 @@ void DepositMoney::deposit(int amount)
   {
     mFundIncreaseAmount->increaseAmount(amount);
 
-    sendShowMessageSignal(model::visualization::message::kMessageType::Success, amount);
+    sendShowMessageSignal(kMessageType::Success, amount);
+    sendSaveFundSignal(mFundGetParameter->getFundType());
   }
   catch (std::logic_error e)
   {
-    sendShowMessageSignal(model::visualization::message::kMessageType::Failure, amount);
+    sendShowMessageSignal(kMessageType::Failure, amount);
 
     std::cerr << e.what() << std::endl;
   }
@@ -34,11 +42,17 @@ void DepositMoney::sendShowMessageSignal(model::visualization::message::kMessage
 {
   std::time_t date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-  backend::controller::operations::signal::ShowMessage signal(
-        date, messageType, model::visualization::message::kOperationType::Deposit,
-        amount, mFundGetParameter->getFundType());
+  ShowMessageSignal signal(date, messageType, kOperationType::Deposit, amount,
+                           mFundGetParameter->getFundType());
 
-  notifySubscribers(signal);
+  ShowMessageSignalPublisher::notifySubscribers(signal);
+}
+
+void DepositMoney::sendSaveFundSignal(model::operations::kFundType fundChanged)
+{
+  SaveFundSignal signal(fundChanged);
+
+  SaveFundSignalPublisher::notifySubscribers(signal);
 }
 
 }  // namespace operations

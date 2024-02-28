@@ -1,5 +1,12 @@
 #include "TransferMoney.hpp"
 
+using ShowMessageSignal = backend::controller::operations::signal::ShowMessage;
+using SaveFundSignal = backend::controller::operations::signal::SaveFund;
+using ShowMessageSignalPublisher = utils::designPattern::SignalPublisher<ShowMessageSignal>;
+using SaveFundSignalPublisher = utils::designPattern::SignalPublisher<SaveFundSignal>;
+using kMessageType = model::visualization::message::kMessageType;
+using kOperationType = model::visualization::message::kOperationType;
+
 namespace  backend
 {
 namespace  controller
@@ -20,12 +27,15 @@ void TransferMoney::transfer(model::operations::kFundType destinationFundType, i
   {
     mFundTransferAmount->transferAmount(destinationFundType, amount);
 
-    sendShowMessageSignal(model::visualization::message::kMessageType::Success, amount, destinationFundType);
+    sendShowMessageSignal(kMessageType::Success, amount, destinationFundType);
+    sendSaveFundSignal(mFundGetParameter->getFundType());
+    sendSaveFundSignal(destinationFundType);
   }
-  catch (std::logic_error e) {
+  catch (std::logic_error e)
+  {
     std::cerr << e.what() << std::endl;
 
-    sendShowMessageSignal(model::visualization::message::kMessageType::Failure, amount, destinationFundType);
+    sendShowMessageSignal(kMessageType::Failure, amount, destinationFundType);
   }
 }
 
@@ -34,11 +44,17 @@ void TransferMoney::sendShowMessageSignal(model::visualization::message::kMessag
 {
   std::time_t date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-  backend::controller::operations::signal::ShowMessage signal(
-        date, messageType, model::visualization::message::kOperationType::Transfer,
-        amount, mFundGetParameter->getFundType(), destinationFundType);
+  ShowMessageSignal signal(date, messageType, kOperationType::Transfer, amount,
+                           mFundGetParameter->getFundType(), destinationFundType);
 
-  notifySubscribers(signal);
+  ShowMessageSignalPublisher::notifySubscribers(signal);
+}
+
+void TransferMoney::sendSaveFundSignal(model::operations::kFundType fundChanged)
+{
+  SaveFundSignal signal(fundChanged);
+
+  SaveFundSignalPublisher::notifySubscribers(signal);
 }
 
 }  // namespace operations

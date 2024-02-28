@@ -1,5 +1,12 @@
 #include <backend/source/controller/operations/WithdrawMoney.hpp>
 
+using ShowMessageSignal = backend::controller::operations::signal::ShowMessage;
+using SaveFundSignal = backend::controller::operations::signal::SaveFund;
+using ShowMessageSignalPublisher = utils::designPattern::SignalPublisher<ShowMessageSignal>;
+using SaveFundSignalPublisher = utils::designPattern::SignalPublisher<SaveFundSignal>;
+using kMessageType = model::visualization::message::kMessageType;
+using kOperationType = model::visualization::message::kOperationType;
+
 namespace backend
 {
 namespace controller
@@ -20,11 +27,16 @@ void WithdrawMoney::withdraw(int amount)
   {
     mFundDecreaseAmount->decreaseAmount(amount);
 
-    sendShowMessageSignal(model::visualization::message::kMessageType::Success, amount);
+    sendShowMessageSignal(kMessageType::Success, amount);
+    sendSaveFundSignal(mFundGetParameters->getFundType());
+    if(+mFundGetParameters->getFundType() != +model::operations::kFundType::Savings)
+    {
+      sendSaveFundSignal(model::operations::kFundType::Savings);
+    }
   }
   catch (std::logic_error e)
   {
-    sendShowMessageSignal(model::visualization::message::kMessageType::Failure, amount);
+    sendShowMessageSignal(kMessageType::Failure, amount);
 
     std::cerr << e.what() << std::endl;
   }
@@ -34,11 +46,17 @@ void WithdrawMoney::sendShowMessageSignal(model::visualization::message::kMessag
 {
   std::time_t date = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-  backend::controller::operations::signal::ShowMessage signal(
-        date, messageType, model::visualization::message::kOperationType::Withdraw,
-        amount, mFundGetParameters->getFundType());
+  ShowMessageSignal signal(date, messageType, kOperationType::Withdraw, amount,
+                           mFundGetParameters->getFundType());
 
-  notifySubscribers(signal);
+  ShowMessageSignalPublisher::notifySubscribers(signal);
+}
+
+void WithdrawMoney::sendSaveFundSignal(model::operations::kFundType fundChanged)
+{
+  SaveFundSignal signal(fundChanged);
+
+  SaveFundSignalPublisher::notifySubscribers(signal);
 }
 
 }  // namespace operations

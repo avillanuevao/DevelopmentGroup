@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include <backend/source/controller/operations/signal/SaveFund.hpp>
 #include <backend/source/controller/operations/signal/ShowMessage.hpp>
 #include <model/source/operations/iFundGetParameters.hpp>
 #include <model/source/operations/iFundTransferAmount.hpp>
@@ -16,7 +17,8 @@ namespace  operations
 {
 
 class TransferMoney :
-    public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessage>
+    public utils::designPattern::SignalPublisher<backend::controller::operations::signal::ShowMessage>,
+    public utils::designPattern::SignalPublisher<backend::controller::operations::signal::SaveFund>
 {
   public:
     TransferMoney(std::shared_ptr<model::operations::iFundTransferAmount> fundTransferAmount,
@@ -27,6 +29,7 @@ class TransferMoney :
   private:
     void sendShowMessageSignal(model::visualization::message::kMessageType messageType, int amount,
                                model::operations::kFundType destinationFundType);
+    void sendSaveFundSignal(model::operations::kFundType fundChanged);
 
     std::shared_ptr<model::operations::iFundTransferAmount> mFundTransferAmount;
     std::shared_ptr<model::operations::iFundGetParameters> mFundGetParameter;
