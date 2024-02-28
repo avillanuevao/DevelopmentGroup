@@ -16,7 +16,7 @@ ColumnLayout
         onTextChanged:
         {
 
-            console.log(amountWithdraw.text)
+            console.log(amountTextField.text)
         }
     }
 
@@ -26,7 +26,7 @@ ColumnLayout
 
         onClicked:
         {
-            withdrawMoneyView.setAmountToWithdraw(amountWithdraw.text)
+            withdrawMoneyView.setAmountToWithdraw(amountTextField.text)
             withdrawMoneyView.withdrawMoney()
         }
     }

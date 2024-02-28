@@ -39,7 +39,7 @@ ColumnLayout
 
         onClicked:
         {
-            transferMoneyView.setAmountToTransfer(amountTransferTextField.text)
+            transferMoneyView.setAmountToTransfer(amountTextField.text)
             transferMoneyView.transferMoney();
         }
     }

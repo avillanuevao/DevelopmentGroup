@@ -1,5 +1,7 @@
 #include "SelectFund.hpp"
 
+using kFundType = model::operations::kFundType;
+
 namespace frontend
 {
 namespace view
@@ -13,20 +15,19 @@ SelectFund::SelectFund(std::shared_ptr<frontend::viewModel::ui::operations::Sele
                        QQmlApplicationEngine& engine, QObject* parent) :
   mViewModel(selectFundViewModel), mEngine(engine), mParent(parent)
 {
-
+  mOrderFundType.push_back(kFundType::Savings);
+  mOrderFundType.push_back(kFundType::Housing);
 }
 
-void SelectFund::setFundType(QString fundType)
+void SelectFund::setFundType(int fundType)
 {
   try
   {
-    model::operations::kFundType modelFundType =
-        model::operations::kFundType::_from_string_nocase(fundType.toStdString().c_str());
-    mViewModel->selectFund(modelFundType);
+    mViewModel->selectFund(mOrderFundType.at(fundType));
   }
   catch (std::runtime_error e)
   {
-    e.what();
+    std::cerr << __FUNCTION__ << e.what() << std::endl;
   }
 
 }

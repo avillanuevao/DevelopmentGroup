@@ -6,10 +6,10 @@ ComboBox
 {
     id: selectLanguageComboBox
     property alias modelLanguage: selectLanguageComboBox.model
-
-    onCurrentTextChanged:
+    onCurrentIndexChanged:
     {
-        //TODO: SelectLanguage
-        selectLanguageView.setLanguage(selectLanguageComboBox.currentText)
+        selectLanguageView.setLanguage(selectLanguageComboBox.currentIndex)
+
+        console.log("Indice cambiado a :" + currentIndex)
     }
 }

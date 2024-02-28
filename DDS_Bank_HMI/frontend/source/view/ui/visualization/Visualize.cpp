@@ -75,7 +75,6 @@ void Visualize::updateComboBoxQML(QVariant objectName, QVariant property, QVaria
       QObject* objectQML = rootObject->findChild<QObject*>(objectName.toString(), Qt::FindChildrenRecursively);
       if(objectQML)
       {
-
         objectQML->setProperty(property.toString().toStdString().c_str(), propertyValue);
       }
     }

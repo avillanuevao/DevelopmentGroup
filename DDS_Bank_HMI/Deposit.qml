@@ -20,7 +20,7 @@ ColumnLayout
 
         onClicked:
         {
-            depositMoneyView.setAmountToDeposit(amount.text)
+            depositMoneyView.setAmountToDeposit(amountTextField.text)
             depositMoneyView.depositMoney()
         }
     }

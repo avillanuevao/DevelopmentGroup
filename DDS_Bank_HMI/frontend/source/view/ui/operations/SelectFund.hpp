@@ -1,7 +1,9 @@
 #ifndef FRONTEND_VIEW_UI_OPERATIONS_SELECTFUND_HPP
 #define FRONTEND_VIEW_UI_OPERATIONS_SELECTFUND_HPP
 
+#include <vector>
 #include <memory>
+#include <iostream>
 
 #include <QObject>
 #include <QQmlApplicationEngine>
@@ -28,12 +30,13 @@ class SelectFund :
                QQmlApplicationEngine& engine, QObject* parent = nullptr);
 
   public slots:
-    void setFundType(QString fundType);
+    void setFundType(int fundType);
 
   private:
     std::shared_ptr<frontend::viewModel::ui::operations::SelectFund> mViewModel;
     QQmlApplicationEngine& mEngine;
     QObject* mParent;
+    std::vector<model::operations::kFundType> mOrderFundType;
 };
 
 }  // namespace operations

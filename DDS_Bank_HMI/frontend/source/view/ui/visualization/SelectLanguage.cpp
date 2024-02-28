@@ -14,14 +14,13 @@ SelectLanguage::SelectLanguage(std::shared_ptr<viewModel::ui::visualization::Sel
                                QQmlApplicationEngine& engine, QObject* parent) :
   mViewModel(viewModel), mEngine(engine), mParent(parent)
 {
-
+  mOrderLanguages.push_back(model::visualization::language::kLanguagesAvailables::English);
+  mOrderLanguages.push_back(model::visualization::language::kLanguagesAvailables::Spanish);
 }
 
-void SelectLanguage::setLanguage(QString language)
+void SelectLanguage::setLanguage(int language)
 {
-  model::visualization::language::kLanguagesAvailables literal =
-      model::visualization::language::kLanguagesAvailables::_from_string_nocase(language.toStdString().c_str());
-  mViewModel->selectLanguage(literal);
+  mViewModel->selectLanguage(mOrderLanguages.at(language));
 }
 
 }  // namespace visualization
