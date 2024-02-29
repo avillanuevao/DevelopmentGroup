@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 
+#include <backend/source/controller/systemConfiguration/InitializeApplication.hpp>
 #include <backend/source/controller/operations/DepositMoney.hpp>
 #include <backend/source/controller/operations/SaveFund.hpp>
 #include <backend/source/controller/operations/SelectFund.hpp>
@@ -16,6 +17,7 @@
 #include <model/source/operations/AllFunds.hpp>
 #include <model/source/visualization/message/AllMessages.hpp>
 
+using InitializeApplicationController = backend::controller::systemConfiguration::InitializeApplication;
 using DepositMoneyController = backend::controller::operations::DepositMoney;
 using SaveFundController = backend::controller::operations::SaveFund;
 using SelectFundController = backend::controller::operations::SelectFund;
@@ -73,6 +75,9 @@ int main(int argc, char *argv[])
   withdrawMoneyController->SaveFundSignalPublisher::addSubscriber(saveFundIncludeView);
   transferMoneyController->ShowMessageSignalPublisher::addSubscriber(showMessageIncludeView);
   transferMoneyController->SaveFundSignalPublisher::addSubscriber(saveFundIncludeView);
+
+  std::shared_ptr<InitializeApplicationController> initializeApplicationController =
+      std::make_shared<InitializeApplicationController>(allFunds);
 
   while(true)
   {
